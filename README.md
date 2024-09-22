@@ -1,5 +1,4 @@
 <h1><div align="center"> LTHDT.20241-15 </div></h1>
-<h4><div align="center"><i> This is repository for OOP subject of group 15. </i></div></h4>
 
 <p align="center">
  <img src="https://img.shields.io/badge/Script-README-blue.svg" alt="script">
