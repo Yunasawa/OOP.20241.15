@@ -9,8 +9,11 @@
 </p>
 
 <h2> ★ Thành viên nhóm </h2>
-20225648 - Phạm Xuân Long: Trưởng nhóm
-20225874 - Bùi Thành Long
-20225646 - Thân Cát Ngọc Lan
-20225735 - Mai Huy Long
-20225738 - Phan Hoàng Long
+
+<tl>
+ <li>20225648 - Phạm Xuân Long: Trưởng nhóm</li>
+ <li>20225874 - Bùi Thành Long</li>
+ <li>20225646 - Thân Cát Ngọc Lan</li>
+ <li>20225735 - Mai Huy Long</li>
+ <li>20225738 - Phan Hoàng Long</li>
+</tl>
