@@ -9,5 +9,8 @@
 </p>
 
 <h2> ★ Thành viên nhóm </h2>
-20225874: 
-
+20225648 - Phạm Xuân Long: Trưởng nhóm
+20225874 - Bùi Thành Long
+20225646 - Thân Cát Ngọc Lan
+20225735 - Mai Huy Long
+20225738 - Phan Hoàng Long
