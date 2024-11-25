@@ -9,7 +9,8 @@ import javafx.scene.paint.Color;
 
 public class GridView 
 {
-	// Hello world
+
+	  // Hello world
     private Vector2 _mouseCoordinate = new Vector2(0, 0); // Track the mouse coordinates when mouse events occur.
     private Vector2 _startPosition = new Vector2(0, 0); // Start position of grid lines on the offset values.
     private Vector2 _dotPosition = new Vector2(0, 0); // Calculate the position of the dot on the grid.
