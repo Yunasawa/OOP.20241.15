@@ -10,7 +10,7 @@
 <h2> ★ Thành viên nhóm </h2>
 
 <tl>
- <li><a href="https://github.com/LongPhamplus">20225648 - Phạm Xuân Long: Trưởng nhóm</a></li>
+ <li><a href="https://github.com/LongPhamplus">20225648 - Phạm Xuân Long</a></li>
  <li><a href="https://github.com/Yunasawa">20225874 - Bùi Thành Long</a</li>
  <li><a href="https://github.com/CatLan04">20225646 - Thân Cát Ngọc Lan</a</li>
  <li><a href="https://github.com/HuyLong2k4">20225735 - Mai Huy Long</a</li>
