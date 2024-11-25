@@ -1,11 +1,14 @@
 package CCMR.Models.Definitions;
 
-public class Transform 
+import CCMR.Models.Types.*;
+
+public class Transform
 {
-	public int X;
-	public int Y;
+	public Vector2Int Position;
 	public byte Rotation;
+	public Vector2Int Size;
 	
-	public Transform(int x, int y, byte rotation) { X = x; Y = y; Rotation = rotation; }
-	public Transform(int x, int y) { this(x, y, (byte)0); }
+	public Transform(Vector2Int position, byte rotation, Vector2Int size) { Position = position; Rotation = rotation; Size = size; }
+	public Transform(Vector2Int position, byte rotation) { Position = position; Rotation = rotation; }
+	public Transform(Vector2Int position) { this(position, (byte)0, new Vector2Int()); }
 }
