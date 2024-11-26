@@ -1,22 +1,19 @@
 package CCMR.Views.Environments;
 
 import CCMR.Models.Types.*;
+import CCMR.Models.Values.Value;
+import CCMR.Models.Values.Runtime;
 import CCMR.Models.Definitions.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 public class GridView 
 {
-    private Vector2 _mouseCoordinate = new Vector2(0, 0); // Track the mouse coordinates when mouse events occur.
     private Vector2 _startPosition = new Vector2(0, 0); // Start position of grid lines on the offset values.
     private Vector2 _dotPosition = new Vector2(0, 0); // Calculate the position of the dot on the grid.
-    private Vector2 _mouseDelta = new Vector2(0, 0); // Represent the change in mouse coordinates during a mouse drag event.
-    private Vector2 _gridOffset = new Vector2(0, 0); // Track the offset values used for panning the view of the grid.
 
-    private double _scaleValue = 1;
     private final double _zoomIntensity = 0.001;  // Lowered zoom speed for smoother zoom
     private final double _minScale = 0.4; // Minimum zoom scale
     private final double _maxScale = 2.0; // Maximum zoom scale
@@ -32,7 +29,6 @@ public class GridView
     
     private GridType _gridType = GridType.Line;
     
-    private Circle _draggableCircle;
     private Vector2 _circleLogicalPosition = new Vector2(100, 100);  // Initial logical position of the circle
     
     private VisualElement _visualElement;
@@ -43,19 +39,13 @@ public class GridView
 
         CreateGraphicsContext();
         
-        //_draggableCircle = new Circle(100, 100, 50); // Center at (100, 100), radius 50 
-        //_draggableCircle.setFill(Color.RED); 
-        //AddCircleEventHandlers(); // Add event handlers for dragging 
-        
-        //_gridPane.getChildren().add(_draggableCircle); // Add the circle to the pane
-        
-        _visualElement = new VisualElement(_mouseCoordinate, _mouseDelta, _scaleValue, _gridOffset, _circleLogicalPosition);
+        _visualElement = new VisualElement(_circleLogicalPosition);
         _visualElement.UpdatePosition();
         
         _gridPane.getChildren().add(_visualElement.Circle); // Add the circle to the pane
 
         
-        DrawGrid(_canvas, Data.GridLineColor);
+        DrawGrid(_canvas, Value.GridLineColor);
 
         AddDragManipulator(_gridPane, _canvas);
         AddZoomManipulator(_gridPane, _canvas);
@@ -70,46 +60,12 @@ public class GridView
         return this;
     }
     
-    private void AddCircleEventHandlers() 
-    { 
-        _draggableCircle.setOnMousePressed(event -> 
-        { 
-            if (event.isPrimaryButtonDown()) 
-            { 
-                _mouseCoordinate.Set(event.getSceneX(), event.getSceneY()); 
-                _mouseDelta.Set(event.getSceneX() - _draggableCircle.getCenterX(), event.getSceneY() - _draggableCircle.getCenterY()); 
-            }
-        }); 
-        
-        _draggableCircle.setOnMouseDragged(event -> 
-        { 
-            if (event.isPrimaryButtonDown()) 
-            { 
-                double newCenterX = (event.getSceneX() - _mouseDelta.X) / _scaleValue + _gridOffset.X;
-                double newCenterY = (event.getSceneY() - _mouseDelta.Y) / _scaleValue + _gridOffset.Y;
-
-                // Snap the logical position to the nearest grid cell
-                _circleLogicalPosition.X = Math.round(newCenterX / Data.CellSize) * Data.CellSize;
-                _circleLogicalPosition.Y = Math.round(newCenterY / Data.CellSize) * Data.CellSize;
-
-                // Adjust for grid offset when snapping
-                double snappedCenterX = (_circleLogicalPosition.X - _gridOffset.X) * _scaleValue;
-                double snappedCenterY = (_circleLogicalPosition.Y - _gridOffset.Y) * _scaleValue;
-
-                // Update the visual position based on the snapped logical position
-                _draggableCircle.setCenterX(snappedCenterX);
-                _draggableCircle.setCenterY(snappedCenterY);
-            } 
-        });
-    }
-
-    
     private void CreateGraphicsContext() 
     {
         _gc.clearRect(0, 0, _canvas.getWidth(), _canvas.getHeight());
         
-        _gc.setFill(Data.BackgroundColor);
-        _gc.setStroke(Data.GridLineColor);
+        _gc.setFill(Value.BackgroundColor);
+        _gc.setStroke(Value.GridLineColor);
         _gc.setLineWidth(1.0);
         if (_gridType == GridType.Dash) 
         {
@@ -120,18 +76,18 @@ public class GridView
     private void DrawGrid(Canvas canvas, Color color) 
     {
         _gc.save();
-        _gc.scale(_scaleValue, _scaleValue);
+        _gc.scale(Runtime.ScaleValue, Runtime.ScaleValue);
 
-        _gc.fillRect(0, 0, _canvas.getWidth() / _scaleValue, _canvas.getHeight() / _scaleValue);
+        _gc.fillRect(0, 0, _canvas.getWidth() / Runtime.ScaleValue, _canvas.getHeight() / Runtime.ScaleValue);
 
-        _startPosition.X = _gridOffset.X % Data.CellSize;
-        _startPosition.Y = _gridOffset.Y % Data.CellSize;
+        _startPosition.X = Runtime.GridOffset.X % Value.CellSize;
+        _startPosition.Y = Runtime.GridOffset.Y % Value.CellSize;
 
         if (_gridType == GridType.Dot) 
         {
-            for (double x = -_startPosition.X; x < _canvas.getWidth() / _scaleValue; x += Data.CellSize) 
+            for (double x = -_startPosition.X; x < _canvas.getWidth() / Runtime.ScaleValue; x += Value.CellSize) 
             {
-                for (double y = -_startPosition.Y; y < _canvas.getHeight() / _scaleValue; y += Data.CellSize) 
+                for (double y = -_startPosition.Y; y < _canvas.getHeight() / Runtime.ScaleValue; y += Value.CellSize) 
                 {
                     _gc.setFill(color);
                     _gc.fillOval(x - 2.5, y - 2.5, 5, 5);
@@ -140,18 +96,18 @@ public class GridView
         } 
         else 
         {
-            for (double x = -_startPosition.X; x < _canvas.getWidth() / _scaleValue; x += Data.CellSize) 
+            for (double x = -_startPosition.X; x < _canvas.getWidth() / Runtime.ScaleValue; x += Value.CellSize) 
             {
-                _gc.strokeLine(x, 0, x, _canvas.getHeight() / _scaleValue);
+                _gc.strokeLine(x, 0, x, _canvas.getHeight() / Runtime.ScaleValue);
             }
-            for (double y = -_startPosition.Y; y < _canvas.getHeight() / _scaleValue; y += Data.CellSize) 
+            for (double y = -_startPosition.Y; y < _canvas.getHeight() / Runtime.ScaleValue; y += Value.CellSize) 
             {
-                _gc.strokeLine(0, y, _canvas.getWidth() / _scaleValue, y);
+                _gc.strokeLine(0, y, _canvas.getWidth() / Runtime.ScaleValue, y);
             }
         }
 
-        _dotPosition.X = (_dotLogicalPosition.Position.X * Data.CellSize) - _gridOffset.X;
-        _dotPosition.Y = (_dotLogicalPosition.Position.Y * Data.CellSize) - _gridOffset.Y;
+        _dotPosition.X = (_dotLogicalPosition.Position.X * Value.CellSize) - Runtime.GridOffset.X;
+        _dotPosition.Y = (_dotLogicalPosition.Position.Y * Value.CellSize) - Runtime.GridOffset.Y;
         
         _gc.setFill(_isHovered ? Color.YELLOW : Color.RED);
         _gc.fillOval(_dotPosition.X - 10, _dotPosition.Y - 10, 20, 20);
@@ -166,7 +122,7 @@ public class GridView
             // Only start dragging if the middle mouse button is pressed
             if (event.isMiddleButtonDown()) 
             {
-                _mouseCoordinate.Set(event.getSceneX(), event.getSceneY());
+                Runtime.MouseCoordinate.Set(event.getSceneX(), event.getSceneY());
             }
         });
 
@@ -175,30 +131,19 @@ public class GridView
             // Only drag if the middle mouse button is pressed
             if (event.isMiddleButtonDown()) 
             {
-                _mouseDelta.Set(event.getSceneX() - _mouseCoordinate.X, event.getSceneY() - _mouseCoordinate.Y);
+                Runtime.MouseDelta.Set(event.getSceneX() - Runtime.MouseCoordinate.X, event.getSceneY() - Runtime.MouseCoordinate.Y);
 
-                _gridOffset.X -= _mouseDelta.X / _scaleValue;
-                _gridOffset.Y -= _mouseDelta.Y / _scaleValue;
+                Runtime.GridOffset.X -= Runtime.MouseDelta.X / Runtime.ScaleValue;
+                Runtime.GridOffset.Y -= Runtime.MouseDelta.Y / Runtime.ScaleValue;
 
                 // Update the visual position of the circle
                 _visualElement.UpdatePosition();
 
-                DrawGrid(canvas, Data.GridLineColor);
+                DrawGrid(canvas, Value.GridLineColor);
 
-                _mouseCoordinate.Set(event.getSceneX(), event.getSceneY());
+                Runtime.MouseCoordinate.Set(event.getSceneX(), event.getSceneY());
             }
         });
-    }
-
-    private void updateCirclePosition()
-    {
-        // Calculate the adjusted visual position based on the logical position and grid offset
-        double adjustedCenterX = (_circleLogicalPosition.X - _gridOffset.X) * _scaleValue;
-        double adjustedCenterY = (_circleLogicalPosition.Y - _gridOffset.Y) * _scaleValue;
-
-        // Update the circle's center position
-        _draggableCircle.setCenterX(adjustedCenterX);
-        _draggableCircle.setCenterY(adjustedCenterY);
     }
 
     private void AddZoomManipulator(Pane pane, Canvas canvas) 
@@ -209,21 +154,21 @@ public class GridView
             {
                 _zoomFactor = Math.exp(event.getDeltaY() * _zoomIntensity);
 
-                _newScale = _scaleValue * _zoomFactor;
+                _newScale = Runtime.ScaleValue * _zoomFactor;
                     
                 if (_newScale < _minScale) _newScale = _minScale;
                 else if (_newScale > _maxScale) _newScale = _maxScale;
 
                 // Check if the scale has reached its limits
-                if (_newScale == _scaleValue) 
+                if (_newScale == Runtime.ScaleValue) 
                 {
                     return; // Do nothing if the scale hasn't changed
                 }
 
-                _oldScale = _scaleValue;
-                _scaleValue = _newScale;
+                _oldScale = Runtime.ScaleValue;
+                Runtime.ScaleValue = _newScale;
 
-                _f = (_scaleValue / _oldScale) - 1;
+                _f = (Runtime.ScaleValue / _oldScale) - 1;
 
                 _dx = event.getSceneX() - (pane.getBoundsInParent().getWidth() / 2 + pane.getBoundsInParent().getMinX());
                 _dy = event.getSceneY() - (pane.getBoundsInParent().getHeight() / 2 + pane.getBoundsInParent().getMinY());
@@ -233,15 +178,16 @@ public class GridView
                     pane.setTranslateX(pane.getTranslateX() - _f * _dx);
                     pane.setTranslateY(pane.getTranslateY() - _f * _dy);
 
-                    _gridOffset.X -= _f * _dx / _scaleValue;
-                    _gridOffset.Y -= _f * _dy / _scaleValue;
+                    Runtime.GridOffset.X -= _f * _dx / Runtime.ScaleValue;
+                    Runtime.GridOffset.Y -= _f * _dy / Runtime.ScaleValue;
                 }
 
                 // Update the visual element's scale and position
-                _visualElement.UpdateScaleValue(_scaleValue);
+                Runtime.StrokeWidth = Value.StrokeWidth * Runtime.ScaleValue;
+                _visualElement.UpdateScaleValue(Runtime.ScaleValue);
                 _visualElement.UpdatePosition();
 
-                DrawGrid(canvas, Data.GridLineColor);
+                DrawGrid(canvas, Value.GridLineColor);
             }
         });
     }
@@ -250,12 +196,12 @@ public class GridView
     {
         canvas.setOnMouseMoved(event -> 
         {
-            _dotPosition.X = (_dotLogicalPosition.Position.X * Data.CellSize) - _gridOffset.X;
-            _dotPosition.Y = (_dotLogicalPosition.Position.Y * Data.CellSize) - _gridOffset.Y;
+            _dotPosition.X = (_dotLogicalPosition.Position.X * Value.CellSize) - Runtime.GridOffset.X;
+            _dotPosition.Y = (_dotLogicalPosition.Position.Y * Value.CellSize) - Runtime.GridOffset.Y;
 
-            _mouseCoordinate.Set(event.getX() / _scaleValue, event.getY() / _scaleValue);
+            Runtime.MouseCoordinate.Set(event.getX() / Runtime.ScaleValue, event.getY() / Runtime.ScaleValue);
 
-            if (Math.pow(_mouseCoordinate.X - _dotPosition.X, 2) + Math.pow(_mouseCoordinate.Y - _dotPosition.Y, 2) <= Math.pow(5, 2)) 
+            if (Math.pow(Runtime.MouseCoordinate.X - _dotPosition.X, 2) + Math.pow(Runtime.MouseCoordinate.Y - _dotPosition.Y, 2) <= Math.pow(5, 2)) 
             {
                 _isHovered = true;
             } 
@@ -264,7 +210,7 @@ public class GridView
                 _isHovered = false;
             }
 
-            DrawGrid(canvas, Data.GridLineColor);
+            DrawGrid(canvas, Value.GridLineColor);
         });
     }
 
