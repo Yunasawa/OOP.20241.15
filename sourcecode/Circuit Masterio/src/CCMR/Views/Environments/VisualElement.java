@@ -62,6 +62,7 @@ public abstract class VisualElement<T extends Shape>
                 // Check for collisions with other elements
                 boolean collisionDetected = false;
                 for (VisualElement<?> other : View.GridView.Elements) 
+                //for (VisualElement<?> other : View.GridViewDemo.Elements) 
                 {
                     if (other != this && CheckCollision(other)) 
                     {
@@ -99,6 +100,7 @@ public abstract class VisualElement<T extends Shape>
             // Check for collisions with other elements
             boolean collisionDetected = false;
             for (VisualElement<?> other : View.GridView.Elements) 
+            //for (VisualElement<?> other : View.GridViewDemo.Elements) 
             {
                 if (other != this && CheckCollision(other)) 
                 {
