@@ -1,6 +1,8 @@
-package CCMR.Views.Environments;
+package CCMR.Views.Elements;
 
+import CCMR.Models.Types.Vector2;
 import CCMR.Models.Values.Data;
+import CCMR.Views.Environments.VisualElement;
 import javafx.scene.shape.Rectangle;
 
 public class SquareElement extends VisualElement<Rectangle> 
@@ -12,6 +14,8 @@ public class SquareElement extends VisualElement<Rectangle>
         Rectangle innerSquare = new Rectangle(80, 80); // Inner square
         shapes.add(outerSquare);
         shapes.add(innerSquare);
+        
+        Transform.Size = new Vector2(2, 2);
     }
 
     @Override

@@ -2,6 +2,9 @@ package CCMR.Views.Environments;
 
 import CCMR.Models.Types.*;
 import CCMR.Models.Values.*;
+import CCMR.Views.Elements.CircleElement;
+import CCMR.Views.Elements.SquareElement;
+
 import java.util.ArrayList;
 import CCMR.Models.Definitions.*;
 import javafx.scene.canvas.Canvas;
@@ -28,20 +31,20 @@ public class GridView
     
     private GridType _gridType = GridType.Line;
     
-    private ArrayList<VisualElement> _elements = new ArrayList<VisualElement>();
-    
+    public ArrayList<VisualElement<?>> Elements = new ArrayList<>();
+
     public Pane CreateView() 
     {
         View.GridPane.getChildren().add(_canvas);
 
         CreateGraphicsContext();
-        
-        _elements.add(new CircleElement());
-        _elements.add(new SquareElement());
-        for (VisualElement element : _elements) 
+       
+        Elements.add(new CircleElement());
+        Elements.add(new SquareElement());
+        for (VisualElement<?> element : Elements) 
         {
-        	element.UpdatePosition();
-        	element.AddToPane();
+            element.UpdatePosition();
+            element.AddToPane();
         }
         
         DrawGrid(_canvas, Config.GridLineColor);
@@ -52,7 +55,7 @@ public class GridView
         
         return View.GridPane;
     }
-    
+
     public GridView SetGridType(GridType type) 
     {
         _gridType = type;
@@ -136,7 +139,7 @@ public class GridView
                 Data.GridOffset.Y -= Data.MouseDelta.Y / Data.ScaleValue;
 
                 // Update the visual position of the circle
-                for (VisualElement element : _elements) element.UpdatePosition();
+                for (VisualElement element : Elements) element.UpdatePosition();
 
                 DrawGrid(canvas, Config.GridLineColor);
 
@@ -183,8 +186,8 @@ public class GridView
 
                 // Update the visual element's scale and position
                 Data.StrokeWidth = Config.StrokeWidth * Data.ScaleValue;
-                for (VisualElement element : _elements) element.UpdateScaleValue(Data.ScaleValue);
-                for (VisualElement element : _elements) element.UpdatePosition();
+                for (VisualElement element : Elements) element.UpdateScaleValue(Data.ScaleValue);
+                for (VisualElement element : Elements) element.UpdatePosition();
 
                 DrawGrid(canvas, Config.GridLineColor);
             }

@@ -1,6 +1,7 @@
 package CCMR.Views.Environments;
 
 import CCMR.Models.Definitions.*;
+import CCMR.Models.Types.Vector2;
 import CCMR.Models.Values.*;
 import javafx.scene.shape.Shape;
 import javafx.scene.paint.Color;
@@ -11,6 +12,8 @@ public abstract class VisualElement<T extends Shape>
 {
     public Transform Transform = new Transform();
     protected List<T> shapes;
+    
+    private Vector2 oldPosition;
 
     public VisualElement()
     {
@@ -40,6 +43,7 @@ public abstract class VisualElement<T extends Shape>
             { 
                 Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY()); 
                 Data.MouseDelta.Set(event.getSceneX() - shape.getTranslateX(), event.getSceneY() - shape.getTranslateY()); 
+                oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y); // Clone the old position
             } 
         }); 
         
@@ -54,6 +58,31 @@ public abstract class VisualElement<T extends Shape>
                 Transform.Position.Y = Math.round(newCenterY / Config.CellSize);
 
                 UpdatePosition();
+
+                // Check for collisions with other elements
+                boolean collisionDetected = false;
+                for (VisualElement<?> other : View.GridView.Elements) 
+                {
+                    if (other != this && CheckCollision(other)) 
+                    {
+                        collisionDetected = true;
+                        break;
+                    }
+                }
+
+                // Change color to red if collision detected, else revert to original color
+                if (collisionDetected) 
+                {
+                    for (T s : shapes) {
+                        s.setStroke(Color.RED);
+                    }
+                } 
+                else 
+                {
+                    for (T s : shapes) {
+                        s.setStroke(Config.ElementColor);
+                    }
+                }
             } 
         });
     }
@@ -88,8 +117,8 @@ public abstract class VisualElement<T extends Shape>
 
     public void UpdatePosition()
     {
-    	double adjustedCenterX = (Transform.Position.X * Config.CellSize - Data.GridOffset.X) * Data.ScaleValue;
-    	double adjustedCenterY = (Transform.Position.Y * Config.CellSize - Data.GridOffset.Y) * Data.ScaleValue;
+        double adjustedCenterX = (Transform.Position.X * Config.CellSize - Data.GridOffset.X) * Data.ScaleValue;
+        double adjustedCenterY = (Transform.Position.Y * Config.CellSize - Data.GridOffset.Y) * Data.ScaleValue;
 
         for (T shape : shapes) {
             shape.setTranslateX(adjustedCenterX);
@@ -100,5 +129,21 @@ public abstract class VisualElement<T extends Shape>
     public void AddToPane() 
     {
         View.GridPane.getChildren().addAll(shapes);
+    }
+
+    public boolean CheckCollision(VisualElement<?> other) 
+    {
+        double thisLeft = Transform.Position.X * Config.CellSize - Transform.Size.X * Config.CellSize / 2;
+        double thisRight = thisLeft + Transform.Size.X * Config.CellSize;
+        double thisTop = Transform.Position.Y * Config.CellSize - Transform.Size.Y * Config.CellSize / 2;
+        double thisBottom = thisTop + Transform.Size.Y * Config.CellSize;
+
+        double otherLeft = other.Transform.Position.X * Config.CellSize - other.Transform.Size.X * Config.CellSize / 2;
+        double otherRight = otherLeft + other.Transform.Size.X * Config.CellSize;
+        double otherTop = other.Transform.Position.Y * Config.CellSize - other.Transform.Size.Y * Config.CellSize / 2;
+        double otherBottom = otherTop + other.Transform.Size.Y * Config.CellSize;
+
+        boolean collision = !(thisRight <= otherLeft || thisLeft >= otherRight || thisBottom <= otherTop || thisTop >= otherBottom);
+        return collision;
     }
 }
