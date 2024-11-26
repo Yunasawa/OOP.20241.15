@@ -10,8 +10,8 @@ public class SquareElement extends VisualElement<Rectangle>
     @Override
     protected void CreateShapes() 
     {
-        Rectangle outerSquare = new Rectangle(100, 100); // Outer square
-        Rectangle innerSquare = new Rectangle(80, 80); // Inner square
+        Rectangle outerSquare = new Rectangle(0, 0, 100, 100); // Outer square
+        Rectangle innerSquare = new Rectangle(10, 10, 80, 80); // Inner square
         shapes.add(outerSquare);
         shapes.add(innerSquare);
         
@@ -30,6 +30,8 @@ public class SquareElement extends VisualElement<Rectangle>
         } 
         else 
         {
+        	shape.setX(10 * Data.ScaleValue);
+        	shape.setY(10 * Data.ScaleValue);
             shape.setWidth(80 * Data.ScaleValue); // Adjust width of inner square
             shape.setHeight(80 * Data.ScaleValue); // Adjust height of inner square
         }

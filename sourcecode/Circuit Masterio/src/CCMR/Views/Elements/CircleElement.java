@@ -25,10 +25,14 @@ public class CircleElement extends VisualElement<Circle>
         int index = shapes.indexOf(shape);
         if (index == 0) 
         {
+        	shape.setCenterX(50 * Data.ScaleValue);
+        	shape.setCenterY(50 * Data.ScaleValue);
             shape.setRadius(50 * Data.ScaleValue); // Adjust radius of outer circle
         } 
         else 
         {
+        	shape.setCenterX(50 * Data.ScaleValue);
+        	shape.setCenterY(50 * Data.ScaleValue);
             shape.setRadius(40 * Data.ScaleValue); // Adjust radius of inner circle
         }
     }

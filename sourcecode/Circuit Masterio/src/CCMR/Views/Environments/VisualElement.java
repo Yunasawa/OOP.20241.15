@@ -170,8 +170,6 @@ public abstract class VisualElement<T extends Shape>
         }
     }
 
-    protected abstract void UpdateShapeSize(T shape);
-
     public void UpdatePosition()
     {
         double adjustedCenterX = (Transform.Position.X * Config.CellSize - Data.GridOffset.X) * Data.ScaleValue;
@@ -184,6 +182,8 @@ public abstract class VisualElement<T extends Shape>
         }
     }
 
+    protected abstract void UpdateShapeSize(T shape);
+    
     public void AddToPane() 
     {
         View.GridPane.getChildren().addAll(shapes);
