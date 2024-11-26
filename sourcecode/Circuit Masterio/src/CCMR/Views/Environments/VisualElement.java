@@ -1,11 +1,7 @@
 package CCMR.Views.Environments;
 
 import CCMR.Models.Definitions.*;
-import CCMR.Models.Types.*;
-import CCMR.Models.Values.Config;
-import CCMR.Models.Values.Data;
-import CCMR.Models.Values.View;
-import javafx.scene.layout.Pane;
+import CCMR.Models.Values.*;
 import javafx.scene.shape.Shape;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
@@ -54,8 +50,8 @@ public abstract class VisualElement<T extends Shape>
                 double newCenterX = (event.getSceneX() - Data.MouseDelta.X) / Data.ScaleValue + Data.GridOffset.X;
                 double newCenterY = (event.getSceneY() - Data.MouseDelta.Y) / Data.ScaleValue + Data.GridOffset.Y;
 
-                Transform.Position.X = Math.round(newCenterX / Config.CellSize) * Config.CellSize;
-                Transform.Position.Y = Math.round(newCenterY / Config.CellSize) * Config.CellSize;
+                Transform.Position.X = Math.round(newCenterX / Config.CellSize);
+                Transform.Position.Y = Math.round(newCenterY / Config.CellSize);
 
                 UpdatePosition();
             } 
@@ -92,8 +88,8 @@ public abstract class VisualElement<T extends Shape>
 
     public void UpdatePosition()
     {
-        double adjustedCenterX = (Transform.Position.X - Data.GridOffset.X) * Data.ScaleValue;
-        double adjustedCenterY = (Transform.Position.Y - Data.GridOffset.Y) * Data.ScaleValue;
+    	double adjustedCenterX = (Transform.Position.X * Config.CellSize - Data.GridOffset.X) * Data.ScaleValue;
+    	double adjustedCenterY = (Transform.Position.Y * Config.CellSize - Data.GridOffset.Y) * Data.ScaleValue;
 
         for (T shape : shapes) {
             shape.setTranslateX(adjustedCenterX);
