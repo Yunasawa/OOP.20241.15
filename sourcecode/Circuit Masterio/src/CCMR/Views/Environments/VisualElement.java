@@ -46,7 +46,7 @@ public abstract class VisualElement<T extends Shape>
                 oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y); // Clone the old position
             } 
         }); 
-        
+
         shape.setOnMouseDragged(event -> 
         { 
             if (event.isPrimaryButtonDown()) 
@@ -70,20 +70,28 @@ public abstract class VisualElement<T extends Shape>
                     }
                 }
 
-                // Change color to red if collision detected, else revert to original color
+                // Change color to red if collision detected, else set to hover color
                 if (collisionDetected) 
                 {
                     for (T s : shapes) {
-                        s.setStroke(Color.RED);
+                        s.setStroke(Config.CollisionColor);
                     }
                 } 
                 else 
                 {
                     for (T s : shapes) {
-                        s.setStroke(Config.ElementColor);
+                        s.setStroke(Config.HoverColor);
                     }
                 }
             } 
+        });
+
+        shape.setOnMouseReleased(event -> 
+        {
+            // Revert to original color on mouse release
+            for (T s : shapes) {
+                s.setStroke(Config.ElementColor);
+            }
         });
     }
     

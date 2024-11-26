@@ -14,4 +14,5 @@ public class Config
     
     public static final Color ElementColor = new Color(0.25, 0.25, 0.25, 1);
     public static final Color HoverColor = Utilities.ToColor("#7a7d42");
+    public static final Color CollisionColor = Utilities.ToColor("#bd3333");
 }
