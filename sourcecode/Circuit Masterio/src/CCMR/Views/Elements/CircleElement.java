@@ -29,7 +29,4 @@ public class CircleElement extends VisualElement<Circle>
             shape.setRadius(40 * Data.ScaleValue); // Adjust radius of inner circle
         }
     }
-    
-    @Override
-    public String Name() { return "Circle"; }
 }

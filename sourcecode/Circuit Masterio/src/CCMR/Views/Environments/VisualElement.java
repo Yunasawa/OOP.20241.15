@@ -26,8 +26,6 @@ public abstract class VisualElement<T extends Shape>
         }
     }
 
-    public abstract String Name();
-    
     protected abstract void CreateShapes();
 
     protected void InitializeShape(T shape) 
@@ -46,22 +44,6 @@ public abstract class VisualElement<T extends Shape>
                 Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY()); 
                 Data.MouseDelta.Set(event.getSceneX() - shape.getTranslateX(), event.getSceneY() - shape.getTranslateY()); 
                 oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y); // Clone the old position
-
-                // Handle element selection
-                if (View.SelectedElement != this) 
-                {
-                    if (View.SelectedElement != null) 
-                    {
-                        // Revert color of the previously selected element
-                        View.SelectedElement.RevertToElementColor();
-                    }
-
-                    // Select the new element and change its color
-                    View.SelectedElement = this;
-                    for (T s : shapes) {
-                        s.setStroke(Config.SelectedColor);
-                    }
-                }
             } 
         }); 
 
@@ -106,8 +88,19 @@ public abstract class VisualElement<T extends Shape>
 
         shape.setOnMouseReleased(event -> 
         {
-            // Set selected element and change color to selected color
-            View.SelectedElement = this;
+            // Handle element selection on mouse release
+            if (View.SelectedElement != this) 
+            {
+                if (View.SelectedElement != null) 
+                {
+                    // Revert color of the previously selected element
+                    View.SelectedElement.RevertToElementColor();
+                }
+
+                // Select the new element and change its color
+                View.SelectedElement = this;
+            }
+
             for (T s : shapes) {
                 s.setStroke(Config.SelectedColor);
             }
@@ -148,12 +141,10 @@ public abstract class VisualElement<T extends Shape>
 
     public void RevertToElementColor() 
     {
-    	System.out.print("HOHO");
         for (T s : shapes) {
             s.setStroke(Config.ElementColor);
         }
     }
-
 
     public void UpdateScaleValue(double newScaleValue) 
     {
