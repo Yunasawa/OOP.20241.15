@@ -3,6 +3,7 @@ package CCMR.Views.Environments;
 import CCMR.Models.Types.*;
 import CCMR.Models.Values.Value;
 import CCMR.Models.Values.Runtime;
+import java.util.ArrayList;
 import CCMR.Models.Definitions.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -29,9 +30,7 @@ public class GridView
     
     private GridType _gridType = GridType.Line;
     
-    private Vector2 _circleLogicalPosition = new Vector2(100, 100);  // Initial logical position of the circle
-    
-    private VisualElement _visualElement;
+    private ArrayList<VisualElement> _elements = new ArrayList<VisualElement>();
     
     public Pane CreateView() 
     {
@@ -39,11 +38,13 @@ public class GridView
 
         CreateGraphicsContext();
         
-        _visualElement = new VisualElement(_circleLogicalPosition);
-        _visualElement.UpdatePosition();
-        
-        _gridPane.getChildren().add(_visualElement.Circle); // Add the circle to the pane
-
+        _elements.add(new VisualElement());
+        _elements.add(new VisualElement());
+        for (VisualElement element : _elements) 
+        {
+        	element.UpdatePosition();
+        	element.AddToPane(_gridPane);
+        }
         
         DrawGrid(_canvas, Value.GridLineColor);
 
@@ -137,7 +138,7 @@ public class GridView
                 Runtime.GridOffset.Y -= Runtime.MouseDelta.Y / Runtime.ScaleValue;
 
                 // Update the visual position of the circle
-                _visualElement.UpdatePosition();
+                for (VisualElement element : _elements) element.UpdatePosition();
 
                 DrawGrid(canvas, Value.GridLineColor);
 
@@ -184,8 +185,8 @@ public class GridView
 
                 // Update the visual element's scale and position
                 Runtime.StrokeWidth = Value.StrokeWidth * Runtime.ScaleValue;
-                _visualElement.UpdateScaleValue(Runtime.ScaleValue);
-                _visualElement.UpdatePosition();
+                for (VisualElement element : _elements) element.UpdateScaleValue(Runtime.ScaleValue);
+                for (VisualElement element : _elements) element.UpdatePosition();
 
                 DrawGrid(canvas, Value.GridLineColor);
             }
