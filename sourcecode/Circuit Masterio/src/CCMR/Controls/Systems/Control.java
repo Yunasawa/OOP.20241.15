@@ -18,8 +18,8 @@ public class Control extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception 
 	{
-		GridView gridView = View.GridView;
-		//GridViewDemo gridView = View.GridViewDemo.SetGridType(GridType.Dot);
+		//GridView gridView = View.GridView;
+		GridViewDemo gridView = View.GridViewDemo.SetGridType(GridType.Dot);
 		
         primaryStage.setScene(new Scene(gridView.CreateView(), 1000, 750));
         primaryStage.getIcons().add(new Image("file:resources/Icons/Application.png"));

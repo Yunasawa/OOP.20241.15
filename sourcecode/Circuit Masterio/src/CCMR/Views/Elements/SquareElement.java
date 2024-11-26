@@ -23,10 +23,13 @@ public class SquareElement extends VisualElement<Rectangle>
     {
         // Use the index to identify the outer and inner squares
         int index = shapes.indexOf(shape);
-        if (index == 0) {
+        if (index == 0) 
+        {
             shape.setWidth(100 * Data.ScaleValue); // Adjust width of outer square
             shape.setHeight(100 * Data.ScaleValue); // Adjust height of outer square
-        } else {
+        } 
+        else 
+        {
             shape.setWidth(80 * Data.ScaleValue); // Adjust width of inner square
             shape.setHeight(80 * Data.ScaleValue); // Adjust height of inner square
         }

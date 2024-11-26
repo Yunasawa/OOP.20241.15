@@ -23,9 +23,12 @@ public class CircleElement extends VisualElement<Circle>
     {
         // Use the index to identify the outer and inner circles
         int index = shapes.indexOf(shape);
-        if (index == 0) {
+        if (index == 0) 
+        {
             shape.setRadius(50 * Data.ScaleValue); // Adjust radius of outer circle
-        } else {
+        } 
+        else 
+        {
             shape.setRadius(40 * Data.ScaleValue); // Adjust radius of inner circle
         }
     }

@@ -61,8 +61,8 @@ public abstract class VisualElement<T extends Shape>
 
                 // Check for collisions with other elements
                 boolean collisionDetected = false;
-                for (VisualElement<?> other : View.GridView.Elements) 
-                //for (VisualElement<?> other : View.GridViewDemo.Elements) 
+                //for (VisualElement<?> other : View.GridView.Elements) 
+                for (VisualElement<?> other : View.GridViewDemo.Elements) 
                 {
                     if (other != this && CheckCollision(other)) 
                     {
@@ -99,8 +99,8 @@ public abstract class VisualElement<T extends Shape>
 
             // Check for collisions with other elements
             boolean collisionDetected = false;
-            for (VisualElement<?> other : View.GridView.Elements) 
-            //for (VisualElement<?> other : View.GridViewDemo.Elements) 
+            //for (VisualElement<?> other : View.GridView.Elements) 
+            for (VisualElement<?> other : View.GridViewDemo.Elements) 
             {
                 if (other != this && CheckCollision(other)) 
                 {
@@ -163,7 +163,8 @@ public abstract class VisualElement<T extends Shape>
     public void UpdateScaleValue(double newScaleValue) 
     {
         Data.ScaleValue = newScaleValue;
-        for (T shape : shapes) {
+        for (T shape : shapes) 
+        {
             shape.setStrokeWidth(Data.StrokeWidth);
             UpdateShapeSize(shape);
         }
@@ -176,7 +177,8 @@ public abstract class VisualElement<T extends Shape>
         double adjustedCenterX = (Transform.Position.X * Config.CellSize - Data.GridOffset.X) * Data.ScaleValue;
         double adjustedCenterY = (Transform.Position.Y * Config.CellSize - Data.GridOffset.Y) * Data.ScaleValue;
 
-        for (T shape : shapes) {
+        for (T shape : shapes) 
+        {
             shape.setTranslateX(adjustedCenterX);
             shape.setTranslateY(adjustedCenterY);
         }
