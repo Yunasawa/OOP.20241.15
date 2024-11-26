@@ -44,6 +44,11 @@ public abstract class VisualElement<T extends Shape>
                 Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY()); 
                 Data.MouseDelta.Set(event.getSceneX() - shape.getTranslateX(), event.getSceneY() - shape.getTranslateY()); 
                 oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y); // Clone the old position
+
+                // Change color to hover color when dragging
+                for (T s : shapes) {
+                    s.setStroke(Config.HoverColor);
+                }
             } 
         }); 
 
@@ -88,26 +93,42 @@ public abstract class VisualElement<T extends Shape>
 
         shape.setOnMouseReleased(event -> 
         {
-            // Revert to original color on mouse release
+            // Set selected element and change color to selected color
+            View.SelectedElement = this;
             for (T s : shapes) {
-                s.setStroke(Config.ElementColor);
+                s.setStroke(Config.SelectedColor);
             }
         });
     }
-    
+
     private void AddHoverEventHandlers(T shape) 
     { 
         shape.setOnMouseEntered(event -> 
         { 
-            for (T s : shapes) {
-                s.setStroke(Config.HoverColor);
+            // Only change to HoverColor if it's not the selected element
+            if (View.SelectedElement != this) 
+            {
+                for (T s : shapes) {
+                    s.setStroke(Config.HoverColor);
+                }
             }
         }); 
         
         shape.setOnMouseExited(event -> 
         { 
-            for (T s : shapes) {
-                s.setStroke(Config.ElementColor);
+            // Only revert to ElementColor if it's not the selected element
+            if (View.SelectedElement != this) 
+            {
+                for (T s : shapes) {
+                    s.setStroke(Config.ElementColor);
+                }
+            } 
+            else 
+            {
+                // Ensure the selected element keeps its selected color
+                for (T s : shapes) {
+                    s.setStroke(Config.SelectedColor);
+                }
             }
         });
     }
