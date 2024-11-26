@@ -2,7 +2,7 @@ package CCMR.Models.Values;
 
 import CCMR.Models.Types.*;
 
-public class Runtime 
+public class Data 
 {
 	// Grid view values
 	public static Vector2 MouseCoordinate = new Vector2();

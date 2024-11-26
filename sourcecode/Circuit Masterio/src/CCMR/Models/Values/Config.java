@@ -2,7 +2,7 @@ package CCMR.Models.Values;
 
 import javafx.scene.paint.Color;
 
-public class Value
+public class Config
 {
     public static final double CellSize = 50;
     

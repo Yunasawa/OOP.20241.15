@@ -1,10 +1,7 @@
 package CCMR.Views.Environments;
 
 import CCMR.Models.Definitions.*;
-import CCMR.Models.Types.*;
-import CCMR.Models.Values.Value;
-import CCMR.Models.Values.Runtime;
-import javafx.scene.layout.Pane;
+import CCMR.Models.Values.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
 
@@ -20,13 +17,13 @@ public class VisualElement
         OuterCircle = new Circle(50);
         OuterCircle.setStroke(Color.RED);
         OuterCircle.setFill(Color.TRANSPARENT);
-        OuterCircle.setStrokeWidth(Runtime.StrokeWidth);
+        OuterCircle.setStrokeWidth(Data.StrokeWidth);
         
         // Initialize the inner ring
         InnerCircle = new Circle(40);  // Slightly smaller radius for inner ring
         InnerCircle.setStroke(Color.RED);
         InnerCircle.setFill(Color.TRANSPARENT);
-        InnerCircle.setStrokeWidth(Runtime.StrokeWidth);
+        InnerCircle.setStrokeWidth(Data.StrokeWidth);
         
         AddCircleEventHandlers(OuterCircle);
         AddCircleEventHandlers(InnerCircle);
@@ -38,8 +35,8 @@ public class VisualElement
         { 
             if (event.isPrimaryButtonDown()) 
             { 
-                Runtime.MouseCoordinate.Set(event.getSceneX(), event.getSceneY()); 
-                Runtime.MouseDelta.Set(event.getSceneX() - circle.getCenterX(), event.getSceneY() - circle.getCenterY()); 
+                Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY()); 
+                Data.MouseDelta.Set(event.getSceneX() - circle.getCenterX(), event.getSceneY() - circle.getCenterY()); 
             } 
         }); 
         
@@ -47,11 +44,11 @@ public class VisualElement
         { 
             if (event.isPrimaryButtonDown()) 
             { 
-                double newCenterX = (event.getSceneX() - Runtime.MouseDelta.X) / Runtime.ScaleValue + Runtime.GridOffset.X;
-                double newCenterY = (event.getSceneY() - Runtime.MouseDelta.Y) / Runtime.ScaleValue + Runtime.GridOffset.Y;
+                double newCenterX = (event.getSceneX() - Data.MouseDelta.X) / Data.ScaleValue + Data.GridOffset.X;
+                double newCenterY = (event.getSceneY() - Data.MouseDelta.Y) / Data.ScaleValue + Data.GridOffset.Y;
 
-                Transform.Position.X = Math.round(newCenterX / Value.CellSize) * Value.CellSize;
-                Transform.Position.Y = Math.round(newCenterY / Value.CellSize) * Value.CellSize;
+                Transform.Position.X = Math.round(newCenterX / Config.CellSize) * Config.CellSize;
+                Transform.Position.Y = Math.round(newCenterY / Config.CellSize) * Config.CellSize;
 
                 UpdatePosition();
             } 
@@ -60,17 +57,17 @@ public class VisualElement
 
     public void UpdateScaleValue(double newScaleValue) 
     {
-        Runtime.ScaleValue = newScaleValue;
-        OuterCircle.setRadius(50 * Runtime.ScaleValue);  // Adjust radius based on scale
-        InnerCircle.setRadius(40 * Runtime.ScaleValue);  // Adjust radius based on scale
-        OuterCircle.setStrokeWidth(Runtime.StrokeWidth);
-        InnerCircle.setStrokeWidth(Runtime.StrokeWidth);
+        Data.ScaleValue = newScaleValue;
+        OuterCircle.setRadius(50 * Data.ScaleValue);  // Adjust radius based on scale
+        InnerCircle.setRadius(40 * Data.ScaleValue);  // Adjust radius based on scale
+        OuterCircle.setStrokeWidth(Data.StrokeWidth);
+        InnerCircle.setStrokeWidth(Data.StrokeWidth);
     }
     
     public void UpdatePosition()
     {
-        double adjustedCenterX = (Transform.Position.X - Runtime.GridOffset.X) * Runtime.ScaleValue;
-        double adjustedCenterY = (Transform.Position.Y - Runtime.GridOffset.Y) * Runtime.ScaleValue;
+        double adjustedCenterX = (Transform.Position.X - Data.GridOffset.X) * Data.ScaleValue;
+        double adjustedCenterY = (Transform.Position.Y - Data.GridOffset.Y) * Data.ScaleValue;
 
         OuterCircle.setCenterX(adjustedCenterX);
         OuterCircle.setCenterY(adjustedCenterY);
@@ -78,8 +75,8 @@ public class VisualElement
         InnerCircle.setCenterY(adjustedCenterY);
     }
 
-    public void AddToPane(Pane pane) 
+    public void AddToPane() 
     {
-        pane.getChildren().addAll(OuterCircle, InnerCircle);
+        View.GridPane.getChildren().addAll(OuterCircle, InnerCircle);
     }
 }
