@@ -36,8 +36,8 @@ public class GridView
 
         CreateGraphicsContext();
         
-        _elements.add(new VisualElement());
-        _elements.add(new VisualElement());
+        _elements.add(new CircleElement());
+        _elements.add(new SquareElement());
         for (VisualElement element : _elements) 
         {
         	element.UpdatePosition();

@@ -1,46 +1,52 @@
 package CCMR.Views.Environments;
 
 import CCMR.Models.Definitions.*;
-import CCMR.Models.Values.*;
-import javafx.scene.shape.Circle;
+import CCMR.Models.Types.*;
+import CCMR.Models.Values.Config;
+import CCMR.Models.Values.Data;
+import CCMR.Models.Values.View;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Shape;
 import javafx.scene.paint.Color;
+import java.util.ArrayList;
+import java.util.List;
 
-public class VisualElement 
+public abstract class VisualElement<T extends Shape> 
 {
     public Transform Transform = new Transform();
-    public Circle OuterCircle;
-    public Circle InnerCircle;
-    
+    protected List<T> shapes;
+
     public VisualElement()
     {
-        // Initialize the outer ring
-        OuterCircle = new Circle(50);
-        OuterCircle.setStroke(Color.RED);
-        OuterCircle.setFill(Color.TRANSPARENT);
-        OuterCircle.setStrokeWidth(Data.StrokeWidth);
-        
-        // Initialize the inner ring
-        InnerCircle = new Circle(40);  // Slightly smaller radius for inner ring
-        InnerCircle.setStroke(Color.RED);
-        InnerCircle.setFill(Color.TRANSPARENT);
-        InnerCircle.setStrokeWidth(Data.StrokeWidth);
-        
-        AddCircleEventHandlers(OuterCircle);
-        AddCircleEventHandlers(InnerCircle);
+        shapes = new ArrayList<>();
+        createShapes();
+        for (T shape : shapes) {
+            initializeShape(shape);
+            addShapeEventHandlers(shape);
+        }
     }
-    
-    private void AddCircleEventHandlers(Circle circle) 
+
+    protected abstract void createShapes();
+
+    protected void initializeShape(T shape) 
+    {
+        shape.setStroke(Color.RED);
+        shape.setFill(Color.TRANSPARENT);
+        shape.setStrokeWidth(Data.StrokeWidth);
+    }
+
+    private void addShapeEventHandlers(T shape) 
     { 
-        circle.setOnMousePressed(event -> 
+        shape.setOnMousePressed(event -> 
         { 
             if (event.isPrimaryButtonDown()) 
             { 
                 Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY()); 
-                Data.MouseDelta.Set(event.getSceneX() - circle.getCenterX(), event.getSceneY() - circle.getCenterY()); 
+                Data.MouseDelta.Set(event.getSceneX() - shape.getTranslateX(), event.getSceneY() - shape.getTranslateY()); 
             } 
         }); 
         
-        circle.setOnMouseDragged(event -> 
+        shape.setOnMouseDragged(event -> 
         { 
             if (event.isPrimaryButtonDown()) 
             { 
@@ -58,25 +64,27 @@ public class VisualElement
     public void UpdateScaleValue(double newScaleValue) 
     {
         Data.ScaleValue = newScaleValue;
-        OuterCircle.setRadius(50 * Data.ScaleValue);  // Adjust radius based on scale
-        InnerCircle.setRadius(40 * Data.ScaleValue);  // Adjust radius based on scale
-        OuterCircle.setStrokeWidth(Data.StrokeWidth);
-        InnerCircle.setStrokeWidth(Data.StrokeWidth);
+        for (T shape : shapes) {
+            shape.setStrokeWidth(Data.StrokeWidth);
+            UpdateShapeSize(shape);
+        }
     }
-    
+
+    protected abstract void UpdateShapeSize(T shape);
+
     public void UpdatePosition()
     {
         double adjustedCenterX = (Transform.Position.X - Data.GridOffset.X) * Data.ScaleValue;
         double adjustedCenterY = (Transform.Position.Y - Data.GridOffset.Y) * Data.ScaleValue;
 
-        OuterCircle.setCenterX(adjustedCenterX);
-        OuterCircle.setCenterY(adjustedCenterY);
-        InnerCircle.setCenterX(adjustedCenterX);
-        InnerCircle.setCenterY(adjustedCenterY);
+        for (T shape : shapes) {
+            shape.setTranslateX(adjustedCenterX);
+            shape.setTranslateY(adjustedCenterY);
+        }
     }
 
     public void AddToPane() 
     {
-        View.GridPane.getChildren().addAll(OuterCircle, InnerCircle);
+        View.GridPane.getChildren().addAll(shapes);
     }
 }
