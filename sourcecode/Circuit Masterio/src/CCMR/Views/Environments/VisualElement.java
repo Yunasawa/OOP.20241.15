@@ -19,14 +19,21 @@ public abstract class VisualElement<T extends Shape>
     {
         shapes = new ArrayList<>();
         CreateShapes();
-        for (T shape : shapes) {
-            InitializeShape(shape);
-            AddShapeEventHandlers(shape);
-            AddHoverEventHandlers(shape);
-        }
+        initializeShapes();
     }
 
     protected abstract void CreateShapes();
+
+    private void initializeShapes() 
+    {
+        for (T shape : shapes) 
+        {
+            InitializeShape(shape);
+            
+        	AddShapeEventHandlers(shape);
+        	AddHoverEventHandlers(shape);
+        }
+    }
 
     protected void InitializeShape(T shape) 
     {
@@ -34,6 +41,7 @@ public abstract class VisualElement<T extends Shape>
         shape.setFill(Color.TRANSPARENT);
         shape.setStrokeWidth(Data.StrokeWidth);
     }
+
 
     private void AddShapeEventHandlers(T shape) 
     { 
@@ -61,8 +69,7 @@ public abstract class VisualElement<T extends Shape>
 
                 // Check for collisions with other elements
                 boolean collisionDetected = false;
-                //for (VisualElement<?> other : View.GridView.Elements) 
-                for (VisualElement<?> other : View.GridViewDemo.Elements) 
+                for (VisualElement<?> other : View.GridView.Elements) 
                 {
                     if (other != this && CheckCollision(other)) 
                     {
@@ -71,7 +78,7 @@ public abstract class VisualElement<T extends Shape>
                     }
                 }
 
-                // Change color to red if collision detected, else set to hover color and update old position
+                // Change color to CollisionColor if collision detected, else set to HoverColor and update old position
                 if (collisionDetected) 
                 {
                     for (T s : shapes) {
@@ -83,24 +90,18 @@ public abstract class VisualElement<T extends Shape>
                     for (T s : shapes) {
                         s.setStroke(Config.HoverColor);
                     }
-                    // Update old position if no collision is detected
-                    oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y);
+                    oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y); // Update old position if no collision is detected
                 }
             } 
         });
 
         shape.setOnMouseReleased(event -> 
         {
-            if (View.SelectedElement != null && View.SelectedElement != this) 
-            {
-                View.SelectedElement.RevertToElementColor();
-            }
-            View.SelectedElement = this;
+        	HandleElementSelection();
 
             // Check for collisions with other elements
             boolean collisionDetected = false;
-            //for (VisualElement<?> other : View.GridView.Elements) 
-            for (VisualElement<?> other : View.GridViewDemo.Elements) 
+            for (VisualElement<?> other : View.GridView.Elements) 
             {
                 if (other != this && CheckCollision(other)) 
                 {
@@ -109,7 +110,7 @@ public abstract class VisualElement<T extends Shape>
                 }
             }
 
-            // Restore the old position if dropped inside another element, otherwise set the color to selected color
+            // Restore the old position if dropped inside another element, otherwise set the color to SelectedColor
             if (collisionDetected) 
             {
                 Transform.Position = oldPosition;
@@ -126,8 +127,7 @@ public abstract class VisualElement<T extends Shape>
     { 
         shape.setOnMouseEntered(event -> 
         { 
-            // Only change to HoverColor if it's not the selected element
-            if (View.SelectedElement != this) 
+            if (View.SelectedElement != this) // Only change to HoverColor if it's not the selected element
             {
                 for (T s : shapes) {
                     s.setStroke(Config.HoverColor);
@@ -137,8 +137,7 @@ public abstract class VisualElement<T extends Shape>
         
         shape.setOnMouseExited(event -> 
         { 
-            // Only revert to ElementColor if it's not the selected element
-            if (View.SelectedElement != this) 
+            if (View.SelectedElement != this) // Only revert to ElementColor if it's not the selected element
             {
                 for (T s : shapes) {
                     s.setStroke(Config.ElementColor);
@@ -146,8 +145,8 @@ public abstract class VisualElement<T extends Shape>
             } 
             else 
             {
-                // Ensure the selected element keeps its selected color
-                for (T s : shapes) {
+                for (T s : shapes) // Ensure the selected element keeps its selected color
+                {
                     s.setStroke(Config.SelectedColor);
                 }
             }
@@ -160,6 +159,7 @@ public abstract class VisualElement<T extends Shape>
             s.setStroke(Config.ElementColor);
         }
     }
+
     public void UpdateScaleValue(double newScaleValue) 
     {
         Data.ScaleValue = newScaleValue;
@@ -189,6 +189,15 @@ public abstract class VisualElement<T extends Shape>
         View.GridPane.getChildren().addAll(shapes);
     }
 
+    private void HandleElementSelection() 
+    {
+        if (View.SelectedElement != null && View.SelectedElement != this) 
+        {
+            View.SelectedElement.RevertToElementColor();
+        }
+        View.SelectedElement = this;
+    }
+
     public boolean CheckCollision(VisualElement<?> other) 
     {
         double thisLeft = Transform.Position.X * Config.CellSize - Transform.Size.X * Config.CellSize / 2;
@@ -201,7 +210,6 @@ public abstract class VisualElement<T extends Shape>
         double otherTop = other.Transform.Position.Y * Config.CellSize - other.Transform.Size.Y * Config.CellSize / 2;
         double otherBottom = otherTop + other.Transform.Size.Y * Config.CellSize;
 
-        boolean collision = !(thisRight <= otherLeft || thisLeft >= otherRight || thisBottom <= otherTop || thisTop >= otherBottom);
-        return collision;
+        return !(thisRight <= otherLeft || thisLeft >= otherRight || thisBottom <= otherTop || thisTop >= otherBottom);
     }
 }

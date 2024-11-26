@@ -4,6 +4,7 @@ import CCMR.Models.Types.Vector2;
 import CCMR.Models.Values.Data;
 import CCMR.Views.Environments.VisualElement;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 
 public class CircleElement extends VisualElement<Circle> 
 {
@@ -12,10 +13,13 @@ public class CircleElement extends VisualElement<Circle>
     {
         Circle outerCircle = new Circle(50, 50, 50); // Outer circle
         Circle innerCircle = new Circle(50, 50, 40); // Inner circle
+        Line firstLine = new Line();
+        Line secondLine = new Line();
+        
         shapes.add(outerCircle);
         shapes.add(innerCircle);
         
-        Transform.Size = new Vector2(2, 2); // Size in grid units
+        Transform.Size = new Vector2(2, 4); // Size in grid units
     }
 
     @Override
