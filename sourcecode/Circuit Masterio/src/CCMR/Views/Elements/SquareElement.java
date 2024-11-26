@@ -31,4 +31,7 @@ public class SquareElement extends VisualElement<Rectangle>
             shape.setHeight(80 * Data.ScaleValue); // Adjust height of inner square
         }
     }
+    
+    @Override
+    public String Name() { return "Square"; }
 }

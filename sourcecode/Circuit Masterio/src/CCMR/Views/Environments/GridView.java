@@ -46,6 +46,19 @@ public class GridView
             element.UpdatePosition();
             element.AddToPane();
         }
+
+        // Add a click handler for the grid pane
+        View.GridPane.setOnMouseClicked(event -> 
+        {
+            if (event.getTarget() instanceof Canvas)
+            {
+                if (View.SelectedElement != null) 
+                {
+                    View.SelectedElement.RevertToElementColor();
+                    View.SelectedElement = null;
+                }
+            }
+        });
         
         DrawGrid(_canvas, Config.GridLineColor);
 
