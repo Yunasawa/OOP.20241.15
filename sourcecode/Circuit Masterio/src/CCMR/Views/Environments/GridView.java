@@ -35,17 +35,25 @@ public class GridView
     private Circle _draggableCircle;
     private Vector2 _circleLogicalPosition = new Vector2(100, 100);  // Initial logical position of the circle
     
+    private VisualElement _visualElement;
+    
     public Pane CreateView() 
     {
         _gridPane.getChildren().add(_canvas);
 
         CreateGraphicsContext();
         
-        _draggableCircle = new Circle(100, 100, 50); // Center at (100, 100), radius 50 
-        _draggableCircle.setFill(Color.RED); 
-        AddCircleEventHandlers(); // Add event handlers for dragging 
+        //_draggableCircle = new Circle(100, 100, 50); // Center at (100, 100), radius 50 
+        //_draggableCircle.setFill(Color.RED); 
+        //AddCircleEventHandlers(); // Add event handlers for dragging 
         
-        _gridPane.getChildren().add(_draggableCircle); // Add the circle to the pane
+        //_gridPane.getChildren().add(_draggableCircle); // Add the circle to the pane
+        
+        _visualElement = new VisualElement(_mouseCoordinate, _mouseDelta, _scaleValue, _gridOffset, _circleLogicalPosition);
+        _visualElement.UpdatePosition();
+        
+        _gridPane.getChildren().add(_visualElement.Circle); // Add the circle to the pane
+
         
         DrawGrid(_canvas, Data.GridLineColor);
 
@@ -173,7 +181,7 @@ public class GridView
                 _gridOffset.Y -= _mouseDelta.Y / _scaleValue;
 
                 // Update the visual position of the circle
-                updateCirclePosition();
+                _visualElement.UpdatePosition();
 
                 DrawGrid(canvas, Data.GridLineColor);
 
@@ -229,12 +237,9 @@ public class GridView
                     _gridOffset.Y -= _f * _dy / _scaleValue;
                 }
 
-                // Sync the size of the circle with the grid view
-                double newRadius = _draggableCircle.getRadius() * _zoomFactor;
-                _draggableCircle.setRadius(newRadius);
-
-                // Update the visual position of the circle
-                updateCirclePosition();
+                // Update the visual element's scale and position
+                _visualElement.UpdateScaleValue(_scaleValue);
+                _visualElement.UpdatePosition();
 
                 DrawGrid(canvas, Data.GridLineColor);
             }
