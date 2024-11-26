@@ -12,22 +12,28 @@ public abstract class VisualElement<T extends Shape>
 {
     public Transform Transform = new Transform();
     protected List<T> shapes;
-    
+
     private Vector2 oldPosition;
 
     public VisualElement()
     {
         shapes = new ArrayList<>();
         CreateShapes();
-        for (T shape : shapes) {
+        InitializeShapes();
+    }
+
+    protected abstract void CreateShapes();
+
+    private void InitializeShapes() 
+    {
+        for (T shape : shapes) 
+        {
             InitializeShape(shape);
             AddShapeEventHandlers(shape);
             AddHoverEventHandlers(shape);
         }
     }
-
-    protected abstract void CreateShapes();
-
+    
     protected void InitializeShape(T shape) 
     {
         shape.setStroke(Config.ElementColor);
@@ -44,11 +50,6 @@ public abstract class VisualElement<T extends Shape>
                 Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY()); 
                 Data.MouseDelta.Set(event.getSceneX() - shape.getTranslateX(), event.getSceneY() - shape.getTranslateY()); 
                 oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y); // Clone the old position
-
-                // Change color to hover color when dragging
-                for (T s : shapes) {
-                    s.setStroke(Config.HoverColor);
-                }
             } 
         }); 
 
@@ -75,7 +76,7 @@ public abstract class VisualElement<T extends Shape>
                     }
                 }
 
-                // Change color to red if collision detected, else set to hover color
+                // Change color to CollisionColor if collision detected, else set to HoverColor and update old position
                 if (collisionDetected) 
                 {
                     for (T s : shapes) {
@@ -87,14 +88,33 @@ public abstract class VisualElement<T extends Shape>
                     for (T s : shapes) {
                         s.setStroke(Config.HoverColor);
                     }
+                    oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y); // Update old position if no collision is detected
                 }
             } 
         });
 
         shape.setOnMouseReleased(event -> 
         {
-            // Set selected element and change color to selected color
-            View.SelectedElement = this;
+            HandleElementSelection();
+
+            // Check for collisions with other elements
+            boolean collisionDetected = false;
+            for (VisualElement<?> other : View.GridView.Elements) 
+            {
+                if (other != this && CheckCollision(other)) 
+                {
+                    collisionDetected = true;
+                    break;
+                }
+            }
+
+            // Restore the old position if dropped inside another element, otherwise set the color to SelectedColor
+            if (collisionDetected) 
+            {
+                Transform.Position = oldPosition;
+                UpdatePosition();
+            }
+
             for (T s : shapes) {
                 s.setStroke(Config.SelectedColor);
             }
@@ -105,8 +125,7 @@ public abstract class VisualElement<T extends Shape>
     { 
         shape.setOnMouseEntered(event -> 
         { 
-            // Only change to HoverColor if it's not the selected element
-            if (View.SelectedElement != this) 
+            if (View.SelectedElement != this) // Only change to HoverColor if it's not the selected element
             {
                 for (T s : shapes) {
                     s.setStroke(Config.HoverColor);
@@ -116,8 +135,7 @@ public abstract class VisualElement<T extends Shape>
         
         shape.setOnMouseExited(event -> 
         { 
-            // Only revert to ElementColor if it's not the selected element
-            if (View.SelectedElement != this) 
+            if (View.SelectedElement != this) // Only revert to ElementColor if it's not the selected element
             {
                 for (T s : shapes) {
                     s.setStroke(Config.ElementColor);
@@ -125,39 +143,57 @@ public abstract class VisualElement<T extends Shape>
             } 
             else 
             {
-                // Ensure the selected element keeps its selected color
-                for (T s : shapes) {
+                for (T s : shapes) // Ensure the selected element keeps its selected color
+                {
                     s.setStroke(Config.SelectedColor);
                 }
             }
         });
     }
 
+    public void RevertToElementColor() 
+    {
+        for (T s : shapes) {
+            s.setStroke(Config.ElementColor);
+        }
+    }
+
     public void UpdateScaleValue(double newScaleValue) 
     {
         Data.ScaleValue = newScaleValue;
-        for (T shape : shapes) {
+        for (T shape : shapes) 
+        {
             shape.setStrokeWidth(Data.StrokeWidth);
             UpdateShapeSize(shape);
         }
     }
-
-    protected abstract void UpdateShapeSize(T shape);
 
     public void UpdatePosition()
     {
         double adjustedCenterX = (Transform.Position.X * Config.CellSize - Data.GridOffset.X) * Data.ScaleValue;
         double adjustedCenterY = (Transform.Position.Y * Config.CellSize - Data.GridOffset.Y) * Data.ScaleValue;
 
-        for (T shape : shapes) {
+        for (T shape : shapes) 
+        {
             shape.setTranslateX(adjustedCenterX);
             shape.setTranslateY(adjustedCenterY);
         }
     }
 
+    protected abstract void UpdateShapeSize(T shape);
+    
     public void AddToPane() 
     {
         View.GridPane.getChildren().addAll(shapes);
+    }
+
+    private void HandleElementSelection() 
+    {
+        if (View.SelectedElement != null && View.SelectedElement != this) 
+        {
+            View.SelectedElement.RevertToElementColor();
+        }
+        View.SelectedElement = this;
     }
 
     public boolean CheckCollision(VisualElement<?> other) 
@@ -172,7 +208,6 @@ public abstract class VisualElement<T extends Shape>
         double otherTop = other.Transform.Position.Y * Config.CellSize - other.Transform.Size.Y * Config.CellSize / 2;
         double otherBottom = otherTop + other.Transform.Size.Y * Config.CellSize;
 
-        boolean collision = !(thisRight <= otherLeft || thisLeft >= otherRight || thisBottom <= otherTop || thisTop >= otherBottom);
-        return collision;
+        return !(thisRight <= otherLeft || thisLeft >= otherRight || thisBottom <= otherTop || thisTop >= otherBottom);
     }
 }
