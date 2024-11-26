@@ -47,7 +47,6 @@ public class GridView
             element.AddToPane();
         }
 
-        // Add a click handler for the grid pane
         View.GridPane.setOnMouseClicked(event -> 
         {
             if (event.getTarget() instanceof Canvas)

@@ -70,7 +70,7 @@ public abstract class VisualElement<T extends Shape>
                     }
                 }
 
-                // Change color to red if collision detected, else set to hover color
+                // Change color to red if collision detected, else set to hover color and update old position
                 if (collisionDetected) 
                 {
                     for (T s : shapes) {
@@ -82,23 +82,36 @@ public abstract class VisualElement<T extends Shape>
                     for (T s : shapes) {
                         s.setStroke(Config.HoverColor);
                     }
+                    // Update old position if no collision is detected
+                    oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y);
                 }
             } 
         });
 
         shape.setOnMouseReleased(event -> 
         {
-            // Handle element selection on mouse release
-            if (View.SelectedElement != this) 
+            if (View.SelectedElement != null && View.SelectedElement != this) 
             {
-                if (View.SelectedElement != null) 
-                {
-                    // Revert color of the previously selected element
-                    View.SelectedElement.RevertToElementColor();
-                }
+                View.SelectedElement.RevertToElementColor();
+            }
+            View.SelectedElement = this;
 
-                // Select the new element and change its color
-                View.SelectedElement = this;
+            // Check for collisions with other elements
+            boolean collisionDetected = false;
+            for (VisualElement<?> other : View.GridView.Elements) 
+            {
+                if (other != this && CheckCollision(other)) 
+                {
+                    collisionDetected = true;
+                    break;
+                }
+            }
+
+            // Restore the old position if dropped inside another element, otherwise set the color to selected color
+            if (collisionDetected) 
+            {
+                Transform.Position = oldPosition;
+                UpdatePosition();
             }
 
             for (T s : shapes) {
@@ -145,7 +158,6 @@ public abstract class VisualElement<T extends Shape>
             s.setStroke(Config.ElementColor);
         }
     }
-
     public void UpdateScaleValue(double newScaleValue) 
     {
         Data.ScaleValue = newScaleValue;
