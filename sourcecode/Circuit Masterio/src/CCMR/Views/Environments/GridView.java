@@ -70,19 +70,27 @@ public class GridView
             { 
                 _mouseCoordinate.Set(event.getSceneX(), event.getSceneY()); 
                 _mouseDelta.Set(event.getSceneX() - _draggableCircle.getCenterX(), event.getSceneY() - _draggableCircle.getCenterY()); 
-            } 
+            }
         }); 
         
         _draggableCircle.setOnMouseDragged(event -> 
         { 
             if (event.isPrimaryButtonDown()) 
             { 
-                _draggableCircle.setCenterX(event.getSceneX() - _mouseDelta.X); 
-                _draggableCircle.setCenterY(event.getSceneY() - _mouseDelta.Y); 
+                double newCenterX = (event.getSceneX() - _mouseDelta.X) / _scaleValue + _gridOffset.X;
+                double newCenterY = (event.getSceneY() - _mouseDelta.Y) / _scaleValue + _gridOffset.Y;
 
-                // Update the logical position based on the new center position
-                _circleLogicalPosition.X = _draggableCircle.getCenterX() / _scaleValue;
-                _circleLogicalPosition.Y = _draggableCircle.getCenterY() / _scaleValue;
+                // Snap the logical position to the nearest grid cell
+                _circleLogicalPosition.X = Math.round(newCenterX / Data.CellSize) * Data.CellSize;
+                _circleLogicalPosition.Y = Math.round(newCenterY / Data.CellSize) * Data.CellSize;
+
+                // Adjust for grid offset when snapping
+                double snappedCenterX = (_circleLogicalPosition.X - _gridOffset.X) * _scaleValue;
+                double snappedCenterY = (_circleLogicalPosition.Y - _gridOffset.Y) * _scaleValue;
+
+                // Update the visual position based on the snapped logical position
+                _draggableCircle.setCenterX(snappedCenterX);
+                _draggableCircle.setCenterY(snappedCenterY);
             } 
         });
     }
@@ -164,10 +172,6 @@ public class GridView
                 _gridOffset.X -= _mouseDelta.X / _scaleValue;
                 _gridOffset.Y -= _mouseDelta.Y / _scaleValue;
 
-                // Update the logical position of the draggable circle based on grid offset and scale value
-                _circleLogicalPosition.X += _mouseDelta.X / _scaleValue;
-                _circleLogicalPosition.Y += _mouseDelta.Y / _scaleValue;
-
                 // Update the visual position of the circle
                 updateCirclePosition();
 
@@ -177,11 +181,16 @@ public class GridView
             }
         });
     }
-    
+
     private void updateCirclePosition()
     {
-        _draggableCircle.setCenterX(_circleLogicalPosition.X * _scaleValue);
-        _draggableCircle.setCenterY(_circleLogicalPosition.Y * _scaleValue);
+        // Calculate the adjusted visual position based on the logical position and grid offset
+        double adjustedCenterX = (_circleLogicalPosition.X - _gridOffset.X) * _scaleValue;
+        double adjustedCenterY = (_circleLogicalPosition.Y - _gridOffset.Y) * _scaleValue;
+
+        // Update the circle's center position
+        _draggableCircle.setCenterX(adjustedCenterX);
+        _draggableCircle.setCenterY(adjustedCenterY);
     }
 
     private void AddZoomManipulator(Pane pane, Canvas canvas) 
