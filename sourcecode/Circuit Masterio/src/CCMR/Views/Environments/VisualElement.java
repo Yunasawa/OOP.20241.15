@@ -12,36 +12,34 @@ public abstract class VisualElement<T extends Shape>
 {
     public Transform Transform = new Transform();
     protected List<T> shapes;
-    
+
     private Vector2 oldPosition;
 
     public VisualElement()
     {
         shapes = new ArrayList<>();
         CreateShapes();
-        initializeShapes();
+        InitializeShapes();
     }
 
     protected abstract void CreateShapes();
 
-    private void initializeShapes() 
+    private void InitializeShapes() 
     {
         for (T shape : shapes) 
         {
             InitializeShape(shape);
-            
-        	AddShapeEventHandlers(shape);
-        	AddHoverEventHandlers(shape);
+            AddShapeEventHandlers(shape);
+            AddHoverEventHandlers(shape);
         }
     }
-
+    
     protected void InitializeShape(T shape) 
     {
         shape.setStroke(Config.ElementColor);
         shape.setFill(Color.TRANSPARENT);
         shape.setStrokeWidth(Data.StrokeWidth);
     }
-
 
     private void AddShapeEventHandlers(T shape) 
     { 
@@ -97,7 +95,7 @@ public abstract class VisualElement<T extends Shape>
 
         shape.setOnMouseReleased(event -> 
         {
-        	HandleElementSelection();
+            HandleElementSelection();
 
             // Check for collisions with other elements
             boolean collisionDetected = false;

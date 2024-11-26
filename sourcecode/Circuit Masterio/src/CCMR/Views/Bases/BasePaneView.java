@@ -6,8 +6,7 @@ import CCMR.Models.Types.Vector2;
 import CCMR.Models.Values.Config;
 import CCMR.Models.Values.Data;
 import CCMR.Models.Values.View;
-import CCMR.Views.Elements.CircleElement;
-import CCMR.Views.Elements.SquareElement;
+import CCMR.Views.Elements.*;
 import CCMR.Views.Environments.VisualElement;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
@@ -45,6 +44,7 @@ public abstract class BasePaneView
     {
         Elements.add(new CircleElement());
         Elements.add(new SquareElement());
+        Elements.add(new CircleSquareElement());
         for (VisualElement<?> element : Elements) 
         {
             element.UpdatePosition();
