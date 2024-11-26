@@ -9,4 +9,7 @@ public class Vector2
 	public Vector2() { this(0, 0); }
 	
 	public void Set(double x, double y) { X = x; Y = y; }
+	
+	@Override
+	public String toString() { return "(" + X + ", " + Y + ")"; }
 }
