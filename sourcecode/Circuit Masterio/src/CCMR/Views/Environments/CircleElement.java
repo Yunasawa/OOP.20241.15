@@ -6,7 +6,7 @@ import javafx.scene.shape.Circle;
 public class CircleElement extends VisualElement<Circle> 
 {
     @Override
-    protected void createShapes() 
+    protected void CreateShapes() 
     {
         Circle outerCircle = new Circle(50); // Outer circle
         Circle innerCircle = new Circle(40); // Inner circle

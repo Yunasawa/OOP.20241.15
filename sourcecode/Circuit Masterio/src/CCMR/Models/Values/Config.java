@@ -1,5 +1,6 @@
 package CCMR.Models.Values;
 
+import CCMR.Controls.Utilities.Utilities;
 import javafx.scene.paint.Color;
 
 public class Config
@@ -10,4 +11,7 @@ public class Config
     public static final Color GridLineColor = new Color(0.5, 0.5, 0.5, 1);
     
     public static final double StrokeWidth = 5;
+    
+    public static final Color ElementColor = new Color(0.25, 0.25, 0.25, 1);
+    public static final Color HoverColor = Utilities.ToColor("#7a7d42");
 }

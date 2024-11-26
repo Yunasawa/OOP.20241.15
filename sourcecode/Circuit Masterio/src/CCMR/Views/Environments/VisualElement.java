@@ -19,23 +19,24 @@ public abstract class VisualElement<T extends Shape>
     public VisualElement()
     {
         shapes = new ArrayList<>();
-        createShapes();
+        CreateShapes();
         for (T shape : shapes) {
-            initializeShape(shape);
-            addShapeEventHandlers(shape);
+            InitializeShape(shape);
+            AddShapeEventHandlers(shape);
+            AddHoverEventHandlers(shape);
         }
     }
 
-    protected abstract void createShapes();
+    protected abstract void CreateShapes();
 
-    protected void initializeShape(T shape) 
+    protected void InitializeShape(T shape) 
     {
-        shape.setStroke(Color.RED);
+        shape.setStroke(Config.ElementColor);
         shape.setFill(Color.TRANSPARENT);
         shape.setStrokeWidth(Data.StrokeWidth);
     }
 
-    private void addShapeEventHandlers(T shape) 
+    private void AddShapeEventHandlers(T shape) 
     { 
         shape.setOnMousePressed(event -> 
         { 
@@ -58,6 +59,23 @@ public abstract class VisualElement<T extends Shape>
 
                 UpdatePosition();
             } 
+        });
+    }
+    
+    private void AddHoverEventHandlers(T shape) 
+    { 
+        shape.setOnMouseEntered(event -> 
+        { 
+            for (T s : shapes) {
+                s.setStroke(Config.HoverColor);
+            }
+        }); 
+        
+        shape.setOnMouseExited(event -> 
+        { 
+            for (T s : shapes) {
+                s.setStroke(Config.ElementColor);
+            }
         });
     }
 

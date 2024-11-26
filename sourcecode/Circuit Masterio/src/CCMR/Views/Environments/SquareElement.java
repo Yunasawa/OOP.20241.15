@@ -6,7 +6,7 @@ import javafx.scene.shape.Rectangle;
 public class SquareElement extends VisualElement<Rectangle> 
 {
     @Override
-    protected void createShapes() 
+    protected void CreateShapes() 
     {
         Rectangle outerSquare = new Rectangle(100, 100); // Outer square
         Rectangle innerSquare = new Rectangle(80, 80); // Inner square
