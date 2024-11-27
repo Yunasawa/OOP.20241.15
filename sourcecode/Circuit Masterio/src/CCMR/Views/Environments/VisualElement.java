@@ -1,12 +1,16 @@
 package CCMR.Views.Environments;
 
+import CCMR.Controls.Utilities.MShape;
 import CCMR.Models.Definitions.*;
+import CCMR.Models.Types.Row;
 import CCMR.Models.Types.Vector2;
 import CCMR.Models.Values.*;
 import javafx.scene.shape.Shape;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class VisualElement
 {
@@ -14,6 +18,8 @@ public abstract class VisualElement
     protected List<Shape> _shapes;
 
     private Vector2 _oldPosition;
+    
+    private Map<Shape, Row<Double>> _maps = new HashMap<>();
 
     public VisualElement()
     {
@@ -26,7 +32,11 @@ public abstract class VisualElement
     
     protected void AddShapes(Shape... shapes)
     {
-    	for (Shape shape : shapes) _shapes.add(shape);
+    	for (Shape shape : shapes) 
+    	{
+    		_shapes.add(shape);
+    		_maps.put(shape, MShape.GetScale(shape));
+    	}
     }
 
     private void InitializeShapes() 
@@ -132,13 +142,12 @@ public abstract class VisualElement
         });
     }
 
-    public void UpdateScaleValue(double newScaleValue) 
+    public void UpdateScaleValue() 
     {
-        Data.ScaleValue = newScaleValue;
         for (Shape shape : _shapes) 
         {
             shape.setStrokeWidth(Data.StrokeWidth);
-            UpdateShapeSize(shape);
+            MShape.SetScale(shape, _maps.get(shape), Data.ScaleValue);
         }
     }
 
@@ -153,8 +162,6 @@ public abstract class VisualElement
             shape.setTranslateY(adjustedCenterY);
         }
     }
-
-    protected abstract void UpdateShapeSize(Shape shape);
     
     public void AddToPane() 
     {

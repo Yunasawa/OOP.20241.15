@@ -2,7 +2,7 @@ package CCMR.Controls.Utilities;
 
 import javafx.scene.paint.Color;
 
-public class Utilities 
+public class Utilities
 {
     public static int HexToInt(String hex)
     {
