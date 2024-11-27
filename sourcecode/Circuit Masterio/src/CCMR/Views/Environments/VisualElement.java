@@ -26,6 +26,10 @@ public abstract class VisualElement
         _shapes = new ArrayList<>();
         CreateShapes();
         InitializeShapes();
+        
+        View.GridView.Elements.add(this);
+        this.UpdatePosition();
+        this.AddToPane();
     }
 
     protected abstract void CreateShapes();
