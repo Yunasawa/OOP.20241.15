@@ -3,6 +3,7 @@ package CCMR.Models.Values;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
+import CCMR.Views.Bases.BaseVisualElement;
 import CCMR.Views.Environments.*;
 
 public class View 
@@ -14,5 +15,5 @@ public class View
 	public static GridView GridView = new GridView();
 	
 	// Runtime
-	public static VisualElement SelectedElement;
+	public static BaseVisualElement SelectedElement;
 }

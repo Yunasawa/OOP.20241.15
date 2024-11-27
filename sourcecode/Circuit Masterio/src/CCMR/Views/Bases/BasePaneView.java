@@ -6,8 +6,6 @@ import CCMR.Models.Types.Vector2;
 import CCMR.Models.Values.Config;
 import CCMR.Models.Values.Data;
 import CCMR.Models.Values.View;
-import CCMR.Views.Elements.*;
-import CCMR.Views.Environments.VisualElement;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
 
@@ -21,7 +19,7 @@ public abstract class BasePaneView
     protected double _zoomFactor, _newScale, _oldScale, _f, _dx, _dy;
     protected boolean _zoomCenteredOnMouse = false;  // Boolean flag to enable/disable zoom centered on mouse
     
-    public ArrayList<VisualElement> Elements = new ArrayList<>();
+    public ArrayList<BaseVisualElement> Elements = new ArrayList<>();
 
     public Pane CreateView()
     {
@@ -83,7 +81,7 @@ public abstract class BasePaneView
                 Data.GridOffset.X -= Data.MouseDelta.X / Data.ScaleValue;
                 Data.GridOffset.Y -= Data.MouseDelta.Y / Data.ScaleValue;
 
-                for (VisualElement element : Elements) element.UpdatePosition();
+                for (BaseVisualElement element : Elements) element.UpdatePosition();
 
                 Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY());
                 OnDragMouseDragged();
@@ -122,7 +120,7 @@ public abstract class BasePaneView
                 }
 
                 Data.StrokeWidth = Config.StrokeWidth * Data.ScaleValue;
-                for (VisualElement element : Elements) 
+                for (BaseVisualElement element : Elements) 
                 {
                     element.UpdateScaleValue();
                     element.UpdatePosition();

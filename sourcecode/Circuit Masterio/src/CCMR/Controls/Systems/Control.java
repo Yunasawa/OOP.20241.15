@@ -28,6 +28,8 @@ public class Control extends Application
         primaryStage.setMaximized(true);
         primaryStage.show();
         
-        Bulb buld = new Bulb();
+        Bulb buld1 = new Bulb();
+        Bulb buld2 = new Bulb();
+        Bulb buld3 = new Bulb();
 	}
 }

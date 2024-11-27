@@ -1,4 +1,4 @@
-package CCMR.Views.Environments;
+package CCMR.Views.Bases;
 
 import CCMR.Controls.Utilities.MShape;
 import CCMR.Models.Definitions.*;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class VisualElement
+public abstract class BaseVisualElement
 {
     public Transform Transform = new Transform();
     protected List<Shape> _shapes;
@@ -21,7 +21,7 @@ public abstract class VisualElement
     
     private Map<Shape, Row<Double>> _maps = new HashMap<>();
 
-    public VisualElement()
+    public BaseVisualElement()
     {
         _shapes = new ArrayList<>();
         CreateShapes();
@@ -87,7 +87,7 @@ public abstract class VisualElement
 
                 // Check for collisions with other elements
                 boolean collisionDetected = false;
-                for (VisualElement other : View.GridView.Elements) 
+                for (BaseVisualElement other : View.GridView.Elements) 
                 {
                     if (other != this && CheckCollision(other)) 
                     {
@@ -112,7 +112,7 @@ public abstract class VisualElement
 
             // Check for collisions with other elements
             boolean collisionDetected = false;
-            for (VisualElement other : View.GridView.Elements) 
+            for (BaseVisualElement other : View.GridView.Elements) 
             {
                 if (other != this && CheckCollision(other)) 
                 {
@@ -181,7 +181,7 @@ public abstract class VisualElement
         View.SelectedElement = this;
     }
 
-    public boolean CheckCollision(VisualElement other) 
+    public boolean CheckCollision(BaseVisualElement other) 
     {
         double thisLeft = Transform.Position.X * Config.CellSize - Transform.Size.X * Config.CellSize / 2;
         double thisRight = thisLeft + Transform.Size.X * Config.CellSize;
