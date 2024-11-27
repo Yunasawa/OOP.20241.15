@@ -3,11 +3,6 @@ package CCMR.Views.Environments;
 import CCMR.Models.Definitions.*;
 import CCMR.Models.Values.*;
 import CCMR.Views.Bases.*;
-import CCMR.Views.Elements.CircleElement;
-import CCMR.Views.Elements.SquareElement;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 
 public class GridView extends BasePaneView
 {

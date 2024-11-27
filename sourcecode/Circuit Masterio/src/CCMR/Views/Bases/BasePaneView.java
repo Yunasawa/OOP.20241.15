@@ -21,7 +21,7 @@ public abstract class BasePaneView
     protected double _zoomFactor, _newScale, _oldScale, _f, _dx, _dy;
     protected boolean _zoomCenteredOnMouse = false;  // Boolean flag to enable/disable zoom centered on mouse
     
-    public ArrayList<VisualElement<?>> Elements = new ArrayList<>();
+    public ArrayList<VisualElement> Elements = new ArrayList<>();
 
     public Pane CreateView()
     {
@@ -42,10 +42,13 @@ public abstract class BasePaneView
 
     private void InitializeElements()
     {
-        Elements.add(new CircleElement());
-        Elements.add(new SquareElement());
-        Elements.add(new CircleSquareElement());
-        for (VisualElement<?> element : Elements) 
+        //Elements.add(new CircleElement());
+        //Elements.add(new SquareElement());
+        //Elements.add(new CircleSquareElement());
+    	
+    	Elements.add(new Bulb());
+    	
+        for (VisualElement element : Elements) 
         {
             element.UpdatePosition();
             element.AddToPane();
@@ -60,7 +63,7 @@ public abstract class BasePaneView
             {
                 if (View.SelectedElement != null) 
                 {
-                    View.SelectedElement.RevertToElementColor();
+                    View.SelectedElement.SetStrokeColor(Config.ElementColor);
                     View.SelectedElement = null;
                 }
             }
@@ -96,14 +99,13 @@ public abstract class BasePaneView
                 Data.GridOffset.X -= Data.MouseDelta.X / Data.ScaleValue;
                 Data.GridOffset.Y -= Data.MouseDelta.Y / Data.ScaleValue;
 
-                for (VisualElement<?> element : Elements) element.UpdatePosition();
+                for (VisualElement element : Elements) element.UpdatePosition();
 
                 Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY());
                 OnDragMouseDragged();
             }
         });
     }
-
     private void AddZoomManipulator() 
     {
         View.GridPane.setOnScroll(event -> 
@@ -136,9 +138,9 @@ public abstract class BasePaneView
                 }
 
                 Data.StrokeWidth = Config.StrokeWidth * Data.ScaleValue;
-                for (VisualElement<?> element : Elements) 
+                for (VisualElement element : Elements) 
                 {
-                    element.UpdateScaleValue(Data.ScaleValue);
+                    element.UpdateScaleValue();
                     element.UpdatePosition();
                 }
                 

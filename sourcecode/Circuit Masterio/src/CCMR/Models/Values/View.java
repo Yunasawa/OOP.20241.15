@@ -14,5 +14,5 @@ public class View
 	public static GridView GridView = new GridView();
 	
 	// Runtime
-	public static VisualElement<?> SelectedElement;
+	public static VisualElement SelectedElement;
 }
