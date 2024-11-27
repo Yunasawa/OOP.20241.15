@@ -59,8 +59,6 @@ public class SelectionBox
 
     public void HideSelection()
     {
-    	if (Data.IsDraggingElement) return;
-    	
         _box.setVisible(false);
     }
 
@@ -91,10 +89,10 @@ public class SelectionBox
 
         for (BaseVisualElement element : View.GridView.Elements)
         {
-            double elementLeft = element.Transform.Position.X * Config.CellSize - element.Transform.Size.X * Config.CellSize / 2;
-            double elementRight = elementLeft + element.Transform.Size.X * Config.CellSize;
-            double elementTop = element.Transform.Position.Y * Config.CellSize - element.Transform.Size.Y * Config.CellSize / 2;
-            double elementBottom = elementTop + element.Transform.Size.Y * Config.CellSize;
+            double elementLeft = (element.Transform.Position.X * Config.CellSize) * Data.ScaleValue - Data.GridOffset.X * Data.ScaleValue;
+            double elementRight = elementLeft + element.Transform.Size.X * Config.CellSize * Data.ScaleValue;
+            double elementTop = (element.Transform.Position.Y * Config.CellSize) * Data.ScaleValue - Data.GridOffset.Y * Data.ScaleValue;
+            double elementBottom = elementTop + element.Transform.Size.Y * Config.CellSize * Data.ScaleValue;
             
             boolean intersects = selectionX < elementRight &&
                                  selectionX + selectionWidth > elementLeft &&
