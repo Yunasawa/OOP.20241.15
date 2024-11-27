@@ -18,6 +18,7 @@ public abstract class BaseVisualElement
     protected List<Shape> _shapes;
 
     private Vector2 _oldPosition;
+    private Vector2 _distancePosition = new Vector2();
     
     private Map<Shape, Row<Double>> _maps = new HashMap<>();
 
@@ -71,7 +72,18 @@ public abstract class BaseVisualElement
             	
                 Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY()); 
                 Data.MouseDelta.Set(event.getSceneX() - shape.getTranslateX(), event.getSceneY() - shape.getTranslateY()); 
-                _oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y); // Clone the old position
+                _oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y);
+                
+                if (View.SelectedElement.Count() != 1)
+                {
+                	for (BaseVisualElement element : View.SelectedElement)
+	                {
+	                	element._oldPosition = new Vector2(element.Transform.Position.X, element.Transform.Position.Y);
+	                	element._distancePosition = element.Transform.Position.Subtract(this.Transform.Position);
+	                }
+                }
+                
+                if (View.SelectedElement.Count() == 1) View.GridView.RemoveAllSelected();
             } 
         }); 
 
@@ -85,9 +97,21 @@ public abstract class BaseVisualElement
                 Transform.Position.X = Math.round(newCenterX / Config.CellSize);
                 Transform.Position.Y = Math.round(newCenterY / Config.CellSize);
 
+                if (View.SelectedElement.Count() != 1)
+                {
+	                for (BaseVisualElement element : View.SelectedElement)
+	                {
+	                	if (element == this) continue;
+	                	
+	                	element.Transform.Position = this.Transform.Position.Add(element._distancePosition);
+	                	element.UpdatePosition();
+	                }
+                }
+                
+                System.out.println(View.SelectedElement.Count());
+                
                 UpdatePosition();
 
-                // Check for collisions with other elements
                 boolean collisionDetected = false;
                 for (BaseVisualElement other : View.GridView.Elements) 
                 {
@@ -114,7 +138,6 @@ public abstract class BaseVisualElement
         	
             HandleElementSelection();
 
-            // Check for collisions with other elements
             boolean collisionDetected = false;
             for (BaseVisualElement other : View.GridView.Elements) 
             {
@@ -125,7 +148,6 @@ public abstract class BaseVisualElement
                 }
             }
 
-            // Restore the old position if dropped inside another element, otherwise set the color to SelectedColor
             if (collisionDetected) 
             {
                 Transform.Position = _oldPosition;
@@ -186,14 +208,6 @@ public abstract class BaseVisualElement
 	            View.SelectedElement.remove(0);
 	        }
         }
-    	else if (View.SelectedElement.Count() > 1)
-    	{
-            for (int i = View.SelectedElement.size() - 1; i >= 0; i--) 
-            {
-                View.SelectedElement.get(i).SetStrokeColor(Config.ElementColor);
-                View.SelectedElement.remove(i);
-            }
-    	}
         View.SelectedElement.Add(this);
     }
 
