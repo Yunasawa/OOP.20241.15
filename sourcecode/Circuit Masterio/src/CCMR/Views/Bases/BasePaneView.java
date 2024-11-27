@@ -42,9 +42,12 @@ public abstract class BasePaneView
 
     private void InitializeElements()
     {
-        Elements.add(new CircleElement());
-        Elements.add(new SquareElement());
-        Elements.add(new CircleSquareElement());
+        //Elements.add(new CircleElement());
+        //Elements.add(new SquareElement());
+        //Elements.add(new CircleSquareElement());
+    	
+    	Elements.add(new Bulb());
+    	
         for (VisualElement element : Elements) 
         {
             element.UpdatePosition();
@@ -103,7 +106,6 @@ public abstract class BasePaneView
             }
         });
     }
-
     private void AddZoomManipulator() 
     {
         View.GridPane.setOnScroll(event -> 
