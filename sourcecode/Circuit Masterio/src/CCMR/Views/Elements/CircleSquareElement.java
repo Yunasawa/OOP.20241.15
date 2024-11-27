@@ -12,13 +12,13 @@ public class CircleSquareElement extends VisualElement<Shape>
     @Override
     protected void CreateShapes() 
     {
-        Circle circle = new Circle(50); // Example circle
-        Rectangle square = new Rectangle(100, 100); // Example square
+        Circle circle = new Circle(50, 50, 50); // Example circle
+        Rectangle square = new Rectangle(50, 50, 100, 100); // Example square
 
         shapes.add(circle);
         shapes.add(square);
 
-        Transform.Size = new Vector2(2, 2); // Size in grid units
+        Transform.Size = new Vector2(3, 3); // Size in grid units
     }
 
     @Override
@@ -26,10 +26,14 @@ public class CircleSquareElement extends VisualElement<Shape>
     {
         if (shape instanceof Circle) 
         {
+        	((Circle)shape).setCenterX(50 * Data.ScaleValue);
+        	((Circle)shape).setCenterY(50 * Data.ScaleValue);
             ((Circle)shape).setRadius(50 * Data.ScaleValue); // Adjust radius for circle
         } 
         else if (shape instanceof Rectangle) 
         {
+        	((Rectangle)shape).setX(50 * Data.ScaleValue);
+        	((Rectangle)shape).setY(50 * Data.ScaleValue);
             ((Rectangle)shape).setWidth(100 * Data.ScaleValue); // Adjust width for square
             ((Rectangle)shape).setHeight(100 * Data.ScaleValue); // Adjust height for square
         }
