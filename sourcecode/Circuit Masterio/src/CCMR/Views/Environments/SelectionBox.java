@@ -111,6 +111,6 @@ public class SelectionBox
             }
         }
         
-        System.out.println(View.SelectedElement.Count());
+        //System.out.println(View.SelectedElement.Count());
     }
 }

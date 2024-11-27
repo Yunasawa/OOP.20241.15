@@ -11,6 +11,9 @@ public class Vector2
 	public void Set(double x, double y) { X = x; Y = y; }
 	public double Distance(Vector2 other) { return Math.sqrt(Math.pow(this.X - other.X, 2) + Math.pow(this.Y - other.Y, 2)); }
 	
+	public Vector2 Subtract(Vector2 other) { return new Vector2(this.X - other.X, this.Y - other.Y); } 
+	public Vector2 Add(Vector2 other) { return new Vector2(this.X + other.X, this.Y + other.Y); }
+	
 	@Override
 	public String toString() { return "(" + X + ", " + Y + ")"; }
 }
