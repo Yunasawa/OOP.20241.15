@@ -2,6 +2,7 @@ package CCMR.Views.Environments;
 
 import CCMR.Models.Types.*;
 import CCMR.Models.Values.View;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -20,7 +21,12 @@ public class SelectionBox
     	_box.setVisible(false);
     }
     
-    public void InsertBoxToPane() { View.GridPane.getChildren().add(_box); }
+    public void InsertBoxToPane() 
+    { 
+    	View.GridPane.getChildren().add(_box); 
+    	
+    	AddSelectionManipulator();
+    }
     
     public void StartSelection(double x, double y)
     {
@@ -33,7 +39,6 @@ public class SelectionBox
     	_startPosition.X = _box.getX();
     	_startPosition.Y = _box.getY();
     }
-    
     public void UpdateSelection(double x, double y)
     {    	    	
     	if (x < _startPosition.X) _box.setX(x);
@@ -42,9 +47,27 @@ public class SelectionBox
     	if (y < _startPosition.Y) _box.setY(y);
     	_box.setHeight((_startPosition.Y - y) * (y < _startPosition.Y ? 1 : -1));
     }
-    
     public void HideSelection()
     {
     	_box.setVisible(false);
     }
+
+    private void AddSelectionManipulator()
+    {
+    	View.GridPane.addEventHandler(MouseEvent.MOUSE_PRESSED, event ->
+    	{
+    		if (event.isPrimaryButtonDown()) StartSelection(event.getX(), event.getY());
+    	});
+    	
+    	View.GridPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, event ->
+    	{
+    		if (event.isPrimaryButtonDown()) UpdateSelection(event.getX(), event.getY());
+    	});
+    	
+    	View.GridPane.addEventHandler(MouseEvent.MOUSE_RELEASED, event ->
+    	{    		
+    		HideSelection();
+    	});
+    }
+    
 }

@@ -18,34 +18,8 @@ public class GridView extends BasePaneView
     	
     	_selectionBox.InsertBoxToPane();
     	
-    	AddSelectionManipulator();
-    	
     	return viewPane; 
 	}
-    
-    private void AddSelectionManipulator()
-    {
-    	View.GridPane.addEventHandler(MouseEvent.MOUSE_PRESSED, event ->
-    	{
-    		if (event.isPrimaryButtonDown())
-    		{
-    			_selectionBox.StartSelection(event.getX(), event.getY());
-    		}
-    	});
-    	
-    	View.GridPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, event ->
-    	{
-    		if (event.isPrimaryButtonDown())
-    		{
-    			_selectionBox.UpdateSelection(event.getX(), event.getY());
-    		}
-    	});
-    	
-    	View.GridPane.addEventHandler(MouseEvent.MOUSE_RELEASED, event ->
-    	{    		
-    		_selectionBox.HideSelection();
-    	});
-    }
     
 	@Override
 	protected void DrawView() 
