@@ -1,13 +1,10 @@
 package CCMR.Views.Bases;
 
-import java.util.ArrayList;
-
-import CCMR.Models.Types.Vector2;
+import CCMR.Models.Types.*;
 import CCMR.Models.Values.Config;
 import CCMR.Models.Values.Data;
 import CCMR.Models.Values.View;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 public abstract class BasePaneView 
@@ -20,7 +17,7 @@ public abstract class BasePaneView
     protected double _zoomFactor, _newScale, _oldScale, _f, _dx, _dy;
     protected boolean _zoomCenteredOnMouse = false;  // Boolean flag to enable/disable zoom centered on mouse
     
-    public ArrayList<BaseVisualElement> Elements = new ArrayList<>();
+    public Row<BaseVisualElement> Elements = new Row<>();
 
     public Pane CreateView()
     {
@@ -44,7 +41,6 @@ public abstract class BasePaneView
         {
         	if (event.getTarget() instanceof Canvas || event.getTarget() instanceof Pane) 
             {
-	        	System.out.println("HELO");
 	            Data.LastMousePressedTime = System.currentTimeMillis();
 	            Data.LastMousePressedPosition = new Vector2(event.getX(), event.getY());
             }
@@ -61,14 +57,7 @@ public abstract class BasePaneView
 
                 if (elapsedTime < 200 && distance < 5)
                 {
-                    if (!View.SelectedElement.IsEmpty()) 
-                    {
-                        for (int i = View.SelectedElement.size() - 1; i >= 0; i--) 
-                        {
-                            View.SelectedElement.get(i).SetStrokeColor(Config.ElementColor);
-                            View.SelectedElement.remove(i);
-                        }
-                    }
+                	RemoveAllSelected();
                 }
             }
         });
@@ -84,6 +73,18 @@ public abstract class BasePaneView
         View.GridContext.setLineWidth(1.0);
     }
 
+    public void RemoveAllSelected()
+    {
+    	if (!View.SelectedElement.IsEmpty()) 
+        {
+            for (int i = View.SelectedElement.size() - 1; i >= 0; i--) 
+            {
+                View.SelectedElement.get(i).SetStrokeColor(Config.ElementColor);
+                View.SelectedElement.remove(i);
+            }
+        }
+    }
+    
     private void AddDragManipulator() 
     {
         View.GridPane.setOnMousePressed(event -> 
