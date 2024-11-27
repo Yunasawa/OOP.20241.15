@@ -44,11 +44,9 @@ public abstract class BasePaneView
         {
         	if (event.getTarget() instanceof Canvas || event.getTarget() instanceof Pane)
             {
-            	//System.out.println("Current: " + View.SelectedElement.stream().count());
             	
-                if (View.SelectedElement.stream().count() != 0) 
+                if (!View.SelectedElement.IsEmpty()) 
                 {
-                	System.out.println("YES");
                 	View.SelectedElement.get(0).SetStrokeColor(Config.ElementColor);
                 	View.SelectedElement.remove(0);
                 }

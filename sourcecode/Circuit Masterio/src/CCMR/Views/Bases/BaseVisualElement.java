@@ -140,12 +140,12 @@ public abstract class BaseVisualElement
     {     	
         shape.setOnMouseEntered(event ->
         { 
-        	if (View.SelectedElement.stream().count() == 0 || View.SelectedElement.get(0) != this) SetStrokeColor(Config.HoverColor);
+        	if (View.SelectedElement.IsEmpty() || View.SelectedElement.get(0) != this) SetStrokeColor(Config.HoverColor);
         }); 
         
         shape.setOnMouseExited(event -> 
         { 
-        	if (View.SelectedElement.stream().count() == 0 || View.SelectedElement.get(0) != this) SetStrokeColor(Config.ElementColor);
+        	if (View.SelectedElement.IsEmpty() || View.SelectedElement.get(0) != this) SetStrokeColor(Config.ElementColor);
             else SetStrokeColor(Config.SelectedColor);
         });
     }
@@ -178,9 +178,7 @@ public abstract class BaseVisualElement
 
     private void HandleElementSelection()
     {
-    	System.out.println(View.SelectedElement.stream().count());
-    	
-    	if (View.SelectedElement.stream().count() != 0)
+    	if (!View.SelectedElement.IsEmpty())
     	{
 	        if (View.SelectedElement.get(0) != null && View.SelectedElement.get(0) != this) 
 	        {
