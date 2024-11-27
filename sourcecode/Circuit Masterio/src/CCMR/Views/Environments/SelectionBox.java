@@ -35,31 +35,12 @@ public class SelectionBox
     }
     
     public void UpdateSelection(double x, double y)
-    {    	
-    	if (x >= _startPosition.X && y >= _startPosition.Y)
-    	{
-    		_box.setWidth(x - _startPosition.X);
-    		_box.setHeight(y - _startPosition.Y);
-    	}
-    	else if (x >= _startPosition.X && y < _startPosition.Y)
-    	{
-    		_box.setY(y);
-    		_box.setWidth(x - _startPosition.X);
-    		_box.setHeight(_startPosition.Y - y);
-    	}
-    	else if (x < _startPosition.X && y >= _startPosition.Y)
-    	{
-    		_box.setX(x);
-    		_box.setWidth(_startPosition.X - x);
-    		_box.setHeight(y - _startPosition.Y);
-    	}
-    	else if (x < _startPosition.X && y < _startPosition.Y)
-    	{
-    		_box.setX(x);
-    		_box.setY(y);
-    		_box.setWidth(_startPosition.X - x);
-    		_box.setHeight(_startPosition.Y - y);
-    	}
+    {    	    	
+    	if (x < _startPosition.X) _box.setX(x);
+    	_box.setWidth((_startPosition.X - x) * (x < _startPosition.X ? 1 : -1));
+    	
+    	if (y < _startPosition.Y) _box.setY(y);
+    	_box.setHeight((_startPosition.Y - y) * (y < _startPosition.Y ? 1 : -1));
     }
     
     public void HideSelection()
