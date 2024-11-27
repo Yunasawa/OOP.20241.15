@@ -5,6 +5,8 @@ import CCMR.Models.Values.Config;
 import CCMR.Models.Values.Data;
 import CCMR.Models.Values.View;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
 public abstract class BasePaneView 
@@ -27,6 +29,7 @@ public abstract class BasePaneView
         
         AddElementSelectionHandler();
         
+        AddKeyManipulator();
         AddDragManipulator();
         AddZoomManipulator();    
 
@@ -73,6 +76,17 @@ public abstract class BasePaneView
         View.GridContext.setLineWidth(1.0);
     }
 
+    public void RemoveSelectedElement()
+    {
+    	for (int i = View.SelectedElement.size() - 1; i >= 0; i--) 
+        {
+    		BaseVisualElement element = View.SelectedElement.get(i);
+    		
+    		View.GridPane.getChildren().removeAll(element.Shapes);
+    		View.GridView.Elements.remove(element);
+    		View.SelectedElement.remove(i);
+        }
+    }
     public void RemoveAllSelected()
     {
     	if (!View.SelectedElement.IsEmpty()) 
@@ -85,6 +99,18 @@ public abstract class BasePaneView
         }
     }
     
+    private void AddKeyManipulator()
+    {
+    	View.GridPane.setOnKeyReleased(event ->
+    	{
+    		System.out.println("HUASD");
+    		if (event.getCode() == KeyCode.DELETE) 
+    		{
+    			System.out.println("HOLA");
+    			RemoveSelectedElement();
+    		}
+    	});
+    }
     private void AddDragManipulator() 
     {
         View.GridPane.setOnMousePressed(event -> 
@@ -92,6 +118,11 @@ public abstract class BasePaneView
             if (event.isMiddleButtonDown()) 
             {
                 Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY());
+            }
+            if (event.isSecondaryButtonDown()) 
+            {
+            	System.out.println("HOLA");
+            	RemoveSelectedElement();
             }
             OnDragMousePressed();
         });
