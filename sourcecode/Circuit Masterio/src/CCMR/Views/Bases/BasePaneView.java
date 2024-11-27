@@ -38,19 +38,39 @@ public abstract class BasePaneView
         return View.GridPane;
     }
 
-    private void AddElementSelectionHandler()
+    private void AddElementSelectionHandler() 
     {
-        View.GridPane.setOnMouseClicked(event -> 
+        View.GridCanvas.setOnMousePressed(event -> 
         {
-        	if (event.getTarget() instanceof Canvas || event.getTarget() instanceof Pane)
+        	if (event.getTarget() instanceof Canvas || event.getTarget() instanceof Pane) 
             {
-            	
-                if (!View.SelectedElement.IsEmpty()) 
+	        	System.out.println("HELO");
+	            Data.LastMousePressedTime = System.currentTimeMillis();
+	            Data.LastMousePressedPosition = new Vector2(event.getX(), event.getY());
+            }
+        });
+        
+        View.GridCanvas.setOnMouseReleased(event -> 
+        {
+            if (event.getTarget() instanceof Canvas || event.getTarget() instanceof Pane) 
+            {
+                double elapsedTime = System.currentTimeMillis() - Data.LastMousePressedTime;
+
+                Vector2 releasePosition = new Vector2(event.getX(), event.getY());
+                double distance = releasePosition.Distance(Data.LastMousePressedPosition);
+
+                if (elapsedTime < 200 && distance < 5)
                 {
-                	View.SelectedElement.get(0).SetStrokeColor(Config.ElementColor);
-                	View.SelectedElement.remove(0);
+                    if (!View.SelectedElement.IsEmpty()) 
+                    {
+                        for (int i = View.SelectedElement.size() - 1; i >= 0; i--) 
+                        {
+                            View.SelectedElement.get(i).SetStrokeColor(Config.ElementColor);
+                            View.SelectedElement.remove(i);
+                        }
+                    }
                 }
-            } 
+            }
         });
     }
     

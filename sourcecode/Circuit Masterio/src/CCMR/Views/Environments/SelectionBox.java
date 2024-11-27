@@ -99,8 +99,18 @@ public class SelectionBox
                                  selectionY < elementBottom &&
                                  selectionY + selectionHeight > elementTop;
 
-            if (intersects) element.SetStrokeColor(Color.RED);
-            else element.SetStrokeColor(Config.ElementColor);
+            if (intersects) 
+            {
+            	element.SetStrokeColor(Config.SelectedColor);
+            	if (!View.SelectedElement.contains(element)) View.SelectedElement.Add(element);
+            }
+            else 
+            {
+            	element.SetStrokeColor(Config.ElementColor);
+            	if (View.SelectedElement.contains(element)) View.SelectedElement.Remove(element);
+            }
         }
+        
+        System.out.println(View.SelectedElement.Count());
     }
 }
