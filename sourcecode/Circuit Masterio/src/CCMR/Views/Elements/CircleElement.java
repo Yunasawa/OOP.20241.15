@@ -7,7 +7,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
-public class CircleElement extends VisualElement<Shape> 
+public class CircleElement extends VisualElement
 {
     @Override
     protected void CreateShapes() 
@@ -17,10 +17,7 @@ public class CircleElement extends VisualElement<Shape>
         Line firstLine = new Line(50, -50, 50, 0);
         Line secondLine = new Line(50, 150, 50, 100);
         
-        shapes.add(outerCircle);
-        shapes.add(innerCircle);
-        shapes.add(firstLine);
-        shapes.add(secondLine);
+        AddShapes(outerCircle, innerCircle, firstLine, secondLine);
         
         Transform.Size = new Vector2(2, 4); // Size in grid units
     }
@@ -29,7 +26,7 @@ public class CircleElement extends VisualElement<Shape>
     protected void UpdateShapeSize(Shape shape) 
     {
         // Use the index to identify the outer and inner circles
-        int index = shapes.indexOf(shape);
+        int index = _shapes.indexOf(shape);
         if (index == 0) 
         {
         	((Circle)shape).setCenterX(50 * Data.ScaleValue);

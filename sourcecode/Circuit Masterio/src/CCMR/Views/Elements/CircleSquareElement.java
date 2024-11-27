@@ -7,7 +7,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
-public class CircleSquareElement extends VisualElement<Shape> 
+public class CircleSquareElement extends VisualElement 
 {
     @Override
     protected void CreateShapes() 
@@ -15,8 +15,7 @@ public class CircleSquareElement extends VisualElement<Shape>
         Circle circle = new Circle(50, 50, 50); // Example circle
         Rectangle square = new Rectangle(50, 50, 100, 100); // Example square
 
-        shapes.add(circle);
-        shapes.add(square);
+        AddShapes(circle, square);
 
         Transform.Size = new Vector2(3, 3); // Size in grid units
     }
