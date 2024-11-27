@@ -7,6 +7,7 @@ import CCMR.Models.Values.Config;
 import CCMR.Models.Values.Data;
 import CCMR.Models.Values.View;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 public abstract class BasePaneView 
@@ -37,21 +38,42 @@ public abstract class BasePaneView
         return View.GridPane;
     }
 
-    private void AddElementSelectionHandler()
+    private void AddElementSelectionHandler() 
     {
-        View.GridPane.setOnMouseClicked(event -> 
+        View.GridCanvas.setOnMousePressed(event -> 
         {
-            if (event.getTarget() instanceof Canvas)
+        	if (event.getTarget() instanceof Canvas || event.getTarget() instanceof Pane) 
             {
-                if (View.SelectedElement != null) 
+	        	System.out.println("HELO");
+	            Data.LastMousePressedTime = System.currentTimeMillis();
+	            Data.LastMousePressedPosition = new Vector2(event.getX(), event.getY());
+            }
+        });
+        
+        View.GridCanvas.setOnMouseReleased(event -> 
+        {
+            if (event.getTarget() instanceof Canvas || event.getTarget() instanceof Pane) 
+            {
+                double elapsedTime = System.currentTimeMillis() - Data.LastMousePressedTime;
+
+                Vector2 releasePosition = new Vector2(event.getX(), event.getY());
+                double distance = releasePosition.Distance(Data.LastMousePressedPosition);
+
+                if (elapsedTime < 200 && distance < 5)
                 {
-                    View.SelectedElement.SetStrokeColor(Config.ElementColor);
-                    View.SelectedElement = null;
+                    if (!View.SelectedElement.IsEmpty()) 
+                    {
+                        for (int i = View.SelectedElement.size() - 1; i >= 0; i--) 
+                        {
+                            View.SelectedElement.get(i).SetStrokeColor(Config.ElementColor);
+                            View.SelectedElement.remove(i);
+                        }
+                    }
                 }
             }
         });
     }
-
+    
     protected void DrawView() {}
 
     private void CreateGraphicsContext() 

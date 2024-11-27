@@ -3,49 +3,21 @@ package CCMR.Views.Environments;
 import CCMR.Models.Definitions.*;
 import CCMR.Models.Values.*;
 import CCMR.Views.Bases.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 public class GridView extends BasePaneView
 {
     private GridType _gridType = GridType.Dot;
-    private SelectionBox _selectionBox = new SelectionBox();
     
     @Override 
     public Pane CreateView() 
     { 
     	Pane viewPane = super.CreateView(); 
     	
-    	_selectionBox.InsertBoxToPane();
-    	
-    	AddSelectionManipulator();
+    	View.SelectionBox.InsertBoxToPane();
     	
     	return viewPane; 
 	}
-    
-    private void AddSelectionManipulator()
-    {
-    	View.GridPane.addEventHandler(MouseEvent.MOUSE_PRESSED, event ->
-    	{
-    		if (event.isPrimaryButtonDown())
-    		{
-    			_selectionBox.StartSelection(event.getX(), event.getY());
-    		}
-    	});
-    	
-    	View.GridPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, event ->
-    	{
-    		if (event.isPrimaryButtonDown())
-    		{
-    			_selectionBox.UpdateSelection(event.getX(), event.getY());
-    		}
-    	});
-    	
-    	View.GridPane.addEventHandler(MouseEvent.MOUSE_RELEASED, event ->
-    	{    		
-    		_selectionBox.HideSelection();
-    	});
-    }
     
 	@Override
 	protected void DrawView() 

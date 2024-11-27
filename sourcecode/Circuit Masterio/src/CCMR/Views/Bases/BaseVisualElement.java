@@ -67,6 +67,8 @@ public abstract class BaseVisualElement
         { 
             if (event.isPrimaryButtonDown()) 
             { 
+            	Data.IsDraggingElement = true;
+            	
                 Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY()); 
                 Data.MouseDelta.Set(event.getSceneX() - shape.getTranslateX(), event.getSceneY() - shape.getTranslateY()); 
                 _oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y); // Clone the old position
@@ -108,6 +110,8 @@ public abstract class BaseVisualElement
 
         shape.setOnMouseReleased(event -> 
         {
+        	Data.IsDraggingElement = false;
+        	
             HandleElementSelection();
 
             // Check for collisions with other elements
@@ -133,15 +137,15 @@ public abstract class BaseVisualElement
     }
 
     private void AddHoverEventHandlers(Shape shape) 
-    { 
-        shape.setOnMouseEntered(event -> 
+    {     	
+        shape.setOnMouseEntered(event ->
         { 
-            if (View.SelectedElement != this) SetStrokeColor(Config.HoverColor);
+        	if (View.SelectedElement.IsEmpty() || !View.SelectedElement.contains(this)) SetStrokeColor(Config.HoverColor);
         }); 
         
         shape.setOnMouseExited(event -> 
         { 
-            if (View.SelectedElement != this) SetStrokeColor(Config.ElementColor);
+        	if (View.SelectedElement.IsEmpty() || !View.SelectedElement.contains(this)) SetStrokeColor(Config.ElementColor);
             else SetStrokeColor(Config.SelectedColor);
         });
     }
@@ -172,13 +176,25 @@ public abstract class BaseVisualElement
         View.GridPane.getChildren().addAll(_shapes);
     }
 
-    private void HandleElementSelection() 
+    private void HandleElementSelection()
     {
-        if (View.SelectedElement != null && View.SelectedElement != this) 
-        {
-            View.SelectedElement.SetStrokeColor(Config.ElementColor);
+    	if (View.SelectedElement.Count() == 1)
+    	{
+	        if (View.SelectedElement.get(0) != this) 
+	        {
+	            View.SelectedElement.get(0).SetStrokeColor(Config.ElementColor);
+	            View.SelectedElement.remove(0);
+	        }
         }
-        View.SelectedElement = this;
+    	else if (View.SelectedElement.Count() > 1)
+    	{
+            for (int i = View.SelectedElement.size() - 1; i >= 0; i--) 
+            {
+                View.SelectedElement.get(i).SetStrokeColor(Config.ElementColor);
+                View.SelectedElement.remove(i);
+            }
+    	}
+        View.SelectedElement.Add(this);
     }
 
     public boolean CheckCollision(BaseVisualElement other) 
