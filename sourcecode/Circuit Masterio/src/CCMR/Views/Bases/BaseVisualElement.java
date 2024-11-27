@@ -138,7 +138,6 @@ public abstract class BaseVisualElement
         	
             HandleElementSelection();
 
-            // Check for collisions with other elements
             boolean collisionDetected = false;
             for (BaseVisualElement other : View.GridView.Elements) 
             {
@@ -149,7 +148,6 @@ public abstract class BaseVisualElement
                 }
             }
 
-            // Restore the old position if dropped inside another element, otherwise set the color to SelectedColor
             if (collisionDetected) 
             {
                 Transform.Position = _oldPosition;
@@ -210,10 +208,6 @@ public abstract class BaseVisualElement
 	            View.SelectedElement.remove(0);
 	        }
         }
-    	else if (View.SelectedElement.Count() > 1)
-    	{
-            View.GridView.RemoveAllSelected();
-    	}
         View.SelectedElement.Add(this);
     }
 
