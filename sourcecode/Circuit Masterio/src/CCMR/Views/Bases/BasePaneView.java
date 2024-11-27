@@ -28,7 +28,6 @@ public abstract class BasePaneView
         View.GridPane.getChildren().add(View.GridCanvas);
 
         CreateGraphicsContext();
-        InitializeElements();
         
         AddElementSelectionHandler();
         
@@ -38,21 +37,6 @@ public abstract class BasePaneView
         DrawView();
 
         return View.GridPane;
-    }
-
-    private void InitializeElements()
-    {
-        //Elements.add(new CircleElement());
-        //Elements.add(new SquareElement());
-        //Elements.add(new CircleSquareElement());
-    	
-    	Elements.add(new Bulb());
-    	
-        for (VisualElement element : Elements) 
-        {
-            element.UpdatePosition();
-            element.AddToPane();
-        }
     }
 
     private void AddElementSelectionHandler()

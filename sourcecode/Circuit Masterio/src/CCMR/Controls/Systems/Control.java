@@ -3,6 +3,7 @@
 package CCMR.Controls.Systems;
 
 import CCMR.Models.Values.View;
+import CCMR.Views.Elements.Bulb;
 import CCMR.Views.Environments.*;
 import javafx.stage.Stage;
 import javafx.application.Application;
@@ -26,5 +27,7 @@ public class Control extends Application
         primaryStage.setTitle("Circuit Masterio - Yunsawa Studio");
         primaryStage.setMaximized(true);
         primaryStage.show();
+        
+        Bulb buld = new Bulb();
 	}
 }
