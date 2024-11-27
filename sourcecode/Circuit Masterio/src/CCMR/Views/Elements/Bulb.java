@@ -1,11 +1,11 @@
 package CCMR.Views.Elements;
 
 import CCMR.Models.Types.Vector2;
-import CCMR.Views.Environments.*;
+import CCMR.Views.Bases.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
-public class Bulb extends VisualElement
+public class Bulb extends BaseVisualElement
 {
 	@Override
 	protected void CreateShapes() 
