@@ -15,7 +15,7 @@ import java.util.Map;
 public abstract class BaseVisualElement
 {
     public Transform Transform = new Transform();
-    protected List<Shape> _shapes;
+    public List<Shape> Shapes = new ArrayList<>();
 
     private Vector2 _oldPosition;
     private Vector2 _distancePosition = new Vector2();
@@ -24,7 +24,6 @@ public abstract class BaseVisualElement
 
     public BaseVisualElement()
     {
-        _shapes = new ArrayList<>();
         CreateShapes();
         InitializeShapes();
         
@@ -39,14 +38,14 @@ public abstract class BaseVisualElement
     {
     	for (Shape shape : shapes) 
     	{
-    		_shapes.add(shape);
+    		Shapes.add(shape);
     		_maps.put(shape, MShape.GetScale(shape));
     	}
     }
 
     private void InitializeShapes() 
     {
-        for (Shape shape : _shapes) 
+        for (Shape shape : Shapes) 
         {
         	StyleShape(shape);
         	
@@ -107,8 +106,6 @@ public abstract class BaseVisualElement
 	                	element.UpdatePosition();
 	                }
                 }
-                
-                System.out.println(View.SelectedElement.Count());
                 
                 UpdatePosition();
 
@@ -174,7 +171,7 @@ public abstract class BaseVisualElement
 
     public void UpdateScaleValue() 
     {
-        for (Shape shape : _shapes) 
+        for (Shape shape : Shapes) 
         {
             shape.setStrokeWidth(Data.StrokeWidth);
             MShape.SetScale(shape, _maps.get(shape), Data.ScaleValue);
@@ -186,7 +183,7 @@ public abstract class BaseVisualElement
         double adjustedCenterX = (Transform.Position.X * Config.CellSize - Data.GridOffset.X) * Data.ScaleValue;
         double adjustedCenterY = (Transform.Position.Y * Config.CellSize - Data.GridOffset.Y) * Data.ScaleValue;
 
-        for (Shape shape : _shapes) 
+        for (Shape shape : Shapes) 
         {
             shape.setTranslateX(adjustedCenterX);
             shape.setTranslateY(adjustedCenterY);
@@ -195,7 +192,7 @@ public abstract class BaseVisualElement
     
     public void AddToPane() 
     {
-        View.GridPane.getChildren().addAll(_shapes);
+        View.GridPane.getChildren().addAll(Shapes);
     }
 
     private void HandleElementSelection()
@@ -228,6 +225,6 @@ public abstract class BaseVisualElement
 
     public void SetStrokeColor(Color color)
     {
-    	for (Shape shape : _shapes) shape.setStroke(color);
+    	for (Shape shape : Shapes) shape.setStroke(color);
     }
 }
