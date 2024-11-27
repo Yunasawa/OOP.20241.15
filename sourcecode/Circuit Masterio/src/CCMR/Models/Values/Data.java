@@ -12,4 +12,7 @@ public class Data
 	
 	// Visual element values
 	public static double StrokeWidth = 5;
+	
+	// Function values
+	public static boolean IsDraggingElement = false;
 }

@@ -67,6 +67,8 @@ public abstract class BaseVisualElement
         { 
             if (event.isPrimaryButtonDown()) 
             { 
+            	Data.IsDraggingElement = true;
+            	
                 Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY()); 
                 Data.MouseDelta.Set(event.getSceneX() - shape.getTranslateX(), event.getSceneY() - shape.getTranslateY()); 
                 _oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y); // Clone the old position
@@ -108,6 +110,8 @@ public abstract class BaseVisualElement
 
         shape.setOnMouseReleased(event -> 
         {
+        	Data.IsDraggingElement = false;
+        	
             HandleElementSelection();
 
             // Check for collisions with other elements
