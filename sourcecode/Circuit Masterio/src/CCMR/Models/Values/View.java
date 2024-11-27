@@ -3,6 +3,7 @@ package CCMR.Models.Values;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
+import CCMR.Models.Types.Row;
 import CCMR.Views.Bases.BaseVisualElement;
 import CCMR.Views.Environments.*;
 
@@ -16,5 +17,5 @@ public class View
 	
 	// Function
 	public static SelectionBox SelectionBox = new SelectionBox();
-	public static BaseVisualElement SelectedElement;
+	public static Row<BaseVisualElement> SelectedElement = new Row<>();
 }

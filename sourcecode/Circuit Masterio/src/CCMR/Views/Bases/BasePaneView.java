@@ -7,6 +7,7 @@ import CCMR.Models.Values.Config;
 import CCMR.Models.Values.Data;
 import CCMR.Models.Values.View;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 public abstract class BasePaneView 
@@ -41,17 +42,20 @@ public abstract class BasePaneView
     {
         View.GridPane.setOnMouseClicked(event -> 
         {
-            if (event.getTarget() instanceof Canvas)
+        	if (event.getTarget() instanceof Canvas || event.getTarget() instanceof Pane)
             {
-                if (View.SelectedElement != null) 
+            	//System.out.println("Current: " + View.SelectedElement.stream().count());
+            	
+                if (View.SelectedElement.stream().count() != 0) 
                 {
-                    View.SelectedElement.SetStrokeColor(Config.ElementColor);
-                    View.SelectedElement = null;
+                	System.out.println("YES");
+                	View.SelectedElement.get(0).SetStrokeColor(Config.ElementColor);
+                	View.SelectedElement.remove(0);
                 }
-            }
+            } 
         });
     }
-
+    
     protected void DrawView() {}
 
     private void CreateGraphicsContext() 
