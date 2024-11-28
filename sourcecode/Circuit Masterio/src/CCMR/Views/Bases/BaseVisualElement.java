@@ -5,6 +5,8 @@ import CCMR.Models.Definitions.*;
 import CCMR.Models.Types.Row;
 import CCMR.Models.Types.Vector2;
 import CCMR.Models.Values.*;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
@@ -26,6 +28,18 @@ public abstract class BaseVisualElement
     {
         CreateShapes();
         InitializeShapes();
+        
+        /*
+        Rectangle eventCatcher = new Rectangle(0, 0, Transform.Size.X * Config.CellSize, Transform.Size.Y * Config.CellSize);
+        
+        eventCatcher.setStroke(Color.TRANSPARENT);
+        eventCatcher.setFill(Color.TRANSPARENT);
+        eventCatcher.setStrokeWidth(0);;
+        AddShapeEventHandlers(eventCatcher);
+        AddHoverEventHandlers(eventCatcher);
+        
+        AddShapes(eventCatcher);
+        */
         
         View.GridView.Elements.add(this);
         this.UpdatePosition();
@@ -50,7 +64,7 @@ public abstract class BaseVisualElement
         	StyleShape(shape);
         	
             AddShapeEventHandlers(shape);
-            AddHoverEventHandlers(shape);
+            if (!(shape instanceof Line)) AddHoverEventHandlers(shape);
         }
     }
     
@@ -61,7 +75,7 @@ public abstract class BaseVisualElement
         shape.setStrokeWidth(Data.StrokeWidth);
     }
 
-    private void AddShapeEventHandlers(Shape shape) 
+    protected void AddShapeEventHandlers(Shape shape) 
     { 
         shape.setOnMousePressed(event -> 
         { 
@@ -154,8 +168,7 @@ public abstract class BaseVisualElement
             SetStrokeColor(Config.SelectedColor);
         });
     }
-
-    private void AddHoverEventHandlers(Shape shape) 
+    protected void AddHoverEventHandlers(Shape shape) 
     {     	
         shape.setOnMouseEntered(event ->
         { 
@@ -168,7 +181,19 @@ public abstract class BaseVisualElement
             else SetStrokeColor(Config.SelectedColor);
         });
     }
-
+    protected void AddToggleEventHandlers(Shape shape)
+    {
+        shape.setOnMouseEntered(event ->
+        {
+        	shape.setStroke(Color.AZURE);
+        }); 
+        
+        shape.setOnMouseExited(event -> 
+        { 
+        	shape.setStroke(Config.ElementColor);
+        });
+    }
+    
     public void UpdateScaleValue() 
     {
         for (Shape shape : Shapes) 
