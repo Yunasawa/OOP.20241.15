@@ -196,6 +196,8 @@ public abstract class BaseVisualElement
         {
             shape.setTranslateX(adjustedCenterX);
             shape.setTranslateY(adjustedCenterY);
+            
+            if (shape instanceof ConnectionNode) ((ConnectionNode)shape).UpdateWireLine();
         }
     }
     
