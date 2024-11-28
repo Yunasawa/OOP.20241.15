@@ -187,12 +187,7 @@ public abstract class BaseVisualElement
         for (Shape shape : Shapes) 
         {
             shape.setStrokeWidth(Data.StrokeWidth);
-            if (shape instanceof WireLine)
-            {
-            	//MShape.SetScale(shape, _maps.get(shape), Data.ScaleValue);
-            	((WireLine)shape).UpdateScale();
-            }
-            else MShape.SetScale(shape, _maps.get(shape), Data.ScaleValue);
+            MShape.SetScale(shape, _maps.get(shape), Data.ScaleValue);
         }
     }
 
@@ -205,8 +200,6 @@ public abstract class BaseVisualElement
         {
             shape.setTranslateX(adjustedCenterX);
             shape.setTranslateY(adjustedCenterY);
-            
-            if (shape instanceof ConnectionNode) ((ConnectionNode)shape).UpdateWirePoint();
         }
     }
     

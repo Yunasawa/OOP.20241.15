@@ -21,4 +21,5 @@ public class View
 	public static SelectionBox SelectionBox = new SelectionBox();
 	public static Row<BaseVisualElement> SelectedElement = new Row<>();
 	public static ConnectionNode SelectedNode;
+	public static WireLine WireLine;
 }
