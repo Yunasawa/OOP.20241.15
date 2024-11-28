@@ -29,6 +29,7 @@ public class Control extends Application
         primaryStage.show();
         
         Bulb buld1 = new Bulb();
+        Bulb buld2 = new Bulb();
         DCVoltage dcVoltage = new DCVoltage();
 	}
 }

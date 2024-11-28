@@ -8,7 +8,7 @@ import javafx.scene.shape.Circle;
 public class ConnectionNode extends Circle
 {
 	public BaseVisualElement Element;
-	private WireLine _wireLine;
+	public WireLine WireLine;
 	
 	public ConnectionNode(BaseVisualElement element, double x, double y)
 	{
@@ -58,10 +58,15 @@ public class ConnectionNode extends Circle
     {
     	if (endNode.Element == this.Element) return;
     	
-    	_wireLine = new WireLine(this, endNode);
-    }
-    private void UpdateWireLine()
-    {
+    	WireLine = new WireLine(this, endNode);
     	
+    	View.SelectedNode.SetColor(Config.ElementColor)
+;    	View.SelectedNode = null;
+    }
+    
+    public void UpdateWireLine()
+    {
+    	//MDebug.Log(this.getCenterX() + ", " + this.getCenterY());
+    	if (WireLine != null) WireLine.ComputeGridPath();
     }
 }
