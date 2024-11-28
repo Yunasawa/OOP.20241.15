@@ -1,13 +1,13 @@
 package CCMR.Views.Bases;
 
 import CCMR.Controls.Utilities.MShape;
+import CCMR.Controls.Utilities.Utilities;
 import CCMR.Models.Definitions.*;
 import CCMR.Models.Types.Row;
 import CCMR.Models.Types.Vector2;
 import CCMR.Models.Values.*;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
+import CCMR.Views.Environments.*;
+import javafx.scene.shape.*;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,8 +29,8 @@ public abstract class BaseVisualElement
         CreateShapes();
         InitializeShapes();
         
-        /*
-        Rectangle eventCatcher = new Rectangle(0, 0, Transform.Size.X * Config.CellSize, Transform.Size.Y * Config.CellSize);
+        
+        Rectangle eventCatcher = new Rectangle(5, 5, Transform.Size.X * Config.CellSize - 10, Transform.Size.Y * Config.CellSize - 10);
         
         eventCatcher.setStroke(Color.TRANSPARENT);
         eventCatcher.setFill(Color.TRANSPARENT);
@@ -39,7 +39,7 @@ public abstract class BaseVisualElement
         AddHoverEventHandlers(eventCatcher);
         
         AddShapes(eventCatcher);
-        */
+        
         
         View.GridView.Elements.add(this);
         this.UpdatePosition();
@@ -63,13 +63,15 @@ public abstract class BaseVisualElement
         {
         	StyleShape(shape);
         	
-            AddShapeEventHandlers(shape);
-            if (!(shape instanceof Line)) AddHoverEventHandlers(shape);
+        	if (!(shape instanceof ConnectionNode)) AddShapeEventHandlers(shape);
+            if (!(shape instanceof ConnectionNode)) AddHoverEventHandlers(shape);
         }
     }
     
     protected void StyleShape(Shape shape)
     {
+    	if (shape instanceof ConnectionNode) return; 
+    	
         shape.setStroke(Config.ElementColor);
         shape.setFill(Color.TRANSPARENT);
         shape.setStrokeWidth(Data.StrokeWidth);
@@ -181,18 +183,6 @@ public abstract class BaseVisualElement
             else SetStrokeColor(Config.SelectedColor);
         });
     }
-    protected void AddToggleEventHandlers(Shape shape)
-    {
-        shape.setOnMouseEntered(event ->
-        {
-        	shape.setStroke(Color.AZURE);
-        }); 
-        
-        shape.setOnMouseExited(event -> 
-        { 
-        	shape.setStroke(Config.ElementColor);
-        });
-    }
     
     public void UpdateScaleValue() 
     {
@@ -250,6 +240,11 @@ public abstract class BaseVisualElement
 
     public void SetStrokeColor(Color color)
     {
-    	for (Shape shape : Shapes) shape.setStroke(color);
+    	for (Shape shape : Shapes)
+    	{
+    		if (shape instanceof ConnectionNode) continue;
+    		
+    		shape.setStroke(color);
+    	}
     }
 }
