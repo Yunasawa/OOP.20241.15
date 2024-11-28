@@ -42,12 +42,16 @@ public abstract class BaseVisualElement
 
     protected abstract void CreateShapes();
     
-    protected void AddShapes(Shape... shapes)
+    public void AddShapes(Shape... shapes)
     {
-    	for (Shape shape : shapes) 
+    	for (Shape shape : shapes)
     	{
     		Shapes.add(shape);
-    		_maps.put(shape, MShape.GetScale(shape));
+    		if (shape instanceof WireLine) 
+    		{
+    			//_maps.put(shape, MShape.GetScale(shape));
+    		}
+    		else _maps.put(shape, MShape.GetScale(shape));
     	}
     }
 
@@ -183,7 +187,12 @@ public abstract class BaseVisualElement
         for (Shape shape : Shapes) 
         {
             shape.setStrokeWidth(Data.StrokeWidth);
-            MShape.SetScale(shape, _maps.get(shape), Data.ScaleValue);
+            if (shape instanceof WireLine)
+            {
+            	//MShape.SetScale(shape, _maps.get(shape), Data.ScaleValue);
+            	((WireLine)shape).UpdateScale();
+            }
+            else MShape.SetScale(shape, _maps.get(shape), Data.ScaleValue);
         }
     }
 
@@ -197,7 +206,7 @@ public abstract class BaseVisualElement
             shape.setTranslateX(adjustedCenterX);
             shape.setTranslateY(adjustedCenterY);
             
-            if (shape instanceof ConnectionNode) ((ConnectionNode)shape).UpdateWireLine();
+            if (shape instanceof ConnectionNode) ((ConnectionNode)shape).UpdateWirePoint();
         }
     }
     

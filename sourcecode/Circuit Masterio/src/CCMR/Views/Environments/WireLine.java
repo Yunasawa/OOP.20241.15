@@ -1,7 +1,9 @@
 package CCMR.Views.Environments;
 
+import CCMR.Controls.Utilities.MDebug;
 import CCMR.Controls.Utilities.MFormula;
 import CCMR.Models.Types.*;
+import CCMR.Models.Values.Data;
 import CCMR.Models.Values.View;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
@@ -12,23 +14,38 @@ public class WireLine extends Polyline
 	private ConnectionNode _endNode;
 	private boolean _hasWire = false;
 	
-	public WireLine(ConnectionNode startNode, ConnectionNode endNode)
+	public WireLine(ConnectionNode startNode, Vector2 endPosition)
 	{
-		endNode.WireLine = this;
-		
 		this._startNode = startNode;
-		this._endNode = endNode;
 		
 		this.setStroke(Color.GRAY);
 		this.setStrokeWidth(5);
 		
+		ComputeGridPath(endPosition);
+	}
+
+	public void UpdateNode(ConnectionNode endNode)
+	{
+		endNode.WireLine = this;
+		this._endNode = endNode;
+		
 		ComputeGridPath();
 	}
 	
-	public void ComputeGridPath()
+    public void UpdateScale()
+    {
+		setStrokeWidth(Data.StrokeWidth);
+		ComputeGridPath();
+    }
+	
+	public void RemoveWire()
 	{
-		Vector2 startPosition = MFormula.GetWorldPosition(new Vector2(_startNode.getCenterX(), _startNode.getCenterY()), _startNode.Element.Transform.Position);
-		Vector2 endPosition = MFormula.GetWorldPosition(new Vector2(_endNode.getCenterX(), _endNode.getCenterY()), _endNode.Element.Transform.Position);
+		View.GridPane.getChildren().remove(this);
+	}
+	
+	public void ComputeGridPath(Vector2 endPosition)
+	{
+		Vector2 startPosition = MFormula.GetWorldPosition(new Vector2(_startNode.getCenterX(), _startNode.getCenterY()), _startNode.Element.Transform.Position).Multiply(Data.ScaleValue);
 		
 		this.getPoints().clear();
 		this.getPoints().addAll(startPosition.X, startPosition.Y);
@@ -43,5 +60,11 @@ public class WireLine extends Polyline
 			View.GridPane.getChildren().add(1, this);
 			_hasWire = true;
 		}
+	}
+	public void ComputeGridPath()
+	{
+		if (_endNode == null) return;
+		
+		ComputeGridPath(MFormula.GetWorldPosition(new Vector2(_endNode.getCenterX(), _endNode.getCenterY()), _endNode.Element.Transform.Position).Multiply(Data.ScaleValue));
 	}
 }
