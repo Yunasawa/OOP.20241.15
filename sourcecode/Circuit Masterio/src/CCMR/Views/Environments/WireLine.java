@@ -1,49 +1,56 @@
 package CCMR.Views.Environments;
 
-import CCMR.Models.Values.Config;
-import CCMR.Models.Values.Data;
-import CCMR.Models.Values.View;
-import CCMR.Models.Types.Vector2;
-import javafx.scene.paint.Color;
+import CCMR.Models.Values.*;
+import CCMR.Controls.Utilities.MFormula;
+import CCMR.Models.Types.*;
 import javafx.scene.shape.Polyline;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class WireLine extends Polyline {
-    private List<Vector2> gridPoints;
+public class WireLine extends Polyline 
+{
+	public Row<Vector2> Points = new Row<>();
+    public ConnectionNode Node1;
+    public ConnectionNode Node2;
 
-    public WireLine() {
-        this.gridPoints = new ArrayList<>();
-        this.gridPoints.add(new Vector2(9, 2));   // Example grid points
-        this.gridPoints.add(new Vector2(6, 5));
-        this.gridPoints.add(new Vector2(8, 10));
-
-        syncPoints();
-
+    public WireLine(ConnectionNode node1)
+    {
+    	Node1 = node1;
+    	Points.Add(MFormula.GetWorldPosition(node1.Position, node1.Element.Transform.Position));
+        
         this.setStrokeWidth(Data.StrokeWidth);
         this.setStroke(Config.WireColor);
 
-        View.GridPane.getChildren().add(1, this);
+        View.GridView.AddShapes(1, this);
     }
 
-    private void syncPoints() {
+    public void ConnectNode(ConnectionNode node2)
+    {
+    	Node2 = node2;
+    	Points.add(MFormula.GetWorldPosition(node2.Position, node2.Element.Transform.Position));
+    	
+    	syncPoints();
+    }
+    
+    private void syncPoints()
+    {
         this.getPoints().clear();
-        for (Vector2 point : gridPoints) {
-            double x = (point.X * Config.CellSize - Data.GridOffset.X) * Data.ScaleValue;
-            double y = (point.Y * Config.CellSize - Data.GridOffset.Y) * Data.ScaleValue;
+        for (Vector2 point : Points)
+        {
+            double x = (point.X - Data.GridOffset.X) * Data.ScaleValue;//(point.X * Config.CellSize - Data.GridOffset.X) * Data.ScaleValue;
+            double y = (point.Y - Data.GridOffset.Y) * Data.ScaleValue;//(point.Y * Config.CellSize - Data.GridOffset.Y) * Data.ScaleValue;
             this.getPoints().addAll(x, y);
         }
     }
 
-    public void updateScale(double newScaleValue) {
-        Data.ScaleValue = newScaleValue;
+    public void updateScale() 
+    {
         syncPoints();
         this.setStrokeWidth(Data.StrokeWidth);
     }
 
-    public void updateOffset(Vector2 newGridOffset) {
-        Data.GridOffset = newGridOffset;
+    public void updateOffset() 
+    {
         syncPoints();
     }
 }

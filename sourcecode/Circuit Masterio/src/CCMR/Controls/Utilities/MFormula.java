@@ -7,6 +7,6 @@ public class MFormula
 {
 	public static Vector2 GetWorldPosition(Vector2 position, Vector2 parent)
 	{
-		return position.Add(parent.Multiply(Config.CellSize)).Subtract(Data.GridOffset);
+		return position.Add(parent.Multiply(Config.CellSize));//.Subtract(Data.GridOffset);
 	}
 }
