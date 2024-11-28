@@ -3,9 +3,9 @@ package CCMR.Views.Environments;
 import CCMR.Models.Definitions.*;
 import CCMR.Models.Values.*;
 import CCMR.Views.Bases.*;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Shape;
 
 public class GridView extends BasePaneView
 {
@@ -19,8 +19,7 @@ public class GridView extends BasePaneView
     	View.SelectionBox.InsertBoxToPane();
     	
     	return viewPane; 
-	}
-    
+	}    
 	@Override
 	protected void DrawView() 
     {
@@ -57,8 +56,7 @@ public class GridView extends BasePaneView
         }
 
         View.GridContext.restore();
-    }
-	
+    }	
     public void AddKeyManipulator()
     {
 		View.GridScene.setOnKeyPressed(event ->
@@ -71,6 +69,32 @@ public class GridView extends BasePaneView
 		});
     }
 	
+    public void AddShapes(Shape... shapes)
+    {
+    	for (Shape shape : shapes)
+    	{
+        	if (View.GridPane.getChildren().contains(shape)) continue;
+        	View.GridPane.getChildren().add(shape);
+    	}
+    }
+    public void AddShapes(int index, Shape... shapes)
+    {
+    	for (Shape shape : shapes)
+    	{
+        	if (View.GridPane.getChildren().contains(shape)) continue;
+        	View.GridPane.getChildren().add(index, shape);	
+    	}
+    }
+    public void RemoveShapes(Shape...shapes)
+    {
+    	for (Shape shape : shapes)
+    	{
+        	if (!View.GridPane.getChildren().contains(shape)) continue;
+        	
+        	View.GridPane.getChildren().remove(shape);	
+    	}
+    }
+    
 	@Override
 	protected void OnDragMouseDragged()  { DrawView(); }
 	@Override

@@ -32,7 +32,5 @@ public class Control extends Application
         Bulb buld1 = new Bulb();
         Bulb buld2 = new Bulb();
         DCVoltage dcVoltage = new DCVoltage();
-        
-        View.WireLine = new WireLine();
 	}
 }
