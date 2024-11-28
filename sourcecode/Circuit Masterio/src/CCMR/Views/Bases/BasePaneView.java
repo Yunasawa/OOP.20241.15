@@ -4,6 +4,7 @@ import CCMR.Models.Types.*;
 import CCMR.Models.Values.Config;
 import CCMR.Models.Values.Data;
 import CCMR.Models.Values.View;
+import CCMR.Views.Environments.WireLine;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
 
@@ -125,6 +126,8 @@ public abstract class BasePaneView
 
                 //View.WireLine.updateOffset(Data.GridOffset);
                 
+                for (WireLine wire : View.WireList) wire.updateOffset();
+                
                 Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY());
                 OnDragMouseDragged();
             }
@@ -169,6 +172,8 @@ public abstract class BasePaneView
                 }
                 
                 //View.WireLine.updateScale(Data.ScaleValue);
+                
+                for (WireLine wire : View.WireList) wire.updateScale();
                 
                 OnZoomMouseScrolled();
             }
