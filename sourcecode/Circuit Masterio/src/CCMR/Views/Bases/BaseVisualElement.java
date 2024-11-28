@@ -29,7 +29,6 @@ public abstract class BaseVisualElement
         CreateShapes();
         InitializeShapes();
         
-        
         Rectangle eventCatcher = new Rectangle(5, 5, Transform.Size.X * Config.CellSize - 10, Transform.Size.Y * Config.CellSize - 10);
         
         eventCatcher.setStroke(Color.TRANSPARENT);
@@ -39,7 +38,6 @@ public abstract class BaseVisualElement
         AddHoverEventHandlers(eventCatcher);
         
         AddShapes(eventCatcher);
-        
         
         View.GridView.Elements.add(this);
         this.UpdatePosition();
