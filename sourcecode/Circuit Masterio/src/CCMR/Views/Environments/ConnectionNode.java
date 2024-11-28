@@ -1,6 +1,6 @@
 package CCMR.Views.Environments;
 
-import CCMR.Controls.Utilities.MDebug;
+import CCMR.Controls.Utilities.MFormula;
 import CCMR.Views.Bases.*;
 import CCMR.Models.Types.*;
 import CCMR.Models.Values.*;
@@ -9,14 +9,14 @@ import javafx.scene.shape.Circle;
 
 public class ConnectionNode extends Circle
 {
-	private BaseVisualElement _element;
+	public BaseVisualElement Element;
 	private WireLine _wireLine;
 	
 	public ConnectionNode(BaseVisualElement element, double x, double y)
 	{
 		super(x, y, 7.5);
 		
-		_element = element;
+		Element = element;
 		
 		SetColor(Config.ElementColor);
         this.setStrokeWidth(Data.StrokeWidth);
@@ -58,11 +58,10 @@ public class ConnectionNode extends Circle
     
     private void CreateWireLine(ConnectionNode endNode)
     {
-    	Vector2 thisCenter = new Vector2(this.getCenterX(), this.getCenterY()).Add(_element.Transform.Position.Multiply(Config.CellSize)).Subtract(Data.GridOffset);
-    	Vector2 endCenter = new Vector2(endNode.getCenterX(), endNode.getCenterY()).Add(endNode._element.Transform.Position.Multiply(Config.CellSize)).Subtract(Data.GridOffset);
+    	_wireLine = new WireLine(this, endNode);
+    }
+    private void UpdateWireLine()
+    {
     	
-    	MDebug.Log(String.format("%s | %s", thisCenter.toString(), endCenter.toString()));
-    	
-    	_wireLine = new WireLine(thisCenter, endCenter);
     }
 }
