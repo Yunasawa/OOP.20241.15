@@ -4,6 +4,7 @@ package CCMR.Controls.Systems;
 
 import CCMR.Models.Values.View;
 import CCMR.Views.Elements.*;
+import CCMR.Views.Environments.WireLine;
 import javafx.stage.Stage;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -31,5 +32,7 @@ public class Control extends Application
         Bulb buld1 = new Bulb();
         Bulb buld2 = new Bulb();
         DCVoltage dcVoltage = new DCVoltage();
+        
+        View.WireLine = new WireLine();
 	}
 }
