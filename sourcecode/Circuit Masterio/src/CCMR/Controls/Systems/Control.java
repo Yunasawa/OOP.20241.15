@@ -3,7 +3,7 @@
 package CCMR.Controls.Systems;
 
 import CCMR.Models.Values.View;
-import CCMR.Views.Elements.Bulb;
+import CCMR.Views.Elements.*;
 import javafx.stage.Stage;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -29,7 +29,6 @@ public class Control extends Application
         primaryStage.show();
         
         Bulb buld1 = new Bulb();
-        Bulb buld2 = new Bulb();
-        Bulb buld3 = new Bulb();
+        DCVoltage dcVoltage = new DCVoltage();
 	}
 }

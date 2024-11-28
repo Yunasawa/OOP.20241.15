@@ -107,11 +107,6 @@ public abstract class BasePaneView
             {
                 Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY());
             }
-            if (event.isSecondaryButtonDown())
-            {
-            	System.out.println("HOLA");	
-            	RemoveSelectedElement();
-            }
             OnDragMousePressed();
         });
 
