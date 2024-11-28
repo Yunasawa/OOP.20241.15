@@ -1,17 +1,22 @@
 package CCMR.Views.Environments;
 
-import CCMR.Controls.Utilities.Utilities;
-import CCMR.Models.Values.Config;
-import CCMR.Models.Values.Data;
+import CCMR.Controls.Utilities.MDebug;
+import CCMR.Views.Bases.*;
+import CCMR.Models.Types.*;
+import CCMR.Models.Values.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Shape;
 
 public class ConnectionNode extends Circle
 {
-	public ConnectionNode(double x, double y)
+	private BaseVisualElement _element;
+	private WireLine _wireLine;
+	
+	public ConnectionNode(BaseVisualElement element, double x, double y)
 	{
 		super(x, y, 7.5);
+		
+		_element = element;
 		
 		SetColor(Config.ElementColor);
         this.setStrokeWidth(Data.StrokeWidth);
@@ -29,14 +34,35 @@ public class ConnectionNode extends Circle
     {
         this.setOnMouseEntered(event ->
         {
-        	this.setStroke(Utilities.ToColor("#45ff9f"));
-        	this.setFill(Utilities.ToColor("#45ff9f"));
+        	if (View.SelectedNode != this) SetColor(Config.HoverColor);
         }); 
         
         this.setOnMouseExited(event -> 
         { 
-        	this.setStroke(Config.ElementColor);
-        	this.setFill(Config.ElementColor);
+        	if (View.SelectedNode != this) SetColor(Config.ElementColor);
         });
+        
+        this.setOnMouseClicked(event -> 
+        {
+        	if (View.SelectedNode != null)
+        	{
+        		View.SelectedNode.CreateWireLine(this);
+        	}
+        	else
+        	{
+	        	View.SelectedNode = this;
+	        	SetColor(Config.NodeColor);
+        	}
+        });
+    }
+    
+    private void CreateWireLine(ConnectionNode endNode)
+    {
+    	Vector2 thisCenter = new Vector2(this.getCenterX(), this.getCenterY()).Add(_element.Transform.Position.Multiply(Config.CellSize)).Subtract(Data.GridOffset);
+    	Vector2 endCenter = new Vector2(endNode.getCenterX(), endNode.getCenterY()).Add(endNode._element.Transform.Position.Multiply(Config.CellSize)).Subtract(Data.GridOffset);
+    	
+    	MDebug.Log(String.format("%s | %s", thisCenter.toString(), endCenter.toString()));
+    	
+    	_wireLine = new WireLine(thisCenter, endCenter);
     }
 }

@@ -13,6 +13,7 @@ public class Vector2
 	
 	public Vector2 Subtract(Vector2 other) { return new Vector2(this.X - other.X, this.Y - other.Y); } 
 	public Vector2 Add(Vector2 other) { return new Vector2(this.X + other.X, this.Y + other.Y); }
+	public Vector2 Multiply(double multiplier) { return new Vector2(this.X * multiplier, this.Y * multiplier); }
 	
 	@Override
 	public String toString() { return "(" + X + ", " + Y + ")"; }

@@ -17,8 +17,8 @@ public class Bulb extends BaseVisualElement
         Line line2 = new Line(18, 132, 82, 68);
         Line wire1 = new Line(50, 0, 50, 50);
         Line wire2 = new Line(50, 150, 50, 200);
-        ConnectionNode dot1 = new ConnectionNode(50, 0);
-        ConnectionNode dot2 = new ConnectionNode(50, 200);
+        ConnectionNode dot1 = new ConnectionNode(this, 50, 0);
+        ConnectionNode dot2 = new ConnectionNode(this, 50, 200);
         
         AddShapes(outerCircle, line1, line2, wire1, wire2, dot1, dot2);
         
