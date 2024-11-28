@@ -1,5 +1,6 @@
 package CCMR.Views.Environments;
 
+import CCMR.Controls.Utilities.MFormula;
 import CCMR.Models.Types.*;
 import CCMR.Models.Values.View;
 import javafx.scene.paint.Color;
@@ -7,11 +8,11 @@ import javafx.scene.shape.*;
 
 public class WireLine
 {
-	private Vector2 _startNode;
-	private Vector2 _endNode;
+	private ConnectionNode _startNode;
+	private ConnectionNode _endNode;
 	private Polyline _wire = new Polyline();
 	
-	public WireLine(Vector2 startNode, Vector2 endNode)
+	public WireLine(ConnectionNode startNode, ConnectionNode endNode)
 	{
 		this._startNode = startNode;
 		this._endNode = endNode;
@@ -21,15 +22,19 @@ public class WireLine
 		
 		ComputeGridPath();
 		
-		View.GridPane.getChildren().add(_wire);
+		View.GridPane.getChildren().add(1, _wire);
 	}
 	
 	private void ComputeGridPath()
 	{
-		_wire.getPoints().addAll(_startNode.X, _startNode.Y);
-		_wire.getPoints().addAll(_endNode.X, _endNode.Y);
+		Vector2 startPosition = MFormula.GetWorldPosition(new Vector2(_startNode.getCenterX(), _startNode.getCenterY()), _startNode.Element.Transform.Position);
+		Vector2 endPosition = MFormula.GetWorldPosition(new Vector2(_endNode.getCenterX(), _endNode.getCenterY()), _endNode.Element.Transform.Position);
 		
-		//if (_startNode.X != _endNode.X) _wire.getPoints().addAll(_endNode.X, _startNode.Y);
-		//if (_startNode.Y != _endNode.Y) _wire.getPoints().addAll(_endNode.X, _endNode.Y);
+		_wire.getPoints().addAll(startPosition.X, startPosition.Y);
+		
+		if (startPosition.Y <= endPosition.Y) _wire.getPoints().addAll(endPosition.X, startPosition.Y);
+		else if (startPosition.Y > endPosition.Y) _wire.getPoints().addAll(startPosition.X, endPosition.Y);
+		
+		_wire.getPoints().addAll(endPosition.X, endPosition.Y);
 	}
 }
