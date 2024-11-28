@@ -58,6 +58,8 @@ public class ConnectionNode extends Circle
         	if (View.SelectedNode != null && View.SelectedNode != this)
         	{
         		View.CurrentWire.ConnectNode(this);
+        		View.WireList.add(View.CurrentWire);
+        		
         		_isDraggingWire = false;
         	}
         	else

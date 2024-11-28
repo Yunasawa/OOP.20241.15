@@ -32,27 +32,25 @@ public class WireLine extends Polyline
     	syncPoints();
     }
     
-    private void syncPoints() 
+    private void syncPoints()
     {
         this.getPoints().clear();
         for (Vector2 point : Points)
         {
-            double x = point.X;//(point.X * Config.CellSize - Data.GridOffset.X) * Data.ScaleValue;
-            double y = point.Y;//(point.Y * Config.CellSize - Data.GridOffset.Y) * Data.ScaleValue;
+            double x = (point.X - Data.GridOffset.X) * Data.ScaleValue;//(point.X * Config.CellSize - Data.GridOffset.X) * Data.ScaleValue;
+            double y = (point.Y - Data.GridOffset.Y) * Data.ScaleValue;//(point.Y * Config.CellSize - Data.GridOffset.Y) * Data.ScaleValue;
             this.getPoints().addAll(x, y);
         }
     }
 
-    public void updateScale(double newScaleValue) 
+    public void updateScale() 
     {
-        Data.ScaleValue = newScaleValue;
         syncPoints();
         this.setStrokeWidth(Data.StrokeWidth);
     }
 
-    public void updateOffset(Vector2 newGridOffset) 
+    public void updateOffset() 
     {
-        Data.GridOffset = newGridOffset;
         syncPoints();
     }
 }
