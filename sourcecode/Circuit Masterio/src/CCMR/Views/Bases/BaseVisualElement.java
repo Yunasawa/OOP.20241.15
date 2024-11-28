@@ -17,6 +17,7 @@ import java.util.Map;
 public abstract class BaseVisualElement
 {
     public Transform Transform = new Transform();
+    public Collider Collider = new Collider(new Vector2(0, 0), new Vector2(2, 4));
     public List<Shape> Shapes = new ArrayList<>();
 
     private Vector2 _oldPosition;
@@ -29,15 +30,10 @@ public abstract class BaseVisualElement
         CreateShapes();
         InitializeShapes();
         
-        Rectangle eventCatcher = new Rectangle(5, 5, Transform.Size.X * Config.CellSize - 10, Transform.Size.Y * Config.CellSize - 10);
+        AddShapeEventHandlers(Collider);
+        AddHoverEventHandlers(Collider);
         
-        eventCatcher.setStroke(Color.TRANSPARENT);
-        eventCatcher.setFill(Color.TRANSPARENT);
-        eventCatcher.setStrokeWidth(0);;
-        AddShapeEventHandlers(eventCatcher);
-        AddHoverEventHandlers(eventCatcher);
-        
-        AddShapes(eventCatcher);
+        AddShapes(Collider);
         
         View.GridView.Elements.add(this);
         this.UpdatePosition();
@@ -61,14 +57,14 @@ public abstract class BaseVisualElement
         {
         	StyleShape(shape);
         	
-        	if (!(shape instanceof ConnectionNode)) AddShapeEventHandlers(shape);
-            if (!(shape instanceof ConnectionNode)) AddHoverEventHandlers(shape);
+        	if (!(shape instanceof ConnectionNode) && !(shape instanceof Collider)) AddShapeEventHandlers(shape);
+            if (!(shape instanceof ConnectionNode) && !(shape instanceof Collider)) AddHoverEventHandlers(shape);
         }
     }
     
     protected void StyleShape(Shape shape)
     {
-    	if (shape instanceof ConnectionNode) return; 
+    	if (shape instanceof ConnectionNode || shape instanceof Collider) return; 
     	
         shape.setStroke(Config.ElementColor);
         shape.setFill(Color.TRANSPARENT);
@@ -223,15 +219,15 @@ public abstract class BaseVisualElement
 
     public boolean CheckCollision(BaseVisualElement other) 
     {
-        double thisLeft = Transform.Position.X * Config.CellSize - Transform.Size.X * Config.CellSize / 2;
-        double thisRight = thisLeft + Transform.Size.X * Config.CellSize;
-        double thisTop = Transform.Position.Y * Config.CellSize - Transform.Size.Y * Config.CellSize / 2;
-        double thisBottom = thisTop + Transform.Size.Y * Config.CellSize;
+        double thisLeft = Transform.Position.X * Config.CellSize - Collider.Size.X * Config.CellSize / 2;
+        double thisRight = thisLeft + Collider.Size.X * Config.CellSize;
+        double thisTop = Transform.Position.Y * Config.CellSize - Collider.Size.Y * Config.CellSize / 2;
+        double thisBottom = thisTop + Collider.Size.Y * Config.CellSize;
 
-        double otherLeft = other.Transform.Position.X * Config.CellSize - other.Transform.Size.X * Config.CellSize / 2;
-        double otherRight = otherLeft + other.Transform.Size.X * Config.CellSize;
-        double otherTop = other.Transform.Position.Y * Config.CellSize - other.Transform.Size.Y * Config.CellSize / 2;
-        double otherBottom = otherTop + other.Transform.Size.Y * Config.CellSize;
+        double otherLeft = other.Transform.Position.X * Config.CellSize - other.Collider.Size.X * Config.CellSize / 2;
+        double otherRight = otherLeft + other.Collider.Size.X * Config.CellSize;
+        double otherTop = other.Transform.Position.Y * Config.CellSize - other.Collider.Size.Y * Config.CellSize / 2;
+        double otherBottom = otherTop + other.Collider.Size.Y * Config.CellSize;
 
         return !(thisRight <= otherLeft || thisLeft >= otherRight || thisBottom <= otherTop || thisTop >= otherBottom);
     }
@@ -240,7 +236,7 @@ public abstract class BaseVisualElement
     {
     	for (Shape shape : Shapes)
     	{
-    		if (shape instanceof ConnectionNode) continue;
+    		if (shape instanceof ConnectionNode || shape instanceof Collider) continue;
     		
     		shape.setStroke(color);
     	}

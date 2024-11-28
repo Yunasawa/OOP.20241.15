@@ -2,7 +2,7 @@ package CCMR.Views.Elements;
 
 import CCMR.Models.Types.*;
 import CCMR.Views.Bases.*;
-import CCMR.Views.Environments.ConnectionNode;
+import CCMR.Views.Environments.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
@@ -23,6 +23,6 @@ public class DCVoltage extends BaseVisualElement
         AddShapes(line1, line2, line3, line4, wire1, wire2, dot1, dot2);
         
         Transform.Position = new Vector2(2, 2);
-        Transform.Size = new Vector2(2, 4);	
+        Collider = new Collider(0, 0, 2, 4);	
 	}
 }

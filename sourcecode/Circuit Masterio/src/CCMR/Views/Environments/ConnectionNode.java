@@ -1,8 +1,6 @@
 package CCMR.Views.Environments;
 
-import CCMR.Controls.Utilities.MFormula;
 import CCMR.Views.Bases.*;
-import CCMR.Models.Types.*;
 import CCMR.Models.Values.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -58,6 +56,8 @@ public class ConnectionNode extends Circle
     
     private void CreateWireLine(ConnectionNode endNode)
     {
+    	if (endNode.Element == this.Element) return;
+    	
     	_wireLine = new WireLine(this, endNode);
     }
     private void UpdateWireLine()
