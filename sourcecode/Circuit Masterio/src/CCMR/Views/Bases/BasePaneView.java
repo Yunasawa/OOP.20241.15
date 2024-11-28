@@ -1,13 +1,10 @@
 package CCMR.Views.Bases;
 
-import CCMR.Controls.Utilities.MDebug;
 import CCMR.Models.Types.*;
 import CCMR.Models.Values.Config;
 import CCMR.Models.Values.Data;
 import CCMR.Models.Values.View;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
 public abstract class BasePaneView 
@@ -46,6 +43,12 @@ public abstract class BasePaneView
             {
 	            Data.LastMousePressedTime = System.currentTimeMillis();
 	            Data.LastMousePressedPosition = new Vector2(event.getX(), event.getY());
+	            
+	            if (View.SelectedNode != null)
+	            {
+	            	View.SelectedNode.SetColor(Config.ElementColor);
+	            	View.SelectedNode = null;
+	            }
             }
         });
         
@@ -120,6 +123,8 @@ public abstract class BasePaneView
 
                 for (BaseVisualElement element : Elements) element.UpdatePosition();
 
+                View.WireLine.updateOffset(Data.GridOffset);
+                
                 Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY());
                 OnDragMouseDragged();
             }
@@ -162,6 +167,8 @@ public abstract class BasePaneView
                     element.UpdateScaleValue();
                     element.UpdatePosition();
                 }
+                
+                View.WireLine.updateScale(Data.ScaleValue);
                 
                 OnZoomMouseScrolled();
             }

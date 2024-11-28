@@ -1,13 +1,13 @@
 package CCMR.Views.Bases;
 
 import CCMR.Controls.Utilities.MShape;
+import CCMR.Controls.Utilities.Utilities;
 import CCMR.Models.Definitions.*;
 import CCMR.Models.Types.Row;
 import CCMR.Models.Types.Vector2;
 import CCMR.Models.Values.*;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
+import CCMR.Views.Environments.*;
+import javafx.scene.shape.*;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +17,7 @@ import java.util.Map;
 public abstract class BaseVisualElement
 {
     public Transform Transform = new Transform();
+    public Collider Collider = new Collider(new Vector2(0, 0), new Vector2(2, 4));
     public List<Shape> Shapes = new ArrayList<>();
 
     private Vector2 _oldPosition;
@@ -29,17 +30,10 @@ public abstract class BaseVisualElement
         CreateShapes();
         InitializeShapes();
         
-        /*
-        Rectangle eventCatcher = new Rectangle(0, 0, Transform.Size.X * Config.CellSize, Transform.Size.Y * Config.CellSize);
+        AddShapeEventHandlers(Collider);
+        AddHoverEventHandlers(Collider);
         
-        eventCatcher.setStroke(Color.TRANSPARENT);
-        eventCatcher.setFill(Color.TRANSPARENT);
-        eventCatcher.setStrokeWidth(0);;
-        AddShapeEventHandlers(eventCatcher);
-        AddHoverEventHandlers(eventCatcher);
-        
-        AddShapes(eventCatcher);
-        */
+        AddShapes(Collider);
         
         View.GridView.Elements.add(this);
         this.UpdatePosition();
@@ -48,12 +42,16 @@ public abstract class BaseVisualElement
 
     protected abstract void CreateShapes();
     
-    protected void AddShapes(Shape... shapes)
+    public void AddShapes(Shape... shapes)
     {
-    	for (Shape shape : shapes) 
+    	for (Shape shape : shapes)
     	{
     		Shapes.add(shape);
-    		_maps.put(shape, MShape.GetScale(shape));
+    		if (shape instanceof WireLine) 
+    		{
+    			//_maps.put(shape, MShape.GetScale(shape));
+    		}
+    		else _maps.put(shape, MShape.GetScale(shape));
     	}
     }
 
@@ -63,13 +61,15 @@ public abstract class BaseVisualElement
         {
         	StyleShape(shape);
         	
-            AddShapeEventHandlers(shape);
-            if (!(shape instanceof Line)) AddHoverEventHandlers(shape);
+        	if (!(shape instanceof ConnectionNode) && !(shape instanceof Collider)) AddShapeEventHandlers(shape);
+            if (!(shape instanceof ConnectionNode) && !(shape instanceof Collider)) AddHoverEventHandlers(shape);
         }
     }
     
     protected void StyleShape(Shape shape)
     {
+    	if (shape instanceof ConnectionNode || shape instanceof Collider) return; 
+    	
         shape.setStroke(Config.ElementColor);
         shape.setFill(Color.TRANSPARENT);
         shape.setStrokeWidth(Data.StrokeWidth);
@@ -181,18 +181,6 @@ public abstract class BaseVisualElement
             else SetStrokeColor(Config.SelectedColor);
         });
     }
-    protected void AddToggleEventHandlers(Shape shape)
-    {
-        shape.setOnMouseEntered(event ->
-        {
-        	shape.setStroke(Color.AZURE);
-        }); 
-        
-        shape.setOnMouseExited(event -> 
-        { 
-        	shape.setStroke(Config.ElementColor);
-        });
-    }
     
     public void UpdateScaleValue() 
     {
@@ -235,21 +223,26 @@ public abstract class BaseVisualElement
 
     public boolean CheckCollision(BaseVisualElement other) 
     {
-        double thisLeft = Transform.Position.X * Config.CellSize - Transform.Size.X * Config.CellSize / 2;
-        double thisRight = thisLeft + Transform.Size.X * Config.CellSize;
-        double thisTop = Transform.Position.Y * Config.CellSize - Transform.Size.Y * Config.CellSize / 2;
-        double thisBottom = thisTop + Transform.Size.Y * Config.CellSize;
+        double thisLeft = Transform.Position.X * Config.CellSize - Collider.Size.X * Config.CellSize / 2;
+        double thisRight = thisLeft + Collider.Size.X * Config.CellSize;
+        double thisTop = Transform.Position.Y * Config.CellSize - Collider.Size.Y * Config.CellSize / 2;
+        double thisBottom = thisTop + Collider.Size.Y * Config.CellSize;
 
-        double otherLeft = other.Transform.Position.X * Config.CellSize - other.Transform.Size.X * Config.CellSize / 2;
-        double otherRight = otherLeft + other.Transform.Size.X * Config.CellSize;
-        double otherTop = other.Transform.Position.Y * Config.CellSize - other.Transform.Size.Y * Config.CellSize / 2;
-        double otherBottom = otherTop + other.Transform.Size.Y * Config.CellSize;
+        double otherLeft = other.Transform.Position.X * Config.CellSize - other.Collider.Size.X * Config.CellSize / 2;
+        double otherRight = otherLeft + other.Collider.Size.X * Config.CellSize;
+        double otherTop = other.Transform.Position.Y * Config.CellSize - other.Collider.Size.Y * Config.CellSize / 2;
+        double otherBottom = otherTop + other.Collider.Size.Y * Config.CellSize;
 
         return !(thisRight <= otherLeft || thisLeft >= otherRight || thisBottom <= otherTop || thisTop >= otherBottom);
     }
 
     public void SetStrokeColor(Color color)
     {
-    	for (Shape shape : Shapes) shape.setStroke(color);
+    	for (Shape shape : Shapes)
+    	{
+    		if (shape instanceof ConnectionNode || shape instanceof Collider) continue;
+    		
+    		shape.setStroke(color);
+    	}
     }
 }

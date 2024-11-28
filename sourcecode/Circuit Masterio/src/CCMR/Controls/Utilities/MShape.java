@@ -1,6 +1,10 @@
 package CCMR.Controls.Utilities;
 
+import java.sql.DatabaseMetaData;
+
 import CCMR.Models.Types.*;
+import CCMR.Models.Values.Data;
+import CCMR.Views.Environments.*;
 import javafx.scene.shape.*;
 
 public class MShape 
@@ -30,6 +34,12 @@ public class MShape
 			line.setEndX(row.get(2) * scale);
 			line.setEndY(row.get(3) * scale);
 		}
+		else if (shape instanceof WireLine)
+		{
+			WireLine wire = (WireLine)shape;
+			wire.getPoints().clear();
+			for (Double point : row) wire.getPoints().add(point + Data.GridOffset.X);
+		}
 	}
 	public static Row<Double> GetScale(Shape shape)
 	{
@@ -50,7 +60,13 @@ public class MShape
 			Line line = (Line)shape;
 			row.Add(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY());
 		}
+		else if (shape instanceof WireLine)
+		{
+			WireLine wire = (WireLine)shape;
+			for (Double point : wire.getPoints()) row.Add(point);
+		}
 		
 		return row;
 	}
+
 }
