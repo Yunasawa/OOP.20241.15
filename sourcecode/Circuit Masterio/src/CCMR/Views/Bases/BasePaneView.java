@@ -123,7 +123,7 @@ public abstract class BasePaneView
 
                 for (BaseVisualElement element : Elements) element.UpdatePosition();
 
-                View.WireLine.updateOffset(Data.GridOffset);
+                //View.WireLine.updateOffset(Data.GridOffset);
                 
                 Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY());
                 OnDragMouseDragged();
@@ -168,7 +168,7 @@ public abstract class BasePaneView
                     element.UpdatePosition();
                 }
                 
-                View.WireLine.updateScale(Data.ScaleValue);
+                //View.WireLine.updateScale(Data.ScaleValue);
                 
                 OnZoomMouseScrolled();
             }

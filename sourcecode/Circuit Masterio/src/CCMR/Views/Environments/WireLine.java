@@ -1,39 +1,44 @@
 package CCMR.Views.Environments;
 
-import CCMR.Models.Values.Config;
-import CCMR.Models.Values.Data;
-import CCMR.Models.Values.View;
-import CCMR.Models.Types.Vector2;
+import CCMR.Models.Values.*;
+import CCMR.Controls.Utilities.MFormula;
+import CCMR.Models.Types.*;
 import javafx.scene.shape.Polyline;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WireLine extends Polyline 
 {
-    private List<Vector2> gridPoints;
+	public Row<Vector2> Points = new Row<>();
+    public ConnectionNode Node1;
+    public ConnectionNode Node2;
 
-    public WireLine() 
+    public WireLine(ConnectionNode node1)
     {
-        this.gridPoints = new ArrayList<>();
-        this.gridPoints.add(new Vector2(9, 2));
-        this.gridPoints.add(new Vector2(6, 5));
-        this.gridPoints.add(new Vector2(8, 10));
-
-        syncPoints();
-
+    	Node1 = node1;
+    	Points.Add(MFormula.GetWorldPosition(node1.Position, node1.Element.Transform.Position));
+        
         this.setStrokeWidth(Data.StrokeWidth);
         this.setStroke(Config.WireColor);
 
-        View.GridPane.getChildren().add(1, this);
+        View.GridView.AddShapes(1, this);
     }
 
+    public void ConnectNode(ConnectionNode node2)
+    {
+    	Node2 = node2;
+    	Points.add(MFormula.GetWorldPosition(node2.Position, node2.Element.Transform.Position));
+    	
+    	syncPoints();
+    }
+    
     private void syncPoints() 
     {
         this.getPoints().clear();
-        for (Vector2 point : gridPoints) 
+        for (Vector2 point : Points)
         {
-            double x = (point.X * Config.CellSize - Data.GridOffset.X) * Data.ScaleValue;
-            double y = (point.Y * Config.CellSize - Data.GridOffset.Y) * Data.ScaleValue;
+            double x = point.X;//(point.X * Config.CellSize - Data.GridOffset.X) * Data.ScaleValue;
+            double y = point.Y;//(point.Y * Config.CellSize - Data.GridOffset.Y) * Data.ScaleValue;
             this.getPoints().addAll(x, y);
         }
     }
