@@ -1,5 +1,6 @@
 package CCMR.Views.Bases;
 
+import CCMR.Controls.Utilities.MDebug;
 import CCMR.Models.Types.*;
 import CCMR.Models.Values.Config;
 import CCMR.Models.Values.Data;
@@ -29,7 +30,6 @@ public abstract class BasePaneView
         
         AddElementSelectionHandler();
         
-        AddKeyManipulator();
         AddDragManipulator();
         AddZoomManipulator();    
 
@@ -99,18 +99,6 @@ public abstract class BasePaneView
         }
     }
     
-    private void AddKeyManipulator()
-    {
-    	View.GridPane.setOnKeyReleased(event ->
-    	{
-    		System.out.println("HUASD");
-    		if (event.getCode() == KeyCode.DELETE) 
-    		{
-    			System.out.println("HOLA");
-    			RemoveSelectedElement();
-    		}
-    	});
-    }
     private void AddDragManipulator() 
     {
         View.GridPane.setOnMousePressed(event -> 
@@ -119,9 +107,9 @@ public abstract class BasePaneView
             {
                 Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY());
             }
-            if (event.isSecondaryButtonDown()) 
+            if (event.isSecondaryButtonDown())
             {
-            	System.out.println("HOLA");
+            	System.out.println("HOLA");	
             	RemoveSelectedElement();
             }
             OnDragMousePressed();
