@@ -3,6 +3,8 @@ package CCMR.Views.Environments;
 import CCMR.Models.Definitions.*;
 import CCMR.Models.Values.*;
 import CCMR.Views.Bases.*;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 
 public class GridView extends BasePaneView
@@ -55,6 +57,18 @@ public class GridView extends BasePaneView
         }
 
         View.GridContext.restore();
+    }
+	
+    public void AddKeyManipulator()
+    {
+		View.GridScene.setOnKeyPressed(event ->
+		{
+			if (event.getCode() == KeyCode.DELETE) 
+    		{
+    			System.out.println("HOLA");
+    			RemoveSelectedElement();
+    		}
+		});
     }
 	
 	@Override

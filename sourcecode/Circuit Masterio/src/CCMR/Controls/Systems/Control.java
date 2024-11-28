@@ -3,8 +3,7 @@
 package CCMR.Controls.Systems;
 
 import CCMR.Models.Values.View;
-import CCMR.Views.Elements.Bulb;
-import CCMR.Views.Environments.*;
+import CCMR.Views.Elements.*;
 import javafx.stage.Stage;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -19,17 +18,17 @@ public class Control extends Application
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception
-	{
-		GridView gridView = View.GridView;
+	{		
+		View.GridScene = new Scene(View.GridView.CreateView(), 1000, 750);
+		View.GridView.AddKeyManipulator();
 		
-        primaryStage.setScene(new Scene(gridView.CreateView(), 1000, 750));
+        primaryStage.setScene(View.GridScene);
         primaryStage.getIcons().add(new Image("file:resources/Icons/Application.png"));
-        primaryStage.setTitle("Circuit Masterio - Yunsawa Studio");
+        primaryStage.setTitle("Circuit Masterio - Yunasawa Studio");
         primaryStage.setMaximized(true);
         primaryStage.show();
         
         Bulb buld1 = new Bulb();
-        Bulb buld2 = new Bulb();
-        Bulb buld3 = new Bulb();
+        DCVoltage dcVoltage = new DCVoltage();
 	}
 }
