@@ -1,6 +1,7 @@
 package CCMR.Views.Environments;
 
 import CCMR.Models.Values.*;
+import CCMR.Controls.Utilities.MDebug;
 import CCMR.Controls.Utilities.MFormula;
 import CCMR.Models.Types.*;
 import javafx.scene.shape.Polyline;
@@ -16,7 +17,6 @@ public class WireLine extends Polyline
     public WireLine(ConnectionNode node1)
     {
     	Node1 = node1;
-    	Points.Add(MFormula.GetWorldPosition(node1.Position, node1.Element.Transform.Position));
         
         this.setStrokeWidth(Data.StrokeWidth);
         this.setStroke(Config.WireColor);
@@ -27,30 +27,44 @@ public class WireLine extends Polyline
     public void ConnectNode(ConnectionNode node2)
     {
     	Node2 = node2;
-    	Points.add(MFormula.GetWorldPosition(node2.Position, node2.Element.Transform.Position));
     	
-    	syncPoints();
+    	SyncPositions();
     }
     
-    private void syncPoints()
+    public void AssignWire()
     {
+    	if (Node1 != null) Node1.WireLine = this;
+    	if (Node2 != null) Node2.WireLine = this;
+    }
+    
+    private void GetNodePositions()
+    {
+    	Points.clear();
+    	if (Node1 != null) Points.Add(MFormula.GetWorldPosition(Node1.Position, Node1.Element.Transform.Position));
+    	if (Node2 != null) Points.add(MFormula.GetWorldPosition(Node2.Position, Node2.Element.Transform.Position));
+    }
+    
+    public void SyncPositions()
+    {
+    	GetNodePositions();
+    	
         this.getPoints().clear();
         for (Vector2 point : Points)
         {
-            double x = (point.X - Data.GridOffset.X) * Data.ScaleValue;//(point.X * Config.CellSize - Data.GridOffset.X) * Data.ScaleValue;
-            double y = (point.Y - Data.GridOffset.Y) * Data.ScaleValue;//(point.Y * Config.CellSize - Data.GridOffset.Y) * Data.ScaleValue;
+            double x = (point.X - Data.GridOffset.X) * Data.ScaleValue;
+            double y = (point.Y - Data.GridOffset.Y) * Data.ScaleValue;
             this.getPoints().addAll(x, y);
         }
     }
 
-    public void updateScale() 
+    public void UpdateScale() 
     {
-        syncPoints();
+        SyncPositions();
         this.setStrokeWidth(Data.StrokeWidth);
     }
 
-    public void updateOffset() 
+    public void UpdateOffset()
     {
-        syncPoints();
+        SyncPositions();
     }
 }
