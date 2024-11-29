@@ -3,7 +3,7 @@ package CCMR.Views.Environments;
 import CCMR.Models.Types.Vector2;
 import CCMR.Models.Values.Config;
 import CCMR.Models.Values.Data;
-import CCMR.Models.Values.View;
+import CCMR.Models.Values.Global;
 import CCMR.Views.Bases.BaseVisualElement;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -25,7 +25,7 @@ public class SelectionBox
     
     public void InsertBoxToPane() 
     { 
-        View.GridPane.getChildren().add(_box); 
+        Global.GridPane.getChildren().add(_box); 
         AddSelectionManipulator();
     }
     
@@ -64,17 +64,17 @@ public class SelectionBox
 
     private void AddSelectionManipulator()
     {
-        View.GridPane.addEventHandler(MouseEvent.MOUSE_PRESSED, event ->
+        Global.GridPane.addEventHandler(MouseEvent.MOUSE_PRESSED, event ->
         {
             if (event.isPrimaryButtonDown()) StartSelection(event.getX(), event.getY());
         });
         
-        View.GridPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, event ->
+        Global.GridPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, event ->
         {
             if (event.isPrimaryButtonDown()) UpdateSelection(event.getX(), event.getY());
         });
         
-        View.GridPane.addEventHandler(MouseEvent.MOUSE_RELEASED, event ->
+        Global.GridPane.addEventHandler(MouseEvent.MOUSE_RELEASED, event ->
         {            
             HideSelection();
         });
@@ -87,7 +87,7 @@ public class SelectionBox
         double selectionWidth = _box.getWidth();
         double selectionHeight = _box.getHeight();
 
-        for (BaseVisualElement element : View.GridView.Elements)
+        for (BaseVisualElement element : Global.GridView.Elements)
         {
             double elementLeft = (element.Transform.Position.X * Config.CellSize) * Data.ScaleValue - Data.GridOffset.X * Data.ScaleValue;
             double elementRight = elementLeft + element.Collider.Size.X * Config.CellSize * Data.ScaleValue;
@@ -102,12 +102,12 @@ public class SelectionBox
             if (intersects) 
             {
             	element.SetStrokeColor(Config.SelectedColor);
-            	if (!View.SelectedElement.contains(element)) View.SelectedElement.Add(element);
+            	if (!Global.SelectedElement.contains(element)) Global.SelectedElement.Add(element);
             }
             else 
             {
             	element.SetStrokeColor(Config.ElementColor);
-            	if (View.SelectedElement.contains(element)) View.SelectedElement.Remove(element);
+            	if (Global.SelectedElement.contains(element)) Global.SelectedElement.Remove(element);
             }
         }
         
