@@ -61,6 +61,9 @@ public class ConnectionNode extends Circle
         		View.WireList.add(View.CurrentWire);
         		
         		_isDraggingWire = false;
+        		
+        		View.SelectedNode.SetColor(Config.ElementColor);
+        		View.SelectedNode = null;
         	}
         	else
         	{
