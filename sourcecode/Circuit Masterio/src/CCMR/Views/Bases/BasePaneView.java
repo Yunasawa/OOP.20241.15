@@ -67,6 +67,8 @@ public abstract class BasePaneView
                 	RemoveAllSelected();
                 }
             }
+            
+            if (View.SelectedNode != null) View.SelectedNode.RemoveWire();
         });
     }
     
