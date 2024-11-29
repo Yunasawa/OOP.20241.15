@@ -13,6 +13,7 @@ public class Global
 {
 	// Control
 	public static SystemManager SystemManager;
+	public static EventManager EventManager;
 	
 	// Ground
 	public static Pane GridPane = new Pane();

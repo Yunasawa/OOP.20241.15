@@ -1,11 +1,7 @@
 package CCMR.Views.Elements;
 
-import CCMR.Controls.Utilities.MDebug;
-import CCMR.Models.Interfaces.IKeyPressListenable;
-import CCMR.Models.Values.Global;
 import CCMR.Views.Bases.*;
 import CCMR.Views.Environments.*;
-import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
@@ -14,8 +10,6 @@ public class Bulb extends BaseVisualElement
 	@Override
 	protected void CreateShapes()
 	{
-		RegisterListener(Global.SystemManager);
-		
         Circle outerCircle = new Circle(50, 100, 50);
         Line line1 = new Line(18, 68, 82, 132);
         Line line2 = new Line(18, 132, 82, 68);

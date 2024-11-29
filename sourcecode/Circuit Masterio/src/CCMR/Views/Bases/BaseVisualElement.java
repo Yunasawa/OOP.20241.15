@@ -7,6 +7,7 @@ import CCMR.Models.Types.*;
 import CCMR.Models.Values.*;
 import CCMR.Views.Environments.*;
 import javafx.scene.shape.*;
+import javafx.scene.transform.Rotate;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public abstract class BaseVisualElement implements IKeyPressListenable
 
     public BaseVisualElement()
     {
-    	RegisterListener(Global.SystemManager);
+    	RegisterListener();
     	
         CreateShapes();
         InitializeShapes();
@@ -215,8 +216,8 @@ public abstract class BaseVisualElement implements IKeyPressListenable
     {
     	Transform.Rotation++;
     	if (Transform.Rotation > 3) Transform.Rotation = 0;
-    	
-    	
+
+    	Vector2 rotatingPivot = Transform.Position.Add(Collider.Size.Multiply(0.5)).Round();
     }
     
     public void AddToPane() 
@@ -262,6 +263,11 @@ public abstract class BaseVisualElement implements IKeyPressListenable
     @Override
 	public void OnKeyPressed(KeyCode key) 
     {
+		if (!Global.SelectedElement.contains(this)) return;
 		
+		if (key == KeyCode.R)
+		{
+			UpdateRotation();
+		}
 	}
 }

@@ -1,14 +1,15 @@
 package CCMR.Models.Interfaces;
 
-import CCMR.Controls.Systems.SystemManager;
+import CCMR.Controls.Systems.*;
+import CCMR.Models.Values.*;
 import javafx.scene.input.KeyCode;
 
 public interface IKeyPressListenable
 {
 	void OnKeyPressed(KeyCode key);
 	
-	default void RegisterListener(SystemManager control)
+	default void RegisterListener()
 	{
-		control.RegisterListener(this);
+		Global.EventManager.IKeyPressListeners.Add(this);
 	}
 }

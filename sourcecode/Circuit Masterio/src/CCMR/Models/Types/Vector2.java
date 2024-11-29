@@ -15,6 +15,8 @@ public class Vector2
 	public Vector2 Add(Vector2 other) { return new Vector2(this.X + other.X, this.Y + other.Y); }
 	public Vector2 Multiply(double multiplier) { return new Vector2(this.X * multiplier, this.Y * multiplier); }
 	
+	public Vector2 Round() { return new Vector2(Math.round(this.X), Math.round(this.Y)); }
+	
 	@Override
 	public String toString() { return "(" + X + ", " + Y + ")"; }
 }
