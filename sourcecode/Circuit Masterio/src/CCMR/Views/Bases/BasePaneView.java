@@ -50,6 +50,11 @@ public abstract class BasePaneView
 	            	View.SelectedNode.SetColor(Config.ElementColor);
 	            	View.SelectedNode = null;
 	            }
+	            
+	            if (View.CurrentWire != null)
+	            {
+	            	View.CurrentWire.SelectWire(false);
+	            }
             }
         });
         
