@@ -43,35 +43,35 @@ public class ConnectionNode extends Circle
     {
         this.setOnMouseEntered(event ->
         {
-        	if (View.SelectedNode != this) SetColor(Config.HoverColor);
+        	if (Global.SelectedNode != this) SetColor(Config.HoverColor);
         }); 
         
         this.setOnMouseExited(event -> 
         { 
-        	if (View.SelectedNode != this) SetColor(Config.ElementColor);
+        	if (Global.SelectedNode != this) SetColor(Config.ElementColor);
         });
         
         this.setOnMouseClicked(event -> 
         {
-        	if (View.SelectedNode != null && View.SelectedNode != this)
+        	if (Global.SelectedNode != null && Global.SelectedNode != this)
         	{
-        		View.CurrentWire.ConnectNode(this);
-        		View.WireList.add(View.CurrentWire);
+        		Global.CurrentWire.ConnectNode(this);
+        		Global.WireList.add(Global.CurrentWire);
         		
-        		View.CurrentWire.AssignWire();
+        		Global.CurrentWire.AssignWire();
         		
         		IsDraggingWire = false;
         		
-        		View.SelectedNode.SetColor(Config.ElementColor);
-        		View.SelectedNode = null;
+        		Global.SelectedNode.SetColor(Config.ElementColor);
+        		Global.SelectedNode = null;
         	}
         	else
         	{
-	        	View.SelectedNode = this;
+	        	Global.SelectedNode = this;
 	        	SetColor(Config.NodeColor);
 	        	
 	        	WireLine wire = new WireLine(this);
-	        	View.CurrentWire = wire;
+	        	Global.CurrentWire = wire;
 	        	
 	        	IsDraggingWire = true;
         	}
@@ -80,10 +80,10 @@ public class ConnectionNode extends Circle
     
     public void RemoveWire()
     {
-    	if (IsDraggingWire && View.CurrentWire != null)
+    	if (IsDraggingWire && Global.CurrentWire != null)
 		{
-			View.GridView.RemoveShapes(View.CurrentWire);
-			View.CurrentWire = null;
+			Global.GridView.RemoveShapes(Global.CurrentWire);
+			Global.CurrentWire = null;
 		}
     }
 

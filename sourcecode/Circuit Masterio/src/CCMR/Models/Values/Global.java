@@ -7,13 +7,18 @@ import javafx.scene.layout.Pane;
 import CCMR.Models.Types.Row;
 import CCMR.Views.Bases.BaseVisualElement;
 import CCMR.Views.Environments.*;
+import CCMR.Controls.Systems.*;
 
-public class View 
+public class Global 
 {
+	// Control
+	public static SystemManager SystemManager;
+	public static EventManager EventManager;
+	
 	// Ground
 	public static Pane GridPane = new Pane();
 	public static Canvas GridCanvas = new Canvas(1920, 1080);
-	public static GraphicsContext GridContext = View.GridCanvas.getGraphicsContext2D();
+	public static GraphicsContext GridContext = Global.GridCanvas.getGraphicsContext2D();
 	public static GridView GridView = new GridView();
 	public static Scene GridScene;
 	
