@@ -3,6 +3,7 @@ package CCMR.Views.Elements;
 import CCMR.Models.Types.*;
 import CCMR.Views.Bases.*;
 import CCMR.Views.Environments.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
