@@ -1,7 +1,5 @@
 package CCMR.Views.Elements;
 
-import CCMR.Models.Types.Vector2;
-import CCMR.Models.Values.Config;
 import CCMR.Views.Bases.*;
 import CCMR.Views.Environments.*;
 import javafx.scene.shape.Circle;

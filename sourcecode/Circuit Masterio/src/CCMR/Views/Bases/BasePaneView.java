@@ -174,7 +174,7 @@ public abstract class BasePaneView
                 Data.StrokeWidth = Config.StrokeWidth * Data.ScaleValue;
                 for (BaseVisualElement element : Elements) 
                 {
-                    element.UpdateScaleValue();
+                    element.UpdateScale();
                     element.UpdatePosition();
                 }
                 

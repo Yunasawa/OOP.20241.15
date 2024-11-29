@@ -1,10 +1,8 @@
 package CCMR.Views.Bases;
 
-import CCMR.Controls.Utilities.MShape;
-import CCMR.Controls.Utilities.Utilities;
+import CCMR.Controls.Utilities.*;
 import CCMR.Models.Definitions.*;
-import CCMR.Models.Types.Row;
-import CCMR.Models.Types.Vector2;
+import CCMR.Models.Types.*;
 import CCMR.Models.Values.*;
 import CCMR.Views.Environments.*;
 import javafx.scene.shape.*;
@@ -54,7 +52,6 @@ public abstract class BaseVisualElement
     		else _maps.put(shape, MShape.GetScale(shape));
     	}
     }
-
     private void InitializeShapes() 
     {
         for (Shape shape : Shapes) 
@@ -65,7 +62,6 @@ public abstract class BaseVisualElement
             if (!(shape instanceof ConnectionNode) && !(shape instanceof Collider)) AddHoverEventHandlers(shape);
         }
     }
-    
     protected void StyleShape(Shape shape)
     {
     	if (shape instanceof ConnectionNode || shape instanceof Collider) return; 
@@ -192,7 +188,7 @@ public abstract class BaseVisualElement
         });
     }
     
-    public void UpdateScaleValue() 
+    public void UpdateScale() 
     {
         for (Shape shape : Shapes) 
         {
@@ -200,7 +196,6 @@ public abstract class BaseVisualElement
             MShape.SetScale(shape, _maps.get(shape), Data.ScaleValue);
         }
     }
-
     public void UpdatePosition()
     {
         double adjustedCenterX = (Transform.Position.X * Config.CellSize - Data.GridOffset.X) * Data.ScaleValue;
@@ -212,12 +207,18 @@ public abstract class BaseVisualElement
             shape.setTranslateY(adjustedCenterY);
         }
     }
+    public void UpdateRotation()
+    {
+    	Transform.Rotation++;
+    	if (Transform.Rotation > 3) Transform.Rotation = 0;
+    	
+    	
+    }
     
     public void AddToPane() 
     {
         View.GridPane.getChildren().addAll(Shapes);
     }
-
     private void HandleElementSelection()
     {
     	if (View.SelectedElement.Count() == 1)
@@ -230,7 +231,6 @@ public abstract class BaseVisualElement
         }
         View.SelectedElement.Add(this);
     }
-
     public boolean CheckCollision(BaseVisualElement other) 
     {
         double thisLeft = Transform.Position.X * Config.CellSize - Collider.Size.X * Config.CellSize / 2;
@@ -245,7 +245,6 @@ public abstract class BaseVisualElement
 
         return !(thisRight <= otherLeft || thisLeft >= otherRight || thisBottom <= otherTop || thisTop >= otherBottom);
     }
-
     public void SetStrokeColor(Color color)
     {
     	for (Shape shape : Shapes)
