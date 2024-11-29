@@ -118,6 +118,11 @@ public abstract class BaseVisualElement
 	                	
 	                	element.Transform.Position = this.Transform.Position.Add(element._distancePosition);
 	                	element.UpdatePosition();
+	                	
+	                    for (Shape eachShape : element.Shapes)
+	                	{
+	                		if (eachShape instanceof ConnectionNode) ((ConnectionNode)eachShape).UpdateNodePotition();
+	                	}
 	                }
                 }
                 
@@ -139,13 +144,12 @@ public abstract class BaseVisualElement
                 {
                 	SetStrokeColor(Config.HoverColor);
                     _oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y); // Update old position if no collision is detected
-                }
+                }    
                 
                 for (Shape eachShape : Shapes)
             	{
             		if (eachShape instanceof ConnectionNode) ((ConnectionNode)eachShape).UpdateNodePotition();
             	}
-               
             } 
         });
 
