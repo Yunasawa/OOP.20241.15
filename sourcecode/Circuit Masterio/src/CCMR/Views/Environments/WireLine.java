@@ -1,6 +1,7 @@
 package CCMR.Views.Environments;
 
 import CCMR.Models.Values.*;
+import CCMR.Controls.Utilities.MDebug;
 import CCMR.Controls.Utilities.MFormula;
 import CCMR.Models.Types.*;
 import javafx.scene.shape.Polyline;
@@ -17,8 +18,6 @@ public class WireLine extends Polyline
     {
     	Node1 = node1;
         
-    	GetNodePositions();
-    	
         this.setStrokeWidth(Data.StrokeWidth);
         this.setStroke(Config.WireColor);
 
@@ -29,18 +28,26 @@ public class WireLine extends Polyline
     {
     	Node2 = node2;
     	
-    	GetNodePositions();
     	SyncPositions();
+    }
+    
+    public void AssignWire()
+    {
+    	if (Node1 != null) Node1.WireLine = this;
+    	if (Node2 != null) Node2.WireLine = this;
     }
     
     private void GetNodePositions()
     {
+    	Points.clear();
     	if (Node1 != null) Points.Add(MFormula.GetWorldPosition(Node1.Position, Node1.Element.Transform.Position));
     	if (Node2 != null) Points.add(MFormula.GetWorldPosition(Node2.Position, Node2.Element.Transform.Position));
     }
     
-    private void SyncPositions()
+    public void SyncPositions()
     {
+    	GetNodePositions();
+    	
         this.getPoints().clear();
         for (Vector2 point : Points)
         {

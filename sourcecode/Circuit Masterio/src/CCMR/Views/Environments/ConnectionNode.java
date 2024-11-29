@@ -14,7 +14,7 @@ public class ConnectionNode extends Circle
 	public Vector2 Position;
 	public WireLine WireLine;
 	
-	private static boolean _isDraggingWire = false;
+	public static boolean IsDraggingWire = false;
 	
 	public ConnectionNode(BaseVisualElement element, double x, double y)
 	{
@@ -33,14 +33,12 @@ public class ConnectionNode extends Circle
 	public Vector2 GetWorldPosition()
 	{
 		return MFormula.GetWorldPosition(Position, Element.Transform.Position);
-	}
-	
+	}	
 	public void SetColor(Color color)
 	{
         this.setStroke(color);
         this.setFill(color);
-	}
-	
+	}	
     private void AddToggleEventHandlers()
     {
         this.setOnMouseEntered(event ->
@@ -60,7 +58,9 @@ public class ConnectionNode extends Circle
         		View.CurrentWire.ConnectNode(this);
         		View.WireList.add(View.CurrentWire);
         		
-        		_isDraggingWire = false;
+        		View.CurrentWire.AssignWire();
+        		
+        		IsDraggingWire = false;
         		
         		View.SelectedNode.SetColor(Config.ElementColor);
         		View.SelectedNode = null;
@@ -73,18 +73,22 @@ public class ConnectionNode extends Circle
 	        	WireLine wire = new WireLine(this);
 	        	View.CurrentWire = wire;
 	        	
-	        	_isDraggingWire = true;
-	        	
-	        	View.GridCanvas.setOnMouseReleased(clicked -> 
-	        	{
-	        		MDebug.Log(_isDraggingWire);
-	        		if (_isDraggingWire)
-	        		{
-	        			View.GridView.RemoveShapes(wire);
-	        			View.CurrentWire = null;
-	        		}
-	        	});
+	        	IsDraggingWire = true;
         	}
         });
+    }
+    
+    public void RemoveWire()
+    {
+    	if (IsDraggingWire && View.CurrentWire != null)
+		{
+			View.GridView.RemoveShapes(View.CurrentWire);
+			View.CurrentWire = null;
+		}
+    }
+
+    public void UpdateNodePotition()
+    {
+    	if (WireLine != null) WireLine.SyncPositions();
     }
 }
