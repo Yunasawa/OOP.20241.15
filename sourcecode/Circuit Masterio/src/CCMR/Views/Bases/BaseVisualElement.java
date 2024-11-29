@@ -2,17 +2,19 @@ package CCMR.Views.Bases;
 
 import CCMR.Controls.Utilities.*;
 import CCMR.Models.Definitions.*;
+import CCMR.Models.Interfaces.IKeyPressListenable;
 import CCMR.Models.Types.*;
 import CCMR.Models.Values.*;
 import CCMR.Views.Environments.*;
 import javafx.scene.shape.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BaseVisualElement
+public abstract class BaseVisualElement implements IKeyPressListenable
 {
     public Transform Transform = new Transform();
     public Collider Collider = new Collider(new Vector2(0, 0), new Vector2(2, 4));
@@ -25,6 +27,8 @@ public abstract class BaseVisualElement
 
     public BaseVisualElement()
     {
+    	RegisterListener(Global.SystemManager);
+    	
         CreateShapes();
         InitializeShapes();
         
@@ -33,7 +37,7 @@ public abstract class BaseVisualElement
         
         AddShapes(Collider);
         
-        View.GridView.Elements.add(this);
+        Global.GridView.Elements.add(this);
         this.UpdatePosition();
         this.AddToPane();
     }
@@ -54,7 +58,7 @@ public abstract class BaseVisualElement
     }
     private void InitializeShapes() 
     {
-        for (Shape shape : Shapes) 
+        for (Shape shape : Shapes)
         {
         	StyleShape(shape);
         	
@@ -83,16 +87,16 @@ public abstract class BaseVisualElement
                 Data.MouseDelta.Set(event.getSceneX() - shape.getTranslateX(), event.getSceneY() - shape.getTranslateY()); 
                 _oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y);
                 
-                if (View.SelectedElement.Count() != 1)
+                if (Global.SelectedElement.Count() != 1)
                 {
-                	for (BaseVisualElement element : View.SelectedElement)
+                	for (BaseVisualElement element : Global.SelectedElement)
 	                {
 	                	element._oldPosition = new Vector2(element.Transform.Position.X, element.Transform.Position.Y);
 	                	element._distancePosition = element.Transform.Position.Subtract(this.Transform.Position);
 	                }
                 }
                 
-                if (View.SelectedElement.Count() == 1) View.GridView.RemoveAllSelected();
+                if (Global.SelectedElement.Count() == 1) Global.GridView.RemoveAllSelected();
             } 
         }); 
 
@@ -106,9 +110,9 @@ public abstract class BaseVisualElement
                 Transform.Position.X = Math.round(newCenterX / Config.CellSize);
                 Transform.Position.Y = Math.round(newCenterY / Config.CellSize);
 
-                if (View.SelectedElement.Count() != 1)
+                if (Global.SelectedElement.Count() != 1)
                 {
-	                for (BaseVisualElement element : View.SelectedElement)
+	                for (BaseVisualElement element : Global.SelectedElement)
 	                {
 	                	if (element == this) continue;
 	                	
@@ -125,7 +129,7 @@ public abstract class BaseVisualElement
                 UpdatePosition();
 
                 boolean collisionDetected = false;
-                for (BaseVisualElement other : View.GridView.Elements) 
+                for (BaseVisualElement other : Global.GridView.Elements) 
                 {
                     if (other != this && CheckCollision(other)) 
                     {
@@ -156,7 +160,7 @@ public abstract class BaseVisualElement
             HandleElementSelection();
 
             boolean collisionDetected = false;
-            for (BaseVisualElement other : View.GridView.Elements) 
+            for (BaseVisualElement other : Global.GridView.Elements) 
             {
                 if (other != this && CheckCollision(other)) 
                 {
@@ -178,12 +182,12 @@ public abstract class BaseVisualElement
     {     	
         shape.setOnMouseEntered(event ->
         { 
-        	if (View.SelectedElement.IsEmpty() || !View.SelectedElement.contains(this)) SetStrokeColor(Config.HoverColor);
+        	if (Global.SelectedElement.IsEmpty() || !Global.SelectedElement.contains(this)) SetStrokeColor(Config.HoverColor);
         }); 
         
         shape.setOnMouseExited(event -> 
         { 
-        	if (View.SelectedElement.IsEmpty() || !View.SelectedElement.contains(this)) SetStrokeColor(Config.ElementColor);
+        	if (Global.SelectedElement.IsEmpty() || !Global.SelectedElement.contains(this)) SetStrokeColor(Config.ElementColor);
             else SetStrokeColor(Config.SelectedColor);
         });
     }
@@ -217,19 +221,19 @@ public abstract class BaseVisualElement
     
     public void AddToPane() 
     {
-        View.GridPane.getChildren().addAll(Shapes);
+        Global.GridPane.getChildren().addAll(Shapes);
     }
     private void HandleElementSelection()
     {
-    	if (View.SelectedElement.Count() == 1)
+    	if (Global.SelectedElement.Count() == 1)
     	{
-	        if (View.SelectedElement.get(0) != this) 
+	        if (Global.SelectedElement.get(0) != this) 
 	        {
-	            View.SelectedElement.get(0).SetStrokeColor(Config.ElementColor);
-	            View.SelectedElement.remove(0);
+	            Global.SelectedElement.get(0).SetStrokeColor(Config.ElementColor);
+	            Global.SelectedElement.remove(0);
 	        }
         }
-        View.SelectedElement.Add(this);
+        Global.SelectedElement.Add(this);
     }
     public boolean CheckCollision(BaseVisualElement other) 
     {
@@ -254,4 +258,10 @@ public abstract class BaseVisualElement
     		shape.setStroke(color);
     	}
     }
+
+    @Override
+	public void OnKeyPressed(KeyCode key) 
+    {
+		
+	}
 }

@@ -22,7 +22,7 @@ public class WireLine extends Polyline
         this.setStrokeWidth(Data.StrokeWidth);
         SetColor(Config.WireColor);
 
-        View.GridView.AddShapes(1, this);
+        Global.GridView.AddShapes(1, this);
         
         AddSelectManipulator();
     }
@@ -38,9 +38,9 @@ public class WireLine extends Polyline
     {
     	this.setOnMousePressed(event -> 
     	{
-    		if (View.CurrentWire != null && View.CurrentWire != this)
+    		if (Global.CurrentWire != null && Global.CurrentWire != this)
     		{
-    			View.CurrentWire.SelectWire(false);
+    			Global.CurrentWire.SelectWire(false);
     		}
     		SelectWire(true);
     	});
@@ -50,13 +50,13 @@ public class WireLine extends Polyline
     {
     	if (isSelect)
     	{
-    		View.CurrentWire = this;
-    		View.CurrentWire.SetColor(Config.SelectedColor);
+    		Global.CurrentWire = this;
+    		Global.CurrentWire.SetColor(Config.SelectedColor);
     	}
     	else
     	{
-    		View.CurrentWire.SetColor(Config.WireColor);
-    		View.CurrentWire = null;
+    		Global.CurrentWire.SetColor(Config.WireColor);
+    		Global.CurrentWire = null;
     	}
     }
     

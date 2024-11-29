@@ -16,50 +16,50 @@ public class GridView extends BasePaneView
     { 
     	Pane viewPane = super.CreateView(); 
     	
-    	View.SelectionBox.InsertBoxToPane();
+    	Global.SelectionBox.InsertBoxToPane();
     	
     	return viewPane; 
 	}    
 	@Override
 	protected void DrawView() 
     {
-		View.GridContext.save();
-        View.GridContext.scale(Data.ScaleValue, Data.ScaleValue);
+		Global.GridContext.save();
+        Global.GridContext.scale(Data.ScaleValue, Data.ScaleValue);
 
-        View.GridContext.fillRect(0, 0, View.GridCanvas.getWidth() / Data.ScaleValue, View.GridCanvas.getHeight() / Data.ScaleValue);
+        Global.GridContext.fillRect(0, 0, Global.GridCanvas.getWidth() / Data.ScaleValue, Global.GridCanvas.getHeight() / Data.ScaleValue);
 
         _startPosition.X = Data.GridOffset.X % Config.CellSize;
         _startPosition.Y = Data.GridOffset.Y % Config.CellSize;
 
-        if (_gridType == GridType.Dash) View.GridContext.setLineDashes(5);
+        if (_gridType == GridType.Dash) Global.GridContext.setLineDashes(5);
         else if (_gridType == GridType.Dot) 
         {
-            for (double x = -_startPosition.X; x < View.GridCanvas.getWidth() / Data.ScaleValue; x += Config.CellSize) 
+            for (double x = -_startPosition.X; x < Global.GridCanvas.getWidth() / Data.ScaleValue; x += Config.CellSize) 
             {
-                for (double y = -_startPosition.Y; y < View.GridCanvas.getHeight() / Data.ScaleValue; y += Config.CellSize) 
+                for (double y = -_startPosition.Y; y < Global.GridCanvas.getHeight() / Data.ScaleValue; y += Config.CellSize) 
                 {
-                	View.GridContext.setFill(Config.GridLineColor);
-                	View.GridContext.fillOval(x - 2.5, y - 2.5, 5, 5);
+                	Global.GridContext.setFill(Config.GridLineColor);
+                	Global.GridContext.fillOval(x - 2.5, y - 2.5, 5, 5);
                 }
             }
         } 
         else 
         {
-            for (double x = -_startPosition.X; x < View.GridCanvas.getWidth() / Data.ScaleValue; x += Config.CellSize) 
+            for (double x = -_startPosition.X; x < Global.GridCanvas.getWidth() / Data.ScaleValue; x += Config.CellSize) 
             {
-            	View.GridContext.strokeLine(x, 0, x, View.GridCanvas.getHeight() / Data.ScaleValue);
+            	Global.GridContext.strokeLine(x, 0, x, Global.GridCanvas.getHeight() / Data.ScaleValue);
             }
-            for (double y = -_startPosition.Y; y < View.GridCanvas.getHeight() / Data.ScaleValue; y += Config.CellSize) 
+            for (double y = -_startPosition.Y; y < Global.GridCanvas.getHeight() / Data.ScaleValue; y += Config.CellSize) 
             {
-            	View.GridContext.strokeLine(0, y, View.GridCanvas.getWidth() / Data.ScaleValue, y);
+            	Global.GridContext.strokeLine(0, y, Global.GridCanvas.getWidth() / Data.ScaleValue, y);
             }
         }
 
-        View.GridContext.restore();
+        Global.GridContext.restore();
     }	
     public void AddKeyManipulator()
     {
-		View.GridScene.setOnKeyPressed(event ->
+		Global.GridScene.setOnKeyPressed(event ->
 		{
 			if (event.getCode() == KeyCode.DELETE) 
     		{
@@ -73,25 +73,25 @@ public class GridView extends BasePaneView
     {
     	for (Shape shape : shapes)
     	{
-        	if (View.GridPane.getChildren().contains(shape)) continue;
-        	View.GridPane.getChildren().add(shape);
+        	if (Global.GridPane.getChildren().contains(shape)) continue;
+        	Global.GridPane.getChildren().add(shape);
     	}
     }
     public void AddShapes(int index, Shape... shapes)
     {
     	for (Shape shape : shapes)
     	{
-        	if (View.GridPane.getChildren().contains(shape)) continue;
-        	View.GridPane.getChildren().add(index, shape);	
+        	if (Global.GridPane.getChildren().contains(shape)) continue;
+        	Global.GridPane.getChildren().add(index, shape);	
     	}
     }
     public void RemoveShapes(Shape...shapes)
     {
     	for (Shape shape : shapes)
     	{
-        	if (!View.GridPane.getChildren().contains(shape)) continue;
+        	if (!Global.GridPane.getChildren().contains(shape)) continue;
         	
-        	View.GridPane.getChildren().remove(shape);	
+        	Global.GridPane.getChildren().remove(shape);	
     	}
     }
     
