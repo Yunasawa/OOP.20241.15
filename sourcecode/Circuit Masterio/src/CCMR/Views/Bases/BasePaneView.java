@@ -126,7 +126,7 @@ public abstract class BasePaneView
 
                 //View.WireLine.updateOffset(Data.GridOffset);
                 
-                for (WireLine wire : View.WireList) wire.updateOffset();
+                for (WireLine wire : View.WireList) wire.UpdateOffset();
                 
                 Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY());
                 OnDragMouseDragged();
@@ -173,7 +173,7 @@ public abstract class BasePaneView
                 
                 //View.WireLine.updateScale(Data.ScaleValue);
                 
-                for (WireLine wire : View.WireList) wire.updateScale();
+                for (WireLine wire : View.WireList) wire.UpdateScale();
                 
                 OnZoomMouseScrolled();
             }

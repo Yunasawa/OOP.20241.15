@@ -16,8 +16,9 @@ public class WireLine extends Polyline
     public WireLine(ConnectionNode node1)
     {
     	Node1 = node1;
-    	Points.Add(MFormula.GetWorldPosition(node1.Position, node1.Element.Transform.Position));
         
+    	GetNodePositions();
+    	
         this.setStrokeWidth(Data.StrokeWidth);
         this.setStroke(Config.WireColor);
 
@@ -27,30 +28,36 @@ public class WireLine extends Polyline
     public void ConnectNode(ConnectionNode node2)
     {
     	Node2 = node2;
-    	Points.add(MFormula.GetWorldPosition(node2.Position, node2.Element.Transform.Position));
     	
-    	syncPoints();
+    	GetNodePositions();
+    	SyncPositions();
     }
     
-    private void syncPoints()
+    private void GetNodePositions()
+    {
+    	if (Node1 != null) Points.Add(MFormula.GetWorldPosition(Node1.Position, Node1.Element.Transform.Position));
+    	if (Node2 != null) Points.add(MFormula.GetWorldPosition(Node2.Position, Node2.Element.Transform.Position));
+    }
+    
+    private void SyncPositions()
     {
         this.getPoints().clear();
         for (Vector2 point : Points)
         {
-            double x = (point.X - Data.GridOffset.X) * Data.ScaleValue;//(point.X * Config.CellSize - Data.GridOffset.X) * Data.ScaleValue;
-            double y = (point.Y - Data.GridOffset.Y) * Data.ScaleValue;//(point.Y * Config.CellSize - Data.GridOffset.Y) * Data.ScaleValue;
+            double x = (point.X - Data.GridOffset.X) * Data.ScaleValue;
+            double y = (point.Y - Data.GridOffset.Y) * Data.ScaleValue;
             this.getPoints().addAll(x, y);
         }
     }
 
-    public void updateScale() 
+    public void UpdateScale() 
     {
-        syncPoints();
+        SyncPositions();
         this.setStrokeWidth(Data.StrokeWidth);
     }
 
-    public void updateOffset() 
+    public void UpdateOffset()
     {
-        syncPoints();
+        SyncPositions();
     }
 }
