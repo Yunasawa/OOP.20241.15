@@ -24,7 +24,8 @@ public abstract class BaseVisualElement implements IKeyPressListenable
     private Vector2 _oldPosition;
     private Vector2 _distancePosition = new Vector2();
     
-    private Map<Shape, Row<Double>> _maps = new HashMap<>();
+    private Map<Shape, Row<Double>> _scaleMap = new HashMap<>();
+    private Map<Shape, Row<Double>> _rotateMap = new HashMap<>();
 
     public BaseVisualElement()
     {
@@ -50,11 +51,17 @@ public abstract class BaseVisualElement implements IKeyPressListenable
     	for (Shape shape : shapes)
     	{
     		Shapes.add(shape);
-    		if (shape instanceof WireLine) 
-    		{
-    			//_maps.put(shape, MShape.GetScale(shape));
-    		}
-    		else _maps.put(shape, MShape.GetScale(shape));
+    		RefreshMap(true, true);
+    	}
+    }
+    private void RefreshMap(boolean refreshScale, boolean refreshRotate)
+    {
+    	if (refreshScale) _scaleMap.clear();
+    	if (refreshRotate) _rotateMap.clear();
+    	for (Shape shape : Shapes)
+    	{
+    		if (refreshScale) _scaleMap.put(shape, MShape.GetProperties(shape));
+    		if (refreshRotate) _rotateMap.put(shape, MShape.GetProperties(shape));
     	}
     }
     private void InitializeShapes() 
@@ -198,7 +205,7 @@ public abstract class BaseVisualElement implements IKeyPressListenable
         for (Shape shape : Shapes) 
         {
             shape.setStrokeWidth(Data.StrokeWidth);
-            MShape.SetScale(shape, _maps.get(shape), Data.ScaleValue);
+            MShape.SetScale(shape, _scaleMap.get(shape), Data.ScaleValue);
         }
     }
     public void UpdatePosition()
@@ -218,6 +225,12 @@ public abstract class BaseVisualElement implements IKeyPressListenable
     	if (Transform.Rotation > 3) Transform.Rotation = 0;
 
     	Vector2 rotatingPivot = Transform.Position.Add(Collider.Size.Multiply(0.5)).Round();
+    	
+        for (Shape shape : Shapes) 
+        {
+            MShape.SetRotate(shape, Transform.Position, _rotateMap.get(shape), Transform.Rotation);
+        }
+        RefreshMap(true, false);
     }
     
     public void AddToPane() 

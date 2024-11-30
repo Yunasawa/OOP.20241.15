@@ -2,8 +2,7 @@ package CCMR.Views.Elements;
 
 import CCMR.Views.Bases.*;
 import CCMR.Views.Environments.*;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
+import javafx.scene.shape.*;
 
 public class Bulb extends BaseVisualElement
 {
