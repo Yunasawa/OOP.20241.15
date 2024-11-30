@@ -74,7 +74,7 @@ public class MShape
 		{ 
 			Circle circle = (Circle)shape;
 			
-			pivot = pivot.Multiply(Config.CellSize);
+			//pivot = pivot.Multiply(Config.CellSize);
 			
 			Vector2 distance = new Vector2(row.get(1), row.get(2)).Multiply(Data.ScaleValue);
 			
@@ -87,51 +87,51 @@ public class MShape
 			}
 			else if (rotation == 1)
 			{
-				circle.setCenterX(pivot.X - distance.Y);
-				circle.setCenterY(pivot.Y + distance.X);
+				circle.setCenterX(- distance.Y);
+				circle.setCenterY(+ distance.X);
 			}
 			else if (rotation == 2)
 			{
-				circle.setCenterX(pivot.X - distance.X);
-				circle.setCenterY(pivot.Y - distance.Y);
+				circle.setCenterX(- distance.X);
+				circle.setCenterY(- distance.Y);
 			}
 			else if (rotation == 3)
 			{
-				circle.setCenterX(pivot.X + distance.Y);
-				circle.setCenterY(pivot.Y - distance.X);
+				circle.setCenterX(+ distance.Y);
+				circle.setCenterY(- distance.X);
 			}
 		}
 		else if (shape instanceof Rectangle)
 		{ 
 			Rectangle rectangle = (Rectangle)shape;
 			
-			Vector2 distance = new Vector2(row.get(0), row.get(1)).Subtract(pivot).Multiply(Data.ScaleValue);
+			Vector2 distance = new Vector2(row.get(0), row.get(1)).Multiply(Data.ScaleValue);
 			
 			if (rotation == 0)
 			{
-				rectangle.setX(row.get(0) * Data.ScaleValue);
-				rectangle.setY(row.get(1) * Data.ScaleValue);
+				rectangle.setX(distance.X);
+				rectangle.setY(distance.Y);
 				rectangle.setWidth(row.get(2) * Data.ScaleValue);
 				rectangle.setHeight(row.get(3) * Data.ScaleValue);
 			}
 			else if (rotation == 1)
 			{
-				rectangle.setX(pivot.X - distance.Y - row.get(3) * Data.ScaleValue);
-				rectangle.setY(pivot.Y + distance.X);
+				rectangle.setX(- distance.Y - row.get(3) * Data.ScaleValue);
+				rectangle.setY(+ distance.X);
 				rectangle.setWidth(row.get(3) * Data.ScaleValue);
 				rectangle.setHeight(row.get(2) * Data.ScaleValue);
 			}
 			else if (rotation == 2)
 			{
-				rectangle.setX(pivot.X - distance.X - row.get(2) * Data.ScaleValue);
-				rectangle.setY(pivot.Y - distance.Y - row.get(3) * Data.ScaleValue);
+				rectangle.setX(- distance.X - row.get(2) * Data.ScaleValue);
+				rectangle.setY(- distance.Y - row.get(3) * Data.ScaleValue);
 				rectangle.setWidth(row.get(2) * Data.ScaleValue);
 				rectangle.setHeight(row.get(3) * Data.ScaleValue);
 			}
 			else if (rotation == 3)
 			{
-				rectangle.setX(pivot.X + distance.Y);
-				rectangle.setY(pivot.Y - distance.X - row.get(2) * Data.ScaleValue);
+				rectangle.setX(+ distance.Y);
+				rectangle.setY(- distance.X - row.get(2) * Data.ScaleValue);
 				rectangle.setWidth(row.get(3) * Data.ScaleValue);
 				rectangle.setHeight(row.get(2) * Data.ScaleValue);
 			}
@@ -140,36 +140,36 @@ public class MShape
 		{ 
 			Line line = (Line)shape;
 			
-			Vector2 start = new Vector2(row.get(0), row.get(1)).Subtract(pivot).Multiply(Data.ScaleValue);
-			Vector2 end = new Vector2(row.get(2), row.get(3)).Subtract(pivot).Multiply(Data.ScaleValue);
+			Vector2 start = new Vector2(row.get(0), row.get(1)).Multiply(Data.ScaleValue);
+			Vector2 end = new Vector2(row.get(2), row.get(3)).Multiply(Data.ScaleValue);
 			
 			if (rotation == 0)
 			{
-				line.setStartX(row.get(0) * Data.ScaleValue);
-				line.setStartY(row.get(1) * Data.ScaleValue);
-				line.setEndX(row.get(2) * Data.ScaleValue);
-				line.setEndY(row.get(3) * Data.ScaleValue);
+				line.setStartX(start.X);
+				line.setStartY(start.Y);
+				line.setEndX(end.X);
+				line.setEndY(end.Y);
 			}
 			else if (rotation == 1)
 			{
-				line.setStartX(pivot.X - start.Y); 
-				line.setStartY(pivot.Y + start.X); 
-				line.setEndX(pivot.X - end.Y); 
-				line.setEndY(pivot.Y + end.X);
+				line.setStartX(- start.Y); 
+				line.setStartY(+ start.X); 
+				line.setEndX(- end.Y); 
+				line.setEndY(+ end.X);
 			}
 			else if (rotation == 2)
 			{
-				line.setStartX(pivot.X - start.X); 
-				line.setStartY(pivot.Y - start.Y); 
-				line.setEndX(pivot.X - end.X); 
-				line.setEndY(pivot.Y - end.Y);
+				line.setStartX(- start.X); 
+				line.setStartY(- start.Y); 
+				line.setEndX(- end.X); 
+				line.setEndY(- end.Y);
 			}
 			else if (rotation == 3)
 			{
-				line.setStartX(pivot.X + start.Y); 
-				line.setStartY(pivot.Y - start.X); 
-				line.setEndX(pivot.X + end.Y); 
-				line.setEndY(pivot.Y - end.X);
+				line.setStartX(+ start.Y); 
+				line.setStartY(- start.X); 
+				line.setEndX(+ end.Y); 
+				line.setEndY(- end.X);
 			}
 		}
 	}

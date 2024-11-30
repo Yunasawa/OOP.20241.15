@@ -9,8 +9,9 @@ public class Bulb extends BaseVisualElement
 	@Override
 	protected void CreateShapes()
 	{
-        Circle outerCircle = new Circle(50, 100, 50);
-        Line line1 = new Line(18, 68, 82, 132);
+        //Circle outerCircle = new Circle(50, 100, 50);
+        Rectangle outerCircle = new Rectangle(50, 100, 100, 150);
+		Line line1 = new Line(18, 68, 82, 132);
         Line line2 = new Line(18, 132, 82, 68);
         Line wire1 = new Line(50, 0, 50, 50);
         Line wire2 = new Line(50, 150, 50, 200);
