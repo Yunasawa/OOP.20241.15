@@ -190,7 +190,7 @@ public class MShape
     	}
     	else if (element.Transform.Rotation == 3)
     	{
-    		element.Transform.Position = transform.Position.Add(new Vector2(point.X + point.Y, point.X - point.Y));
+    		element.Transform.Position = transform.Position.Add(new Vector2(point.X - point.Y, point.X + point.Y));
     	}
     	
     	MDebug.Log(element.Transform.Position + ", " + transform.Position + ", " + point);
