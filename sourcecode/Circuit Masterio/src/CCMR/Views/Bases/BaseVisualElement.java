@@ -8,6 +8,7 @@ import CCMR.Models.Values.*;
 import CCMR.Views.Environments.*;
 import javafx.scene.shape.*;
 import javafx.scene.transform.Rotate;
+import javafx.util.Pair;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
@@ -17,6 +18,9 @@ import java.util.Map;
 
 public abstract class BaseVisualElement implements IKeyPressListenable
 {
+	private Transform _stableTransform;
+	private Collider _stableCollider;
+	
     public Transform Transform = new Transform();
     public Collider Collider = new Collider(new Vector2(0, 0), new Vector2(2, 4));
     public List<Shape> Shapes = new ArrayList<>();
@@ -42,6 +46,9 @@ public abstract class BaseVisualElement implements IKeyPressListenable
         Global.GridView.Elements.add(this);
         this.UpdatePosition();
         this.AddToPane();
+        
+        _stableTransform = new Transform(Transform.Position, Transform.Rotation);
+        _stableCollider = new Collider(Collider.TopLeft, Collider.BottomRight);
     }
 
     protected abstract void CreateShapes();
@@ -224,12 +231,14 @@ public abstract class BaseVisualElement implements IKeyPressListenable
     	Transform.Rotation++;
     	if (Transform.Rotation > 3) Transform.Rotation = 0;
 
-    	Vector2 rotatingPivot = Transform.Position.Add(Collider.Size.Multiply(0.5)).Round();
+    	Vector2 rotatingPivot = Transform.Position.Subtract(Collider.Size.Multiply(0.5)).Round();
     	
-        for (Shape shape : Shapes) 
+        for (Shape shape : Shapes)
         {
-            MShape.SetRotate(shape, Transform.Position, _rotateMap.get(shape), Transform.Rotation);
+            MShape.SetRotate(shape, _rotateMap.get(shape), Transform.Rotation);
         }
+        MShape.GetRotatedPivot(this, _stableTransform, _stableCollider);
+        UpdatePosition();
         RefreshMap(true, false);
     }
     

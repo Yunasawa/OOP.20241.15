@@ -1,8 +1,10 @@
 package CCMR.Controls.Utilities;
 
+import CCMR.Models.Definitions.Transform;
 import CCMR.Models.Types.*;
 import CCMR.Models.Values.Config;
 import CCMR.Models.Values.Data;
+import CCMR.Views.Bases.BaseVisualElement;
 import CCMR.Views.Environments.*;
 import javafx.scene.shape.*;
 
@@ -68,17 +70,13 @@ public class MShape
 			for (Double point : row) wire.getPoints().add(point + Data.GridOffset.X);
 		}
 	}
-	public static void SetRotate(Shape shape, Vector2 pivot, Row<Double> row, int rotation)
+	public static void SetRotate(Shape shape, Row<Double> row, int rotation)
 	{
 		if (shape instanceof Circle) 
 		{ 
 			Circle circle = (Circle)shape;
 			
-			//pivot = pivot.Multiply(Config.CellSize);
-			
 			Vector2 distance = new Vector2(row.get(1), row.get(2)).Multiply(Data.ScaleValue);
-			
-			MDebug.Log(new Vector2(row.get(1), row.get(2)) + " | " + pivot + " | " + distance);
 			
 			if (rotation == 0)
 			{
@@ -172,5 +170,29 @@ public class MShape
 				line.setEndY(- end.X);
 			}
 		}
+	}
+	
+	public static void GetRotatedPivot(BaseVisualElement element, Transform transform, Collider collider)
+	{
+		Vector2 point = collider.Size.Multiply(0.5).Round();
+		
+    	if (element.Transform.Rotation == 0)
+    	{
+    		element.Transform.Position = transform.Position;
+    	}
+    	else if (element.Transform.Rotation == 1)
+    	{
+    		element.Transform.Position = transform.Position.Add(new Vector2(point.X + point.Y, point.Y - point.X));
+    	}
+    	else if (element.Transform.Rotation == 2)
+    	{
+    		element.Transform.Position = transform.Position.Add(new Vector2(point.X * 2, point.Y * 2));
+    	}
+    	else if (element.Transform.Rotation == 3)
+    	{
+    		element.Transform.Position = transform.Position.Add(new Vector2(point.X + point.Y, point.X - point.Y));
+    	}
+    	
+    	MDebug.Log(element.Transform.Position + ", " + transform.Position + ", " + point);
 	}
 }
