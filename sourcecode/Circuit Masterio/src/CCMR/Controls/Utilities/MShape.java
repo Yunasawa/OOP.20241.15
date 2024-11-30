@@ -15,17 +15,17 @@ public class MShape
 		if (shape instanceof Circle) 
 		{ 
 			Circle circle = (Circle)shape;
-			row.Add(circle.getRadius(), circle.getCenterX(), circle.getCenterY());
+			row.Add(circle.getRadius() / Data.ScaleValue, circle.getCenterX() / Data.ScaleValue, circle.getCenterY() / Data.ScaleValue);
 		}
 		else if (shape instanceof Rectangle)
 		{ 
 			Rectangle rectangle = (Rectangle)shape;
-			row.Add(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+			row.Add(rectangle.getX() / Data.ScaleValue, rectangle.getY() / Data.ScaleValue, rectangle.getWidth() / Data.ScaleValue, rectangle.getHeight() / Data.ScaleValue);
 		}
 		else if (shape instanceof Line)
 		{ 
 			Line line = (Line)shape;
-			row.Add(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY());
+			row.Add(line.getStartX() / Data.ScaleValue, line.getStartY() / Data.ScaleValue, line.getEndX() / Data.ScaleValue, line.getEndY() / Data.ScaleValue);
 		}
 		else if (shape instanceof WireLine)
 		{
