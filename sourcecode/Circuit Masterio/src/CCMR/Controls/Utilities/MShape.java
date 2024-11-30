@@ -76,7 +76,7 @@ public class MShape
 			
 			pivot = pivot.Multiply(Config.CellSize);
 			
-			Vector2 distance = new Vector2(row.get(1), row.get(2)).Subtract(pivot).Multiply(Data.ScaleValue);
+			Vector2 distance = new Vector2(row.get(1), row.get(2)).Multiply(Data.ScaleValue);
 			
 			MDebug.Log(new Vector2(row.get(1), row.get(2)) + " | " + pivot + " | " + distance);
 			
