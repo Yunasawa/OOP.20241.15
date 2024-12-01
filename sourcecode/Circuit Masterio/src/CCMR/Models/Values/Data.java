@@ -15,4 +15,6 @@ public class Data
 	
 	// Function values
 	public static boolean IsDraggingElement = false;
+	public static long LastMousePressedTime = 0;
+	public static Vector2 LastMousePressedPosition = new Vector2();
 }

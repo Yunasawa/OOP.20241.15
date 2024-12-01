@@ -1,11 +1,10 @@
 package CCMR.Views.Bases;
 
-import java.util.ArrayList;
-
-import CCMR.Models.Types.Vector2;
+import CCMR.Models.Types.*;
 import CCMR.Models.Values.Config;
 import CCMR.Models.Values.Data;
-import CCMR.Models.Values.View;
+import CCMR.Models.Values.Global;
+import CCMR.Views.Environments.WireLine;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
 
@@ -19,11 +18,11 @@ public abstract class BasePaneView
     protected double _zoomFactor, _newScale, _oldScale, _f, _dx, _dy;
     protected boolean _zoomCenteredOnMouse = false;  // Boolean flag to enable/disable zoom centered on mouse
     
-    public ArrayList<BaseVisualElement> Elements = new ArrayList<>();
+    public Row<BaseVisualElement> Elements = new Row<>();
 
     public Pane CreateView()
     {
-        View.GridPane.getChildren().add(View.GridCanvas);
+        Global.GridPane.getChildren().add(Global.GridCanvas);
 
         CreateGraphicsContext();
         
@@ -34,37 +33,86 @@ public abstract class BasePaneView
 
         DrawView();
 
-        return View.GridPane;
+        return Global.GridPane;
     }
 
-    private void AddElementSelectionHandler()
+    private void AddElementSelectionHandler() 
     {
-        View.GridPane.setOnMouseClicked(event -> 
+        Global.GridCanvas.setOnMousePressed(event -> 
         {
-            if (event.getTarget() instanceof Canvas)
+        	if (event.getTarget() instanceof Canvas || event.getTarget() instanceof Pane) 
             {
-                if (View.SelectedElement != null) 
-                {
-                    View.SelectedElement.SetStrokeColor(Config.ElementColor);
-                    View.SelectedElement = null;
-                }
+	            Data.LastMousePressedTime = System.currentTimeMillis();
+	            Data.LastMousePressedPosition = new Vector2(event.getX(), event.getY());
+	            
+	            if (Global.SelectedNode != null)
+	            {
+	            	Global.SelectedNode.SetColor(Config.ElementColor);
+	            	Global.SelectedNode = null;
+	            }
+	            
+	            if (Global.CurrentWire != null)
+	            {
+	            	Global.CurrentWire.SelectWire(false);
+	            }
             }
         });
-    }
+        
+        Global.GridCanvas.setOnMouseReleased(event -> 
+        {
+            if (event.getTarget() instanceof Canvas || event.getTarget() instanceof Pane) 
+            {
+                double elapsedTime = System.currentTimeMillis() - Data.LastMousePressedTime;
 
+                Vector2 releasePosition = new Vector2(event.getX(), event.getY());
+                double distance = releasePosition.Distance(Data.LastMousePressedPosition);
+
+                if (elapsedTime < 200 && distance < 5)
+                {
+                	RemoveAllSelected();
+                }
+            }
+            
+            if (Global.SelectedNode != null) Global.SelectedNode.RemoveWire();
+        });
+    }
+    
     protected void DrawView() {}
 
     private void CreateGraphicsContext() 
     {
-        View.GridContext.clearRect(0, 0, View.GridCanvas.getWidth(), View.GridCanvas.getHeight());
-        View.GridContext.setFill(Config.BackgroundColor);
-        View.GridContext.setStroke(Config.GridLineColor);
-        View.GridContext.setLineWidth(1.0);
+        Global.GridContext.clearRect(0, 0, Global.GridCanvas.getWidth(), Global.GridCanvas.getHeight());
+        Global.GridContext.setFill(Config.BackgroundColor);
+        Global.GridContext.setStroke(Config.GridLineColor);
+        Global.GridContext.setLineWidth(1.0);
     }
 
+    public void RemoveSelectedElement()
+    {
+    	for (int i = Global.SelectedElement.size() - 1; i >= 0; i--) 
+        {
+    		BaseVisualElement element = Global.SelectedElement.get(i);
+    		
+    		Global.GridPane.getChildren().removeAll(element.Shapes);
+    		Global.GridView.Elements.remove(element);
+    		Global.SelectedElement.remove(i);
+        }
+    }
+    public void RemoveAllSelected()
+    {
+    	if (!Global.SelectedElement.IsEmpty()) 
+        {
+            for (int i = Global.SelectedElement.size() - 1; i >= 0; i--) 
+            {
+                Global.SelectedElement.get(i).SetStrokeColor(Config.ElementColor);
+                Global.SelectedElement.remove(i);
+            }
+        }
+    }
+    
     private void AddDragManipulator() 
     {
-        View.GridPane.setOnMousePressed(event -> 
+        Global.GridPane.setOnMousePressed(event -> 
         {
             if (event.isMiddleButtonDown()) 
             {
@@ -73,7 +121,7 @@ public abstract class BasePaneView
             OnDragMousePressed();
         });
 
-        View.GridPane.setOnMouseDragged(event -> 
+        Global.GridPane.setOnMouseDragged(event -> 
         {
             if (event.isMiddleButtonDown()) 
             {
@@ -83,6 +131,10 @@ public abstract class BasePaneView
 
                 for (BaseVisualElement element : Elements) element.UpdatePosition();
 
+                //View.WireLine.updateOffset(Data.GridOffset);
+                
+                for (WireLine wire : Global.WireList) wire.UpdateOffset();
+                
                 Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY());
                 OnDragMouseDragged();
             }
@@ -90,7 +142,7 @@ public abstract class BasePaneView
     }
     private void AddZoomManipulator() 
     {
-        View.GridPane.setOnScroll(event -> 
+        Global.GridPane.setOnScroll(event -> 
         {
             if (event.getDeltaY() != 0) 
             {
@@ -107,13 +159,13 @@ public abstract class BasePaneView
 
                 _f = (Data.ScaleValue / _oldScale) - 1;
 
-                _dx = event.getSceneX() - (View.GridPane.getBoundsInParent().getWidth() / 2 + View.GridPane.getBoundsInParent().getMinX());
-                _dy = event.getSceneY() - (View.GridPane.getBoundsInParent().getHeight() / 2 + View.GridPane.getBoundsInParent().getMinY());
+                _dx = event.getSceneX() - (Global.GridPane.getBoundsInParent().getWidth() / 2 + Global.GridPane.getBoundsInParent().getMinX());
+                _dy = event.getSceneY() - (Global.GridPane.getBoundsInParent().getHeight() / 2 + Global.GridPane.getBoundsInParent().getMinY());
 
                 if (_zoomCenteredOnMouse) 
                 {
-                    View.GridPane.setTranslateX(View.GridPane.getTranslateX() - _f * _dx);
-                    View.GridPane.setTranslateY(View.GridPane.getTranslateY() - _f * _dy);
+                    Global.GridPane.setTranslateX(Global.GridPane.getTranslateX() - _f * _dx);
+                    Global.GridPane.setTranslateY(Global.GridPane.getTranslateY() - _f * _dy);
 
                     Data.GridOffset.X -= _f * _dx / Data.ScaleValue;
                     Data.GridOffset.Y -= _f * _dy / Data.ScaleValue;
@@ -122,9 +174,13 @@ public abstract class BasePaneView
                 Data.StrokeWidth = Config.StrokeWidth * Data.ScaleValue;
                 for (BaseVisualElement element : Elements) 
                 {
-                    element.UpdateScaleValue();
+                    element.UpdateScale();
                     element.UpdatePosition();
                 }
+                
+                //View.WireLine.updateScale(Data.ScaleValue);
+                
+                for (WireLine wire : Global.WireList) wire.UpdateScale();
                 
                 OnZoomMouseScrolled();
             }

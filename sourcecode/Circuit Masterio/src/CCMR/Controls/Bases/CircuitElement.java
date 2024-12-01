@@ -1,4 +1,4 @@
-package CCMR.Controls.Systems;
+package CCMR.Controls.Bases;
 
 import CCMR.Models.Definitions.*;
 
