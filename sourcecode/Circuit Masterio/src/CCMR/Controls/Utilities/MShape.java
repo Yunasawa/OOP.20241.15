@@ -192,7 +192,5 @@ public class MShape
     	{
     		element.Transform.Position = transform.Position.Add(new Vector2(point.X - point.Y, point.X + point.Y));
     	}
-    	
-    	MDebug.Log(element.Transform.Position + ", " + transform.Position + ", " + point);
 	}
 }

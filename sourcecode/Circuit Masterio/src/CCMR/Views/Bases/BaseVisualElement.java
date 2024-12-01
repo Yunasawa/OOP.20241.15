@@ -92,7 +92,7 @@ public abstract class BaseVisualElement implements IKeyPressListenable
 
     protected void AddShapeEventHandlers(Shape shape) 
     { 
-        shape.setOnMousePressed(event -> 
+        shape.setOnMousePressed(event ->
         { 
             if (event.isPrimaryButtonDown()) 
             { 
@@ -153,12 +153,11 @@ public abstract class BaseVisualElement implements IKeyPressListenable
                     }
                 }
 
-                // Change color to CollisionColor if collision detected, else set to HoverColor and update old position
                 if (collisionDetected) SetStrokeColor(Config.CollisionColor);
                 else 
                 {
                 	SetStrokeColor(Config.HoverColor);
-                    _oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y); // Update old position if no collision is detected
+                    _oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y);
                 }    
                 
                 for (Shape eachShape : Shapes)
