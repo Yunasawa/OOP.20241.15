@@ -172,11 +172,11 @@ public class MShape
 		}
 	}
 	
-	public static void GetRotatedPivot(BaseVisualElement element, Transform transform, Collider collider, Vector2 adder)
+	public static void GetRotatedPivot(BaseVisualElement element, Transform transform, Collider collider)
 	{
 		Vector2 point = collider.Delta.Multiply(0.5).Round();
 		
-		Vector2 rotatedTopLeft, rotatedBottomRight, fixedTopLeft, fixedBottomRight;
+		Vector2 adder, rotatedTopLeft, rotatedBottomRight, fixedTopLeft, fixedBottomRight;
 		
     	if (element.Transform.Rotation == 0)
     	{
