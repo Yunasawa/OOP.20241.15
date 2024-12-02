@@ -16,6 +16,6 @@ public class EventManager
 	
 	public void InvokeOnKeyPressedEvent(KeyCode key)
 	{
-		for (IKeyPressListenable listener : Global.EventManager.IKeyPressListeners) listener.OnKeyPressed(key);
+		for (IKeyPressListenable listener : IKeyPressListeners) listener.OnKeyPressed(key);
 	}
 }

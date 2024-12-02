@@ -4,7 +4,7 @@ import CCMR.Models.Definitions.Transform;
 import CCMR.Models.Types.*;
 import CCMR.Models.Values.Config;
 import CCMR.Models.Values.Data;
-import CCMR.Views.Bases.BaseVisualElement;
+import CCMR.Views.Bases.*;
 import CCMR.Views.Environments.*;
 import javafx.scene.shape.*;
 
@@ -174,25 +174,54 @@ public class MShape
 	
 	public static void GetRotatedPivot(BaseVisualElement element, Transform transform, Collider collider)
 	{
-		Vector2 point = collider.Size.Multiply(0.5).Round();
+		Vector2 point = collider.Delta.Multiply(0.5).Round();
+		
+		Vector2 adder, rotatedTopLeft, rotatedBottomRight, fixedTopLeft, fixedBottomRight;
 		
     	if (element.Transform.Rotation == 0)
     	{
     		element.Transform.Position = transform.Position;
+    		element.Collider = new Collider(collider.TopLeft, collider.BottomRight);
     	}
     	else if (element.Transform.Rotation == 1)
     	{
-    		element.Transform.Position = transform.Position.Add(new Vector2(point.X + point.Y, point.Y - point.X));
+    		adder = new Vector2(point.X + point.Y, point.Y - point.X);
+    		
+    		element.Transform.Position = transform.Position.Add(adder);
+    		
+    		rotatedTopLeft = collider.TopLeft.Add(adder);
+    		rotatedBottomRight = collider.BottomRight.Subtract(adder);
+    		fixedTopLeft = rotatedTopLeft.Subtract(new Vector2(collider.Size.Y, 0)).Subtract(adder);
+    		fixedBottomRight = rotatedBottomRight.Add(new Vector2(collider.Size.Y, 0)).Subtract(adder);
+    		
+    		element.Collider = new Collider(fixedTopLeft.X, fixedTopLeft.Y, fixedBottomRight.X, fixedBottomRight.Y);
     	}
     	else if (element.Transform.Rotation == 2)
     	{
-    		element.Transform.Position = transform.Position.Add(new Vector2(point.X * 2, point.Y * 2));
+    		adder = new Vector2(point.X * 2, point.Y * 2);
+    		
+    		element.Transform.Position = transform.Position.Add(adder);
+    		
+    		rotatedTopLeft = collider.TopLeft.Add(adder);
+    		rotatedBottomRight = collider.BottomRight.Subtract(adder);
+    		fixedTopLeft = rotatedTopLeft.Subtract(new Vector2(collider.Size.X, collider.Size.Y)).Subtract(adder);
+    		fixedBottomRight = rotatedBottomRight.Add(new Vector2(collider.Size.X, collider.Size.Y)).Subtract(adder);
+    		
+    		element.Collider = new Collider(fixedTopLeft.X, fixedTopLeft.Y, fixedBottomRight.X, fixedBottomRight.Y);
+ 
     	}
     	else if (element.Transform.Rotation == 3)
     	{
-    		element.Transform.Position = transform.Position.Add(new Vector2(point.X + point.Y, point.X - point.Y));
+    		adder = new Vector2(point.X - point.Y, point.X + point.Y);
+    		
+    		element.Transform.Position = transform.Position.Add(adder);
+    		
+    		rotatedTopLeft = collider.TopLeft.Add(adder);
+    		rotatedBottomRight = collider.BottomRight.Subtract(adder);
+    		fixedTopLeft = rotatedTopLeft.Subtract(new Vector2(0, collider.Size.X)).Subtract(adder);
+    		fixedBottomRight = rotatedBottomRight.Add(new Vector2(0	, collider.Size.X)).Subtract(adder);
+    		
+    		element.Collider = new Collider(fixedTopLeft.X, fixedTopLeft.Y, fixedBottomRight.X, fixedBottomRight.Y);
     	}
-    	
-    	MDebug.Log(element.Transform.Position + ", " + transform.Position + ", " + point);
 	}
 }

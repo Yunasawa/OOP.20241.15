@@ -20,6 +20,6 @@ public class Bulb extends BaseVisualElement
         
         AddShapes(outerCircle, line1, line2, wire1, wire2, dot1, dot2);
         
-        Collider = new Collider(0, 0, 2, 4);	
+        Collider = new Collider(0, 0, 2, 4);
 	}
 }
