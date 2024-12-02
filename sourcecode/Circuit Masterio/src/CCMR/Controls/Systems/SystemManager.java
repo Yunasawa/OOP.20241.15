@@ -30,7 +30,7 @@ public class SystemManager extends Application
         Global.EventManager = new EventManager();
                 
         Bulb bulb1 = new Bulb();
-        //Bulb bulb2 = new Bulb();
-        //DCVoltage dcVoltage = new DCVoltage();
+        Bulb bulb2 = new Bulb();
+        DCVoltage dcVoltage = new DCVoltage();
 	}
 }
