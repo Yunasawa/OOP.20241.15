@@ -11,6 +11,7 @@ public class Collider extends Rectangle
 	public Vector2 BottomRight = new Vector2();
 	
 	public Vector2 Size;
+	public Vector2 Delta;
 	
 	public Collider(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) 
 	{ 
@@ -22,6 +23,7 @@ public class Collider extends Rectangle
 		BottomRight = bottomRight;
 		
 		Size = BottomRight.Subtract(TopLeft);
+		Delta = BottomRight.Add(TopLeft);
 		
 		this.setX(TopLeft.X * Config.CellSize + 10);
 		this.setY(TopLeft.Y * Config.CellSize + 10);

@@ -18,6 +18,7 @@ public abstract class BaseVisualElement implements IKeyPressListenable
 {
 	private Transform _stableTransform;
 	private Collider _stableCollider;
+	private Vector2 _adder = new Vector2();
 	
     public Transform Transform = new Transform();
     public Collider Collider = new Collider(new Vector2(0, 0), new Vector2(2, 4));
@@ -232,7 +233,7 @@ public abstract class BaseVisualElement implements IKeyPressListenable
         {
             MShape.SetRotate(shape, _rotateMap.get(shape), Transform.Rotation);
         }
-        MShape.GetRotatedPivot(this, _stableTransform, _stableCollider);
+        MShape.GetRotatedPivot(this, _stableTransform, _stableCollider, _adder);
         UpdatePosition();
         RefreshMap(true, false);
     }
