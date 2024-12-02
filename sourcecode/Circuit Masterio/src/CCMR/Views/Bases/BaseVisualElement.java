@@ -7,8 +7,6 @@ import CCMR.Models.Types.*;
 import CCMR.Models.Values.*;
 import CCMR.Views.Environments.*;
 import javafx.scene.shape.*;
-import javafx.scene.transform.Rotate;
-import javafx.util.Pair;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
@@ -230,8 +228,6 @@ public abstract class BaseVisualElement implements IKeyPressListenable
     	Transform.Rotation++;
     	if (Transform.Rotation > 3) Transform.Rotation = 0;
 
-    	Vector2 rotatingPivot = Transform.Position.Subtract(Collider.Size.Multiply(0.5)).Round();
-    	
         for (Shape shape : Shapes)
         {
             MShape.SetRotate(shape, _rotateMap.get(shape), Transform.Rotation);
@@ -259,18 +255,19 @@ public abstract class BaseVisualElement implements IKeyPressListenable
     }
     public boolean CheckCollision(BaseVisualElement other) 
     {
-        double thisLeft = Transform.Position.X * Config.CellSize - Collider.Size.X * Config.CellSize / 2;
-        double thisRight = thisLeft + Collider.Size.X * Config.CellSize;
-        double thisTop = Transform.Position.Y * Config.CellSize - Collider.Size.Y * Config.CellSize / 2;
-        double thisBottom = thisTop + Collider.Size.Y * Config.CellSize;
+        double thisLeft = Transform.Position.X * Config.CellSize + Collider.TopLeft.X * Config.CellSize;
+        double thisRight = Transform.Position.X * Config.CellSize + Collider.BottomRight.X * Config.CellSize;
+        double thisTop = Transform.Position.Y * Config.CellSize + Collider.TopLeft.Y * Config.CellSize;
+        double thisBottom = Transform.Position.Y * Config.CellSize + Collider.BottomRight.Y * Config.CellSize;
 
-        double otherLeft = other.Transform.Position.X * Config.CellSize - other.Collider.Size.X * Config.CellSize / 2;
-        double otherRight = otherLeft + other.Collider.Size.X * Config.CellSize;
-        double otherTop = other.Transform.Position.Y * Config.CellSize - other.Collider.Size.Y * Config.CellSize / 2;
-        double otherBottom = otherTop + other.Collider.Size.Y * Config.CellSize;
+        double otherLeft = other.Transform.Position.X * Config.CellSize + other.Collider.TopLeft.X * Config.CellSize;
+        double otherRight = other.Transform.Position.X * Config.CellSize + other.Collider.BottomRight.X * Config.CellSize;
+        double otherTop = other.Transform.Position.Y * Config.CellSize + other.Collider.TopLeft.Y * Config.CellSize;
+        double otherBottom = other.Transform.Position.Y * Config.CellSize + other.Collider.BottomRight.Y * Config.CellSize;
 
         return !(thisRight <= otherLeft || thisLeft >= otherRight || thisBottom <= otherTop || thisTop >= otherBottom);
     }
+
     public void SetStrokeColor(Color color)
     {
     	for (Shape shape : Shapes)

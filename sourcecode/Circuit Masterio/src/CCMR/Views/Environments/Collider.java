@@ -29,7 +29,6 @@ public class Collider extends Rectangle
 		this.setHeight((BottomRight.Y - TopLeft.Y) * Config.CellSize - 20);
 		
 		AddStyle();
-		AddIntersetManipulator();
 	}
 	
 	private void AddStyle()
@@ -37,23 +36,5 @@ public class Collider extends Rectangle
 		this.setStroke(Color.TRANSPARENT);
 		this.setFill(Color.TRANSPARENT);
 		this.setStrokeWidth(0);
-	}
-	
-	private void AddIntersetManipulator()
-	{
-		this.setOnMouseEntered(event ->
-		{
-			
-		});
-		
-		this.setOnMouseExited(event ->
-		{
-			
-		});
-		
-		this.setOnMouseClicked(event ->
-		{
-			
-		});
 	}
 }

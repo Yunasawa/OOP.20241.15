@@ -4,7 +4,7 @@ import CCMR.Models.Definitions.Transform;
 import CCMR.Models.Types.*;
 import CCMR.Models.Values.Config;
 import CCMR.Models.Values.Data;
-import CCMR.Views.Bases.BaseVisualElement;
+import CCMR.Views.Bases.*;
 import CCMR.Views.Environments.*;
 import javafx.scene.shape.*;
 
@@ -176,13 +176,35 @@ public class MShape
 	{
 		Vector2 point = collider.Size.Multiply(0.5).Round();
 		
+		Vector2 adder;
+		
+		Vector2 topLeftDistance = collider.TopLeft;
+		Vector2 bottomRightDistance = collider.BottomRight;
+		
     	if (element.Transform.Rotation == 0)
     	{
     		element.Transform.Position = transform.Position;
+    		element.Collider = new Collider(collider.TopLeft, collider.BottomRight);
     	}
     	else if (element.Transform.Rotation == 1)
     	{
-    		element.Transform.Position = transform.Position.Add(new Vector2(point.X + point.Y, point.Y - point.X));
+    		adder = new Vector2(point.X + point.Y, point.Y - point.X);
+    		
+    		element.Transform.Position = transform.Position.Add(adder);
+    		
+    		Vector2 rotatedTopLeft = collider.TopLeft.Add(adder);//adder.Add(new Vector2(-topLeftDistance.Y, topLeftDistance.X));
+    		Vector2 rotatedBottomRight = collider.BottomRight.Subtract(adder);//adder.Add(new Vector2(-bottomRightDistance.X, bottomRightDistance.Y));
+    		Vector2 fixedTopLeft = rotatedTopLeft.Subtract(new Vector2(collider.Size.Y, 0)).Subtract(adder);
+    		Vector2 fixedBottomRight = rotatedBottomRight.Add(new Vector2(collider.Size.Y, 0)).Subtract(adder);
+    		
+    		element.Collider = new Collider(fixedTopLeft.X, fixedTopLeft.Y, fixedBottomRight.X, fixedBottomRight.Y);
+    		
+    		MDebug.Log("-1: " + transform.Position + ", " + element.Transform.Position + ", " + adder);
+    		MDebug.Log("0: " + collider.TopLeft + ", " + collider.BottomRight);
+    		MDebug.Log("1: " + topLeftDistance + ", " + bottomRightDistance);
+    		MDebug.Log("2: " + rotatedTopLeft + ", " + rotatedBottomRight);
+    		MDebug.Log("3: " + fixedTopLeft + ", " + fixedBottomRight);
+    		MDebug.Log("4: " + element.Collider.TopLeft + ", " + element.Collider.BottomRight);
     	}
     	else if (element.Transform.Rotation == 2)
     	{
@@ -192,5 +214,8 @@ public class MShape
     	{
     		element.Transform.Position = transform.Position.Add(new Vector2(point.X - point.Y, point.X + point.Y));
     	}
+    	
+    	//transform = new Transform(element.Transform.Position, element.Transform.Rotation);
+    	//collider = new Collider(element.Collider.TopLeft, element.Collider.BottomRight);
 	}
 }
