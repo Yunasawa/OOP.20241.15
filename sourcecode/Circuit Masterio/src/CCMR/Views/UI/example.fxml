@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="884.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <AnchorPane prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar layoutX="114.0" prefHeight="41.0" prefWidth="143.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+               <padding>
+                  <Insets left="15.0" top="8.0" />
+               </padding>
+            </MenuBar>
+            <Button layoutX="257.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="54.0" text="Button" />
+            <VBox layoutX="629.0" prefHeight="31.0" prefWidth="254.0">
+               <children>
+                  <Label fx:id="textColor" text="Hi there, curcuit lab (CIRCUIT LAB)">
+                     <padding>
+                        <Insets top="3.0" />
+                     </padding></Label>
+                  <Label fx:id="textColor" text="Warning unsedtrain changes Now eddiding 1">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></Label>
+               </children>
+            </VBox>
+            <Label fx:id="textLogo" layoutX="2.0" layoutY="1.0" prefHeight="34.0" prefWidth="110.0" text="CIRCUIT">
+               <padding>
+                  <Insets left="20.0" top="5.0" />
+               </padding></Label>
+         </children>
+      </AnchorPane>
+   </top>
+   <left>
+      <AnchorPane prefHeight="537.0" prefWidth="176.0" BorderPane.alignment="CENTER">
+         <children>
+            <ScrollBar layoutX="153.0" orientation="VERTICAL" prefHeight="581.0" prefWidth="22.0" />
+         </children>
+      </AnchorPane>
+   </left>
+   <bottom>
+      <AnchorPane prefHeight="49.0" prefWidth="600.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+         <children>
+            <HBox layoutX="10.0" layoutY="6.0" prefHeight="38.0" prefWidth="388.0" spacing="20">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="38.0">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="35.0" opacity="0.74" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../../design/istockphoto-1365197728-612x612.jpg" />
+                           </image></ImageView>
+                     </graphic></Button>
+                  <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="38.0">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.77" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../../design/istockphoto-1302329375-612x612.jpg" />
+                           </image></ImageView>
+                     </graphic></Button>
+                  <Button mnemonicParsing="false" opacity="0.93" prefHeight="38.0" prefWidth="70.0" text="Build">
+                     <font>
+                        <Font size="17.0" />
+                     </font></Button>
+                  <Button mnemonicParsing="false" opacity="0.82" prefHeight="38.0" prefWidth="96.0" style="-fx-background-color: white;" text="Simular">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Button>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </bottom>
+</BorderPane>

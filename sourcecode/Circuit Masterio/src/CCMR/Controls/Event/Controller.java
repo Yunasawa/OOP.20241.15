@@ -1,13 +1,11 @@
-package CCMR.Views.UI.Header;
+package CCMR.Controls.Event;
 
 import javafx.fxml.FXML;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 
-
 import java.awt.*;
-import java.sql.SQLOutput;
 
 public class Controller {
     @FXML
@@ -15,7 +13,7 @@ public class Controller {
 
     @FXML
     public void initialize() {
-        if(canvas != null) {
+        if (canvas != null) {
             drawGrid();
         } else {
             System.out.println("Loi");
@@ -37,6 +35,7 @@ public class Controller {
 
         for (double y = 0; y <= height; y += cellSize) {
             gc.strokeLine(0, y, width, y);
+
         }
     }
 }
