@@ -1,13 +1,10 @@
-package CCMR.Views.UI.Header;
+package CCMR.Views.UI;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.awt.*;
 
 public class Main extends Application {
     public static void main(String[] args) {
@@ -16,9 +13,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("abc.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("example.fxml"));
         primaryStage.setTitle("CIRCUIT LAB");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 900, 672));
         primaryStage.show();
     }
 }
