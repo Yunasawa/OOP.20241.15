@@ -1,0 +1,35 @@
+# Ignore all compiled class files
+*.class
+
+# Ignore project-specific files and directories
+/.settings/
+/bin/
+/target/
+/.classpath
+.project
+
+# Ignore Eclipse-specific files
+/.metadata/
+/tmp/
+/*.tmp
+*.bak
+*.swp
+
+# Ignore all Maven target directories
+**/target/
+
+# Ignore all build directories
+**/build/
+
+# Ignore logs and temp files
+*.log
+*.tmp
+
+# Ignore IntelliJ IDEA project files (if shared with IntelliJ users)
+/.idea/
+/*.iml
+*.iws
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
