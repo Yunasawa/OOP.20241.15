@@ -2,6 +2,7 @@
 
 package CCMR.Controls.Systems;
 
+import CCMR.Controls.Elements.DigitalConstant;
 import CCMR.Models.Values.Global;
 import CCMR.Views.Elements.*;
 import javafx.stage.Stage;
@@ -29,8 +30,11 @@ public class SystemManager extends Application
         
         Global.EventManager = new EventManager();
                 
-        Bulb bulb1 = new Bulb();
-        Bulb bulb2 = new Bulb();
-        DCVoltage dcVoltage = new DCVoltage();
+        //Bulb bulb1 = new Bulb();
+        //Bulb bulb2 = new Bulb();
+        //DCVoltage dcVoltage = new DCVoltage();
+        
+        DigitalConstant dc1 = new DigitalConstant(true);
+        DigitalConstant dc2 = new DigitalConstant(true);
 	}
 }
