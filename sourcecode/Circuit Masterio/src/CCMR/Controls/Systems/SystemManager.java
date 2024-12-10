@@ -25,7 +25,6 @@ public class SystemManager extends Application
         primaryStage.setScene(Global.GridScene);
         primaryStage.getIcons().add(new Image("file:resources/Icons/Application.png"));
         primaryStage.setTitle("Circuit Masterio - Yunasawa Studio");
-        primaryStage.setMaximized(true);
         primaryStage.show();
         
         Global.EventManager = new EventManager();
