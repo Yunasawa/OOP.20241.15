@@ -2,6 +2,7 @@ package CCMR.Controls.Bases;
 
 import java.util.HashSet;
 import java.util.Set;
+import CCMR.Controls.Elements.*;
 
 class Circuit {
     private ACSource source;
@@ -17,7 +18,7 @@ class Circuit {
 
     public double calculateTotalImpedance() {
         // Implement a method to traverse the graph and calculate total impedance
-        return traverseConnections(source.getConnection1(), new HashSet<>(), source.getFrequency());
+        return traverseConnections(source.getConnection1(), new HashSet<>(), source.Frequency);
     }
 
     private double traverseConnections(Connection connection, Set<Connection> visited, double frequency) {
@@ -26,7 +27,7 @@ class Circuit {
         }
         visited.add(connection);
 
-        double impedance = connection.getElement().getImpedance(frequency);
+        double impedance = connection.getElement().GetImpedance(frequency);
         for (Connection connected : connection.getConnectedTo()) {
             impedance += traverseConnections(connected, visited, frequency);
         }
@@ -35,15 +36,15 @@ class Circuit {
 
     public double calculateCurrent() {
         double totalImpedance = calculateTotalImpedance();
-        return source.getVoltage() / totalImpedance;
+        return source.Voltage / totalImpedance;
     }
 
     public void calculateVoltagesAndCurrents() {
         double current = calculateCurrent();
-        double frequency = source.getFrequency();
+        double frequency = source.Frequency;
 
         for (CircuitElement element : elements) {
-            double voltage = current * element.getImpedance(frequency);
+            double voltage = current * element.GetImpedance(frequency);
             System.out.printf("Voltage across %s: %.2f V\n", element.getClass().getSimpleName(), voltage);
             System.out.printf("Current through %s: %.2f A\n", element.getClass().getSimpleName(), current);
         }

@@ -72,7 +72,36 @@ public class MShape
 	}
 	public static void SetRotate(Shape shape, Row<Double> row, int rotation)
 	{
-		if (shape instanceof Circle) 
+		if (shape instanceof ConnectionNode)
+		{
+			ConnectionNode node = (ConnectionNode)shape;
+			
+			Vector2 distance = new Vector2(row.get(1), row.get(2)).Multiply(Data.ScaleValue);
+			
+			if (rotation == 0)
+			{
+				node.setCenterX(row.get(1) * Data.ScaleValue);
+				node.setCenterY(row.get(2) * Data.ScaleValue);
+			}
+			else if (rotation == 1)
+			{
+				node.setCenterX(- distance.Y);
+				node.setCenterY(+ distance.X);
+			}
+			else if (rotation == 2)
+			{
+				node.setCenterX(- distance.X);
+				node.setCenterY(- distance.Y);
+			}
+			else if (rotation == 3)
+			{
+				node.setCenterX(+ distance.Y);
+				node.setCenterY(- distance.X);
+			}
+			
+			node.Position = new Vector2(node.getCenterX(), node.getCenterY());
+		}
+		else if (shape instanceof Circle) 
 		{ 
 			Circle circle = (Circle)shape;
 			

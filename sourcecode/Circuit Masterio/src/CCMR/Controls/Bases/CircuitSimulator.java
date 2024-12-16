@@ -1,5 +1,7 @@
 package CCMR.Controls.Bases;
 
+import CCMR.Controls.Elements.*;
+
 public class CircuitSimulator {
     public static void main(String[] args) {
         ACSource acSource = new ACSource(220, 60); // 220V, 60Hz
