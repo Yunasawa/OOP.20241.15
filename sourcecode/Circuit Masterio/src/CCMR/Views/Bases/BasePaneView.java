@@ -5,6 +5,7 @@ import CCMR.Models.Values.Config;
 import CCMR.Models.Values.Data;
 import CCMR.Models.Values.Global;
 import CCMR.Views.Environments.WireLine;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
 
@@ -38,8 +39,9 @@ public abstract class BasePaneView
 
     private void AddElementSelectionHandler() 
     {
-        Global.GridCanvas.setOnMousePressed(event -> 
+        Global.SceneNode.setOnMousePressed(event -> 
         {
+        	System.out.println(event.getTarget());
         	if (event.getTarget() instanceof Canvas || event.getTarget() instanceof Pane) 
             {
 	            Data.LastMousePressedTime = System.currentTimeMillis();
@@ -58,9 +60,9 @@ public abstract class BasePaneView
             }
         });
         
-        Global.GridCanvas.setOnMouseReleased(event -> 
+        Global.SceneNode.setOnMouseReleased(event -> 
         {
-            if (event.getTarget() instanceof Canvas || event.getTarget() instanceof Pane) 
+            if (event.getTarget() instanceof Canvas || event.getTarget() instanceof Pane || event.getTarget() instanceof Node) 
             {
                 double elapsedTime = System.currentTimeMillis() - Data.LastMousePressedTime;
 
@@ -91,11 +93,21 @@ public abstract class BasePaneView
     {
     	for (int i = Global.SelectedElement.size() - 1; i >= 0; i--) 
         {
-    		BaseVisualElement element = Global.SelectedElement.get(i);
-    		
-    		Global.GridPane.getChildren().removeAll(element.Shapes);
-    		Global.GridView.Elements.remove(element);
-    		Global.SelectedElement.remove(i);
+    		if (Global.SelectedElement.get(i) instanceof BaseVisualElement)
+    		{
+        		BaseVisualElement element = (BaseVisualElement)Global.SelectedElement.get(i);
+        		
+        		Global.GridPane.getChildren().removeAll(element.Shapes);
+        		Global.GridView.Elements.remove(element);
+        		Global.SelectedElement.remove(i);	
+    		}
+    		else if (Global.SelectedElement.get(i) instanceof WireLine)
+    		{
+    			WireLine wire = (WireLine)Global.SelectedElement.get(i);
+    			
+        		Global.GridPane.getChildren().removeAll(wire);
+        		Global.SelectedElement.remove(i);
+    		}
         }
     }
     public void RemoveAllSelected()
@@ -104,7 +116,7 @@ public abstract class BasePaneView
         {
             for (int i = Global.SelectedElement.size() - 1; i >= 0; i--) 
             {
-                Global.SelectedElement.get(i).SetStrokeColor(Config.ElementColor);
+                Global.SelectedElement.get(i).OnDeselected();
                 Global.SelectedElement.remove(i);
             }
         }
