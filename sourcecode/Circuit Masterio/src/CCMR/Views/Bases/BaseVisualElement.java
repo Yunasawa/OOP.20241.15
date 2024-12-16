@@ -1,8 +1,6 @@
 package CCMR.Views.Bases;
 
 import CCMR.Controls.Utilities.*;
-import CCMR.Models.Definitions.*;
-import CCMR.Models.Interfaces.*;
 import CCMR.Models.Types.*;
 import CCMR.Models.Values.*;
 import CCMR.Views.Environments.*;

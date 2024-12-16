@@ -1,7 +1,4 @@
 package CCMR.Views.Environments;
-
-import CCMR.Models.Definitions.*;
-import CCMR.Models.Types.GridType;
 import CCMR.Models.Values.*;
 import CCMR.Views.Bases.*;
 import javafx.scene.input.KeyCode;
