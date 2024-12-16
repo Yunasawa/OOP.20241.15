@@ -11,11 +11,21 @@ public class EventManager
 	
 	public EventManager()
 	{
+		if (Global.EventManager == null) Global.EventManager = this;
+		
         Global.GridScene.setOnKeyPressed(event -> { InvokeOnKeyPressedEvent(event.getCode()); });
 	}
 	
 	public void InvokeOnKeyPressedEvent(KeyCode key)
 	{
-		for (IKeyPressListenable listener : IKeyPressListeners) listener.OnKeyPressed(key);
+		try 
+		{
+			for (IKeyPressListenable listener : IKeyPressListeners) listener.OnKeyPressed(key);
+		} 
+		catch (Exception e) 
+		{
+		
+		}
+
 	}
 }

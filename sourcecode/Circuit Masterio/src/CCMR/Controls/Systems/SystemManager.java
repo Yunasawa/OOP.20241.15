@@ -2,6 +2,7 @@
 
 package CCMR.Controls.Systems;
 
+import CCMR.Models.Types.CircuitType;
 import CCMR.Models.Values.Global;
 import CCMR.Views.Elements.*;
 import javafx.fxml.FXMLLoader;
@@ -34,8 +35,7 @@ public class SystemManager extends Application
         
         Global.EventManager = new EventManager();
                 
-        Bulb bulb1 = new Bulb();
-        Bulb bulb2 = new Bulb();
-        //DCVoltage dcVoltage = new DCVoltage();
+        CircuitSystem circuitSystem = new CircuitSystem();
+        circuitSystem.CreateCircuitElement(CircuitType.ACSource);
 	}
 }

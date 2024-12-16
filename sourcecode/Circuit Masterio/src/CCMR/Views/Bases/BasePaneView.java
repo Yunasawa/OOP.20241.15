@@ -93,11 +93,21 @@ public abstract class BasePaneView
     {
     	for (int i = Global.SelectedElement.size() - 1; i >= 0; i--) 
         {
-    		BaseVisualElement element = Global.SelectedElement.get(i);
-    		
-    		Global.GridPane.getChildren().removeAll(element.Shapes);
-    		Global.GridView.Elements.remove(element);
-    		Global.SelectedElement.remove(i);
+    		if (Global.SelectedElement.get(i) instanceof BaseVisualElement)
+    		{
+        		BaseVisualElement element = (BaseVisualElement)Global.SelectedElement.get(i);
+        		
+        		Global.GridPane.getChildren().removeAll(element.Shapes);
+        		Global.GridView.Elements.remove(element);
+        		Global.SelectedElement.remove(i);	
+    		}
+    		else if (Global.SelectedElement.get(i) instanceof WireLine)
+    		{
+    			WireLine wire = (WireLine)Global.SelectedElement.get(i);
+    			
+        		Global.GridPane.getChildren().removeAll(wire);
+        		Global.SelectedElement.remove(i);
+    		}
         }
     }
     public void RemoveAllSelected()
@@ -106,7 +116,7 @@ public abstract class BasePaneView
         {
             for (int i = Global.SelectedElement.size() - 1; i >= 0; i--) 
             {
-                Global.SelectedElement.get(i).SetStrokeColor(Config.ElementColor);
+                Global.SelectedElement.get(i).OnDeselected();
                 Global.SelectedElement.remove(i);
             }
         }

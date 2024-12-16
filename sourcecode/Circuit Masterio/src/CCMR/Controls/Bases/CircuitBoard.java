@@ -2,32 +2,33 @@ package CCMR.Controls.Bases;
 
 import java.util.HashSet;
 import java.util.Set;
+import CCMR.Controls.Elements.*;
 
-class Circuit {
+class CircuitBoard {
     private ACSource source;
-    private Set<CircuitElement> elements = new HashSet<>();
+    private Set<BaseCircuitElement> elements = new HashSet<>();
 
-    public Circuit(ACSource source) {
+    public CircuitBoard(ACSource source) {
         this.source = source;
     }
 
-    public void addElement(CircuitElement element) {
+    public void addElement(BaseCircuitElement element) {
         elements.add(element);
     }
 
     public double calculateTotalImpedance() {
         // Implement a method to traverse the graph and calculate total impedance
-        return traverseConnections(source.getConnection1(), new HashSet<>(), source.getFrequency());
+        return traverseConnections(source.Connection1, new HashSet<>(), source.Frequency);
     }
 
-    private double traverseConnections(Connection connection, Set<Connection> visited, double frequency) {
+    private double traverseConnections(CircuitConnection connection, Set<CircuitConnection> visited, double frequency) {
         if (visited.contains(connection)) {
             return 0;
         }
         visited.add(connection);
 
-        double impedance = connection.getElement().getImpedance(frequency);
-        for (Connection connected : connection.getConnectedTo()) {
+        double impedance = connection.Element.GetImpedance(frequency);
+        for (CircuitConnection connected : connection.ConnectedNodes) {
             impedance += traverseConnections(connected, visited, frequency);
         }
         return impedance;
@@ -35,15 +36,15 @@ class Circuit {
 
     public double calculateCurrent() {
         double totalImpedance = calculateTotalImpedance();
-        return source.getVoltage() / totalImpedance;
+        return source.Voltage / totalImpedance;
     }
 
     public void calculateVoltagesAndCurrents() {
         double current = calculateCurrent();
-        double frequency = source.getFrequency();
+        double frequency = source.Frequency;
 
-        for (CircuitElement element : elements) {
-            double voltage = current * element.getImpedance(frequency);
+        for (BaseCircuitElement element : elements) {
+            double voltage = current * element.GetImpedance(frequency);
             System.out.printf("Voltage across %s: %.2f V\n", element.getClass().getSimpleName(), voltage);
             System.out.printf("Current through %s: %.2f A\n", element.getClass().getSimpleName(), current);
         }
