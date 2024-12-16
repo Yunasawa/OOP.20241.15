@@ -1,6 +1,10 @@
 package CCMR.Views.Environments;
 
+<<<<<<< Updated upstream
 import CCMR.Models.Definitions.*;
+=======
+import CCMR.Models.Types.GridType;
+>>>>>>> Stashed changes
 import CCMR.Models.Values.*;
 import CCMR.Views.Bases.*;
 import javafx.scene.input.KeyCode;
