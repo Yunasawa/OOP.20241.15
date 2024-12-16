@@ -2,7 +2,7 @@ package CCMR.Controls.Elements;
 
 import CCMR.Controls.Bases.*;
 
-public class Capacitor extends CircuitElement 
+public class Capacitor extends BaseCircuitElement 
 {
     private double _capacitance;
 

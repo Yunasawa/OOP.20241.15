@@ -3,7 +3,7 @@ package CCMR.Controls.Bases;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CircuitElement {
+public abstract class BaseCircuitElement {
     protected Connection connection1 = new Connection(this);
     protected Connection connection2 = new Connection(this);
 
@@ -19,10 +19,10 @@ public abstract class CircuitElement {
 }
 
 class Connection {
-    private CircuitElement element;
+    private BaseCircuitElement element;
     private List<Connection> connectedTo = new ArrayList<>();
 
-    public Connection(CircuitElement element) {
+    public Connection(BaseCircuitElement element) {
         this.element = element;
     }
 
@@ -39,7 +39,7 @@ class Connection {
         return connectedTo;
     }
 
-    public CircuitElement getElement() {
+    public BaseCircuitElement getElement() {
         return element;
     }
 }

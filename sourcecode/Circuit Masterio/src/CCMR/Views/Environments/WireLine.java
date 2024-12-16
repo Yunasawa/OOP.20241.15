@@ -3,13 +3,19 @@ package CCMR.Views.Environments;
 import CCMR.Models.Values.*;
 import CCMR.Controls.Utilities.MDebug;
 import CCMR.Controls.Utilities.MFormula;
+import CCMR.Models.Interfaces.IKeyPressListenable;
+import CCMR.Models.Interfaces.ISelectable;
 import CCMR.Models.Types.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
+import javafx.scene.shape.Shape;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class WireLine extends Polyline 
+public class WireLine extends Polyline implements ISelectable, IKeyPressListenable
 {
 	public Row<Vector2> Points = new Row<>();
     public ConnectionNode Node1;
@@ -22,9 +28,12 @@ public class WireLine extends Polyline
         this.setStrokeWidth(Data.StrokeWidth);
         SetColor(Config.WireColor);
 
-        Global.GridView.AddShapes(1, this);
+        Global.GridView.AddShapes(3, this);
         
         AddSelectManipulator();
+        AddSelectingCallback(this);
+        
+        RegisterListener();
     }
 
     public void ConnectNode(ConnectionNode node2)
@@ -93,4 +102,39 @@ public class WireLine extends Polyline
     {
         SyncPositions();
     }
+
+    @Override
+    public void OnMouseSelected(Shape shape, MouseEvent event)
+    {
+    	if (Global.SelectedElement.contains(this)) return;
+    	
+    	Global.SelectedElement.add(this);
+    	
+    	OnSelected();
+    }
+    
+	@Override
+	public void OnSelected() 
+	{
+		SetColor(Config.SelectedColor);
+	}
+	@Override
+	public void OnDeselected() 
+	{
+		SetColor(Config.WireColor);
+	}
+
+	@Override
+	public void OnKeyPressed(KeyCode key) 
+	{
+		if (!Global.SelectedElement.contains(this)) return;
+		
+		if (key == KeyCode.DELETE) 
+		{
+			Global.GridView.RemoveShapes(this);
+			
+			Node1.WireLine = Node2.WireLine = null;
+			Node1 = Node2 = null;
+		}
+	}
 }

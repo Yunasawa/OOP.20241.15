@@ -2,7 +2,7 @@ package CCMR.Views.Bases;
 
 import CCMR.Controls.Utilities.*;
 import CCMR.Models.Definitions.*;
-import CCMR.Models.Interfaces.IKeyPressListenable;
+import CCMR.Models.Interfaces.*;
 import CCMR.Models.Types.*;
 import CCMR.Models.Values.*;
 import CCMR.Views.Environments.*;
@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BaseVisualElement implements IKeyPressListenable
+public abstract class BaseVisualElement implements IKeyPressListenable, ISelectable
 {
 	private Transform _stableTransform;
 	private Collider _stableCollider;
@@ -92,7 +92,7 @@ public abstract class BaseVisualElement implements IKeyPressListenable
 
     protected void AddShapeEventHandlers(Shape shape) 
     { 
-        shape.setOnMousePressed(event -> OnMousePressed(shape, event)); 
+        shape.setOnMousePressed(event -> OnMousePressed(shape, event));
         shape.setOnMouseDragged(event -> OnMouseDragged(shape, event));
         shape.setOnMouseReleased(event -> OnMouseReleased(shape, event));
     }
@@ -122,8 +122,12 @@ public abstract class BaseVisualElement implements IKeyPressListenable
             
             if (Global.SelectedElement.Count() != 1)
             {
-            	for (BaseVisualElement element : Global.SelectedElement)
+            	for (ISelectable selectable : Global.SelectedElement)
                 {
+            		if (!(selectable instanceof BaseVisualElement)) continue;
+            		
+            		BaseVisualElement element = (BaseVisualElement)selectable;
+            		
                 	element._oldPosition = new Vector2(element.Transform.Position.X, element.Transform.Position.Y);
                 	element._distancePosition = element.Transform.Position.Subtract(this.Transform.Position);
                 }
@@ -144,9 +148,11 @@ public abstract class BaseVisualElement implements IKeyPressListenable
 
             if (Global.SelectedElement.Count() != 1)
             {
-                for (BaseVisualElement element : Global.SelectedElement)
+                for (ISelectable selectable : Global.SelectedElement)
                 {
-                	if (element == this) continue;
+                	if (!(selectable instanceof BaseVisualElement) || selectable == this) continue;
+                	
+                	BaseVisualElement element = (BaseVisualElement)selectable;
                 	
                 	element.Transform.Position = this.Transform.Position.Add(element._distancePosition);
                 	element.UpdatePosition();
@@ -205,7 +211,7 @@ public abstract class BaseVisualElement implements IKeyPressListenable
             UpdatePosition();
         }
 
-        SetStrokeColor(Config.SelectedColor);
+        OnSelected();
     }
 
     public void UpdateScale() 
@@ -247,18 +253,18 @@ public abstract class BaseVisualElement implements IKeyPressListenable
         RefreshMap(true, false);
     }
     
-    public void AddToPane() 
-    {
-        Global.GridPane.getChildren().addAll(Shapes);
-    }
+    public void AddToPane() { Global.GridPane.getChildren().addAll(Shapes); }
+    public void RemoveFromPane() { Global.GridPane.getChildren().removeAll(Shapes); }
+    
     private void HandleElementSelection()
     {
     	if (Global.SelectedElement.Count() == 1)
     	{
 	        if (Global.SelectedElement.get(0) != this) 
 	        {
-	            Global.SelectedElement.get(0).SetStrokeColor(Config.ElementColor);
+	        	OnDeselected();
 	            Global.SelectedElement.remove(0);
+	            
 	        }
         }
         Global.SelectedElement.Add(this);
@@ -293,9 +299,19 @@ public abstract class BaseVisualElement implements IKeyPressListenable
     {
 		if (!Global.SelectedElement.contains(this)) return;
 		
-		if (key == KeyCode.R)
-		{
-			UpdateRotation();
-		}
+		if (key == KeyCode.R) UpdateRotation();
+		else if (key == KeyCode.DELETE) RemoveFromPane();
+	}
+
+	@Override
+	public void OnSelected() 
+	{
+		SetStrokeColor(Config.SelectedColor);
+	}
+
+	@Override
+	public void OnDeselected() 
+	{
+		SetStrokeColor(Config.ElementColor);
 	}
 }

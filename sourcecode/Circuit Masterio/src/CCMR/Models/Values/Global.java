@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
+import CCMR.Models.Interfaces.ISelectable;
 import CCMR.Models.Types.Row;
 import CCMR.Views.Bases.BaseVisualElement;
 import CCMR.Views.Environments.*;
@@ -28,7 +29,7 @@ public class Global
 	
 	// Function
 	public static SelectionBox SelectionBox = new SelectionBox();
-	public static Row<BaseVisualElement> SelectedElement = new Row<>();
+	public static Row<ISelectable> SelectedElement = new Row<>();
 	public static ConnectionNode SelectedNode;
 	
 	public static Row<WireLine> WireList = new Row<>();

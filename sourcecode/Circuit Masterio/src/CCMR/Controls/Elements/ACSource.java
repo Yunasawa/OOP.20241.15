@@ -1,8 +1,8 @@
 package CCMR.Controls.Elements;
 
-import CCMR.Controls.Bases.CircuitElement;
+import CCMR.Controls.Bases.BaseCircuitElement;
 
-public class ACSource extends CircuitElement 
+public class ACSource extends BaseCircuitElement 
 {
     public double Voltage;
     public double Frequency;

@@ -6,13 +6,13 @@ import CCMR.Controls.Elements.*;
 
 class Circuit {
     private ACSource source;
-    private Set<CircuitElement> elements = new HashSet<>();
+    private Set<BaseCircuitElement> elements = new HashSet<>();
 
     public Circuit(ACSource source) {
         this.source = source;
     }
 
-    public void addElement(CircuitElement element) {
+    public void addElement(BaseCircuitElement element) {
         elements.add(element);
     }
 
@@ -43,7 +43,7 @@ class Circuit {
         double current = calculateCurrent();
         double frequency = source.Frequency;
 
-        for (CircuitElement element : elements) {
+        for (BaseCircuitElement element : elements) {
             double voltage = current * element.GetImpedance(frequency);
             System.out.printf("Voltage across %s: %.2f V\n", element.getClass().getSimpleName(), voltage);
             System.out.printf("Current through %s: %.2f A\n", element.getClass().getSimpleName(), current);

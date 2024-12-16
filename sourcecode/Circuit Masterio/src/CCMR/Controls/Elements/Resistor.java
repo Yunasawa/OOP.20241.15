@@ -2,7 +2,7 @@ package CCMR.Controls.Elements;
 
 import CCMR.Controls.Bases.*;
 
-public class Resistor extends CircuitElement 
+public class Resistor extends BaseCircuitElement 
 {
     private double _resistance;
 
