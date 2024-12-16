@@ -2,12 +2,12 @@
 
 package CCMR.Controls.Systems;
 
-import CCMR.Controls.Elements.DigitalConstant;
 import CCMR.Models.Values.Global;
 import CCMR.Views.Elements.*;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.application.Application;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
@@ -18,12 +18,14 @@ public class SystemManager extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{		
+		Global.SceneNode = FXMLLoader.load(getClass().getResource("example.fxml"));
+		
 		Global.SystemManager = this;
 		
 		Global.GridScene = new Scene(Global.GridView.CreateView(), 1260, 787);
 		Global.GridView.AddKeyManipulator();
 
-        Global.GridPane.getChildren().add(FXMLLoader.load(getClass().getResource("example.fxml")));
+        Global.GridPane.getChildren().add(Global.SceneNode);
 
         primaryStage.setScene(Global.GridScene);
         primaryStage.getIcons().add(new Image("file:resources/Icons/Application.png"));
@@ -32,11 +34,8 @@ public class SystemManager extends Application
         
         Global.EventManager = new EventManager();
                 
-        //Bulb bulb1 = new Bulb();
-        //Bulb bulb2 = new Bulb();
+        Bulb bulb1 = new Bulb();
+        Bulb bulb2 = new Bulb();
         //DCVoltage dcVoltage = new DCVoltage();
-        
-        DigitalConstant dc1 = new DigitalConstant(true);
-        DigitalConstant dc2 = new DigitalConstant(true);
 	}
 }

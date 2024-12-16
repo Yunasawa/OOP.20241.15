@@ -1,5 +1,6 @@
 package CCMR.Models.Values;
 
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -21,6 +22,9 @@ public class Global
 	public static GraphicsContext GridContext = Global.GridCanvas.getGraphicsContext2D();
 	public static GridView GridView = new GridView();
 	public static Scene GridScene;
+	
+	// GUI
+	public static Node SceneNode;
 	
 	// Function
 	public static SelectionBox SelectionBox = new SelectionBox();

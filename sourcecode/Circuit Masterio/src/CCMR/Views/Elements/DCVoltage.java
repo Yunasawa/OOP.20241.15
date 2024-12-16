@@ -9,6 +9,7 @@ import javafx.scene.shape.Line;
 
 public class DCVoltage extends BaseVisualElement
 {
+	@Override
 	protected void CreateShapes() 
 	{
 		Line line1 = new Line(0, 50, 100, 50);

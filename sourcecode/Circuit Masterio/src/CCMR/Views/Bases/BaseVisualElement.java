@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BaseVisualElement implements IKeyPressListenable
+public abstract class BaseVisualElement implements IKeyPressListenable
 {
 	private Transform _stableTransform;
 	private Collider _stableCollider;
@@ -32,10 +32,9 @@ public class BaseVisualElement implements IKeyPressListenable
     public BaseVisualElement()
     {
     	RegisterListener();
-    }
-    
-    public void Visualize()
-    {
+    	
+    	CreateShapes();
+    	
         InitializeShapes();
         
         AddShapeEventHandlers(Collider);
@@ -50,6 +49,8 @@ public class BaseVisualElement implements IKeyPressListenable
         _stableTransform = new Transform(Transform.Position, Transform.Rotation);
         _stableCollider = new Collider(Collider.TopLeft, Collider.BottomRight);
     }
+    
+	protected abstract void CreateShapes();
 
     public void AddShapes(Shape... shapes)
     {

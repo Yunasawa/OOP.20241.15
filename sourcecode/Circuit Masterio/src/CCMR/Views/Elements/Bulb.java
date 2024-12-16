@@ -6,6 +6,7 @@ import javafx.scene.shape.*;
 
 public class Bulb extends BaseVisualElement
 {
+	@Override
 	protected void CreateShapes()
 	{
         Circle outerCircle = new Circle(50, 100, 50);

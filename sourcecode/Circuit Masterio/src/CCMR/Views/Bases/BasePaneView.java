@@ -5,6 +5,7 @@ import CCMR.Models.Values.Config;
 import CCMR.Models.Values.Data;
 import CCMR.Models.Values.Global;
 import CCMR.Views.Environments.WireLine;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
 
@@ -38,8 +39,9 @@ public abstract class BasePaneView
 
     private void AddElementSelectionHandler() 
     {
-        Global.GridCanvas.setOnMousePressed(event -> 
+        Global.SceneNode.setOnMousePressed(event -> 
         {
+        	System.out.println(event.getTarget());
         	if (event.getTarget() instanceof Canvas || event.getTarget() instanceof Pane) 
             {
 	            Data.LastMousePressedTime = System.currentTimeMillis();
@@ -58,9 +60,9 @@ public abstract class BasePaneView
             }
         });
         
-        Global.GridCanvas.setOnMouseReleased(event -> 
+        Global.SceneNode.setOnMouseReleased(event -> 
         {
-            if (event.getTarget() instanceof Canvas || event.getTarget() instanceof Pane) 
+            if (event.getTarget() instanceof Canvas || event.getTarget() instanceof Pane || event.getTarget() instanceof Node) 
             {
                 double elapsedTime = System.currentTimeMillis() - Data.LastMousePressedTime;
 
