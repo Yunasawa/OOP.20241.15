@@ -1,6 +1,4 @@
-package CCMR.Models.Definitions;
-
-import CCMR.Models.Types.*;
+package CCMR.Models.Types;
 
 public class Transform
 {

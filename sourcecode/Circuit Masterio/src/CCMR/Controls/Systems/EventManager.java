@@ -18,6 +18,14 @@ public class EventManager
 	
 	public void InvokeOnKeyPressedEvent(KeyCode key)
 	{
-		for (IKeyPressListenable listener : IKeyPressListeners) listener.OnKeyPressed(key);
+		try 
+		{
+			for (IKeyPressListenable listener : IKeyPressListeners) listener.OnKeyPressed(key);
+		} 
+		catch (Exception e) 
+		{
+		
+		}
+
 	}
 }

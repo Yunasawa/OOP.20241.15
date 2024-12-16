@@ -1,6 +1,5 @@
 package CCMR.Controls.Utilities;
 
-import CCMR.Models.Definitions.Transform;
 import CCMR.Models.Types.*;
 import CCMR.Models.Values.Data;
 import CCMR.Views.Bases.*;

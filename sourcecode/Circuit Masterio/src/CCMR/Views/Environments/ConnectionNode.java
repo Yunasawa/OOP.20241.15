@@ -14,11 +14,16 @@ public class ConnectionNode extends Circle
 	public Vector2 Position;
 	public WireLine WireLine;
 	
+	private static double _id = 0;
+	public double UID;
+	
 	public static boolean IsDraggingWire = false;
 	
 	public ConnectionNode(BaseVisualElement element, double x, double y)
 	{
 		super(x, y, 7.5 * Data.ScaleValue);
+		
+		UID = _id++;
 		
 		Position = new Vector2(x, y);
 		

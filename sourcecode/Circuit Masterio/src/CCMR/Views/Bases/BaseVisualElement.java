@@ -29,10 +29,16 @@ public abstract class BaseVisualElement implements IKeyPressListenable, ISelecta
     
     private Map<Shape, Row<Double>> _scaleMap = new HashMap<>();
     private Map<Shape, Row<Double>> _rotateMap = new HashMap<>();
+    
+    public ConnectionNode Node1;
+    public ConnectionNode Node2;
 
     public BaseVisualElement()
     {
     	RegisterListener();
+    	
+        Node1 = MShape.Normalize(new ConnectionNode(this), 50, 0);
+        Node2 = MShape.Normalize(new ConnectionNode(this), 50, 200);
     	
     	CreateShapes();
     	

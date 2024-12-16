@@ -1,6 +1,7 @@
 package CCMR.Views.Environments;
 
 import CCMR.Models.Values.*;
+import CCMR.Controls.Bases.CircuitConnection;
 import CCMR.Controls.Utilities.MDebug;
 import CCMR.Controls.Utilities.MFormula;
 import CCMR.Models.Interfaces.IKeyPressListenable;
@@ -11,9 +12,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Shape;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class WireLine extends Polyline implements ISelectable, IKeyPressListenable
 {
@@ -39,6 +37,22 @@ public class WireLine extends Polyline implements ISelectable, IKeyPressListenab
     public void ConnectNode(ConnectionNode node2)
     {
     	Node2 = node2;
+    	
+		//MDebug.Log("Connect " + Node1.UID + " to " + Node2.UID);
+    	
+    	CircuitConnection connection1 = null;
+    	CircuitConnection connection2 = null;
+    	
+    	//MDebug.Log("Node1: " + Node1.UID + " | " + Node1.Element.Node1.UID);
+    	//MDebug.Log("Node2: " + Node2.UID + " | " + Node2.Element.Node2.UID);
+    	
+    	if (Node1.UID == Node1.Element.Node1.UID) connection1 =  Global.CircuitPairs.get(Node1.Element).Connection1;
+    	else if (Node1.UID == Node1.Element.Node2.UID) connection1 =  Global.CircuitPairs.get(Node1.Element).Connection2;
+    	
+    	if (Node2.UID == Node2.Element.Node1.UID) connection2 =  Global.CircuitPairs.get(Node2.Element).Connection1;
+    	else if (Node2.UID == Node2.Element.Node2.UID) connection2 =  Global.CircuitPairs.get(Node2.Element).Connection2;
+    	
+    	connection1.ConnectWith(connection2);
     	
     	SyncPositions();
     }

@@ -30,6 +30,12 @@ public class CircuitSystem implements IKeyPressListenable
 		else if (key == KeyCode.DIGIT2) CreateCircuitElement(CircuitType.Resistor);
 		else if (key == KeyCode.DIGIT3) CreateCircuitElement(CircuitType.Inductor);
 		else if (key == KeyCode.DIGIT4) CreateCircuitElement(CircuitType.Capacitor);
+		else if (key == KeyCode.ENTER)
+		{
+	        System.out.println("Total Impedance (Series): " + CalculateTotalImpedance() + " ohms");
+	        System.out.println("Total Current (Series): " + CalculateCurrent() + " A");
+	        CalculateVoltagesAndCurrents();
+		}
 	}
 	
 	public void CreateCircuitElement(CircuitType type)
@@ -87,7 +93,8 @@ public class CircuitSystem implements IKeyPressListenable
         return _acSource.Voltage / totalImpedance;
     }
 
-    public void CalculateVoltagesAndCurrents() {
+    public void CalculateVoltagesAndCurrents() 
+    {
         double current = CalculateCurrent();
         double frequency = _acSource.Frequency;
 
