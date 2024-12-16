@@ -4,11 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 import CCMR.Controls.Elements.*;
 
-class Circuit {
+class CircuitBoard {
     private ACSource source;
     private Set<BaseCircuitElement> elements = new HashSet<>();
 
-    public Circuit(ACSource source) {
+    public CircuitBoard(ACSource source) {
         this.source = source;
     }
 
@@ -18,17 +18,17 @@ class Circuit {
 
     public double calculateTotalImpedance() {
         // Implement a method to traverse the graph and calculate total impedance
-        return traverseConnections(source.getConnection1(), new HashSet<>(), source.Frequency);
+        return traverseConnections(source.Connection1, new HashSet<>(), source.Frequency);
     }
 
-    private double traverseConnections(Connection connection, Set<Connection> visited, double frequency) {
+    private double traverseConnections(CircuitConnection connection, Set<CircuitConnection> visited, double frequency) {
         if (visited.contains(connection)) {
             return 0;
         }
         visited.add(connection);
 
-        double impedance = connection.getElement().GetImpedance(frequency);
-        for (Connection connected : connection.getConnectedTo()) {
+        double impedance = connection.Element.GetImpedance(frequency);
+        for (CircuitConnection connected : connection.ConnectedNodes) {
             impedance += traverseConnections(connected, visited, frequency);
         }
         return impedance;

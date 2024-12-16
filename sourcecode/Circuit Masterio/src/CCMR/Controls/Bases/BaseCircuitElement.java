@@ -1,45 +1,9 @@
 package CCMR.Controls.Bases;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public abstract class BaseCircuitElement {
-    protected Connection connection1 = new Connection(this);
-    protected Connection connection2 = new Connection(this);
+public abstract class BaseCircuitElement 
+{
+    public CircuitConnection Connection1 = new CircuitConnection(this);
+    public CircuitConnection Connection2 = new CircuitConnection(this);
 
     public abstract double GetImpedance(double frequency);
-
-    public Connection getConnection1() {
-        return connection1;
-    }
-
-    public Connection getConnection2() {
-        return connection2;
-    }
-}
-
-class Connection {
-    private BaseCircuitElement element;
-    private List<Connection> connectedTo = new ArrayList<>();
-
-    public Connection(BaseCircuitElement element) {
-        this.element = element;
-    }
-
-    public void connectWith(Connection... connections) {
-        for (Connection connection : connections) {
-            if (!connectedTo.contains(connection)) {
-                connectedTo.add(connection);
-                connection.connectWith(this); // Ensure bidirectional connection
-            }
-        }
-    }
-
-    public List<Connection> getConnectedTo() {
-        return connectedTo;
-    }
-
-    public BaseCircuitElement getElement() {
-        return element;
-    }
 }

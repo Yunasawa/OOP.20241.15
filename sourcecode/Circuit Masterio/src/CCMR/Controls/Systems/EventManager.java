@@ -11,6 +11,8 @@ public class EventManager
 	
 	public EventManager()
 	{
+		if (Global.EventManager == null) Global.EventManager = this;
+		
         Global.GridScene.setOnKeyPressed(event -> { InvokeOnKeyPressedEvent(event.getCode()); });
 	}
 	

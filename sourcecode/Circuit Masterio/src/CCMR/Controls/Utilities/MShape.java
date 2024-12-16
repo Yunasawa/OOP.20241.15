@@ -2,7 +2,6 @@ package CCMR.Controls.Utilities;
 
 import CCMR.Models.Definitions.Transform;
 import CCMR.Models.Types.*;
-import CCMR.Models.Values.Config;
 import CCMR.Models.Values.Data;
 import CCMR.Views.Bases.*;
 import CCMR.Views.Environments.*;
@@ -33,6 +32,13 @@ public class MShape
 		{
 			WireLine wire = (WireLine)shape;
 			for (Double point : wire.getPoints()) row.Add(point);
+		}
+		else if (shape instanceof Arc)
+		{
+			Arc arc = (Arc)shape;
+			row.Add(arc.getCenterX() / Data.ScaleValue, arc.getCenterY() / Data.ScaleValue);
+			row.Add(arc.getRadiusX() / Data.ScaleValue, arc.getRadiusY() / Data.ScaleValue);
+			row.Add(arc.getStartAngle() / Data.ScaleValue, arc.getLength() / Data.ScaleValue);
 		}
 		
 		return row;
@@ -68,6 +74,14 @@ public class MShape
 			WireLine wire = (WireLine)shape;
 			wire.getPoints().clear();
 			for (Double point : row) wire.getPoints().add(point + Data.GridOffset.X);
+		}
+		else if (shape instanceof Arc) 
+		{
+			Arc arc = (Arc)shape;
+			arc.setCenterX(row.get(0) * scale);
+			arc.setCenterY(row.get(1) * scale);
+			arc.setRadiusX(row.get(2) * scale);
+			arc.setRadiusY(row.get(3) * scale);
 		}
 	}
 	public static void SetRotate(Shape shape, Row<Double> row, int rotation)
@@ -199,6 +213,42 @@ public class MShape
 				line.setEndY(- end.X);
 			}
 		}
+		else if (shape instanceof Arc)
+		{
+			Arc arc = (Arc)shape;
+			
+			Vector2 distance = new Vector2(row.get(0), row.get(1)).Multiply(Data.ScaleValue);
+			
+			if (rotation == 0)
+			{
+				arc.setCenterX(row.get(0) * Data.ScaleValue);
+				arc.setCenterY(row.get(1) * Data.ScaleValue);
+				arc.setRadiusX(row.get(2) * Data.ScaleValue);
+				arc.setRadiusY(row.get(3) * Data.ScaleValue);
+			}
+			else if (rotation == 1)
+			{
+				arc.setCenterX(- distance.Y);
+				arc.setCenterY(+ distance.X);
+				arc.setRadiusX(row.get(3) * Data.ScaleValue);
+				arc.setRadiusY(row.get(2) * Data.ScaleValue);
+			}
+			else if (rotation == 2)
+			{
+				arc.setCenterX(- distance.X);
+				arc.setCenterY(- distance.Y);
+				arc.setRadiusX(row.get(2) * Data.ScaleValue);
+				arc.setRadiusY(row.get(3) * Data.ScaleValue);
+			}
+			else if (rotation == 3)
+			{
+				arc.setCenterX(+ distance.Y);
+				arc.setCenterY(- distance.X);
+				arc.setRadiusX(row.get(3) * Data.ScaleValue);
+				arc.setRadiusY(row.get(2) * Data.ScaleValue);
+			}
+			arc.setStartAngle(row.get(4) + 90 * rotation);
+		}
 	}
 	
 	public static void GetRotatedPivot(BaseVisualElement element, Transform transform, Collider collider)
@@ -252,5 +302,61 @@ public class MShape
     		
     		element.Collider = new Collider(fixedTopLeft.X, fixedTopLeft.Y, fixedBottomRight.X, fixedBottomRight.Y);
     	}
+	}
+
+	public static <T extends Shape> T Normalize(T shape, double... values)
+	{
+		if (shape instanceof ConnectionNode)
+		{
+			ConnectionNode circle = (ConnectionNode)shape; 
+			circle.setCenterX(values[0] * Data.ScaleValue);
+			circle.setCenterY(values[1] * Data.ScaleValue);
+			return (T)circle;
+		}
+		else if (shape instanceof Circle) 
+		{ 
+			Circle circle = (Circle)shape;
+			circle.setRadius(values[2] * Data.ScaleValue); 
+			circle.setCenterX(values[0] * Data.ScaleValue);
+			circle.setCenterY(values[1] * Data.ScaleValue);
+			return (T)circle;
+		}
+		else if (shape instanceof Rectangle)
+		{ 
+			Rectangle rectangle = (Rectangle)shape;
+			rectangle.setX(values[0] * Data.ScaleValue);
+			rectangle.setY(values[1] * Data.ScaleValue);
+			rectangle.setWidth(values[2] * Data.ScaleValue);
+			rectangle.setHeight(values[3] * Data.ScaleValue);
+			return (T)rectangle;
+		}
+		else if (shape instanceof Line)
+		{ 
+			Line line = (Line)shape;
+			line.setStartX(values[0] * Data.ScaleValue);
+			line.setStartY(values[1] * Data.ScaleValue);
+			line.setEndX(values[2] * Data.ScaleValue);
+			line.setEndY(values[3] * Data.ScaleValue);
+			return (T)line;
+		}
+		else if (shape instanceof WireLine)
+		{
+			WireLine wire = (WireLine)shape;
+			wire.getPoints().clear();
+			for (Double point : values) wire.getPoints().add(point + Data.GridOffset.X);
+			return (T)wire;
+		}
+		else if (shape instanceof Arc)
+		{
+			Arc arc = (Arc)shape;
+			arc.setCenterX(values[0] * Data.ScaleValue);
+			arc.setCenterY(values[1] * Data.ScaleValue);
+			arc.setRadiusX(values[2] * Data.ScaleValue);
+			arc.setRadiusY(values[3] * Data.ScaleValue);
+			arc.setStartAngle(values[4]);
+			arc.setLength(values[5]);
+			return (T)arc;
+		}
+		return null;
 	}
 }

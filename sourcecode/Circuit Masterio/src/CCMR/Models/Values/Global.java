@@ -10,6 +10,9 @@ import CCMR.Models.Types.Row;
 import CCMR.Views.Bases.BaseVisualElement;
 import CCMR.Views.Environments.*;
 import CCMR.Controls.Systems.*;
+import java.util.HashMap;
+import java.util.Map;
+import CCMR.Controls.Bases.*;
 
 public class Global 
 {
@@ -34,4 +37,7 @@ public class Global
 	
 	public static Row<WireLine> WireList = new Row<>();
 	public static WireLine CurrentWire;
+	
+	// Circuit
+	public static Map<BaseVisualElement, BaseCircuitElement> CircuitPairs = new HashMap<>();
 }

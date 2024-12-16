@@ -18,7 +18,7 @@ public class ConnectionNode extends Circle
 	
 	public ConnectionNode(BaseVisualElement element, double x, double y)
 	{
-		super(x, y, 7.5);
+		super(x, y, 7.5 * Data.ScaleValue);
 		
 		Position = new Vector2(x, y);
 		
@@ -28,6 +28,10 @@ public class ConnectionNode extends Circle
         this.setStrokeWidth(Data.StrokeWidth);
         
         AddToggleEventHandlers();
+	}
+	public ConnectionNode(BaseVisualElement element)
+	{
+		this(element, 0d, 0d);
 	}
 	
 	public Vector2 GetWorldPosition()
