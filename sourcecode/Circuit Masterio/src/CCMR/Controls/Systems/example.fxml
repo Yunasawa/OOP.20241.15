@@ -7,15 +7,13 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="787.0" prefWidth="1260.0" stylesheets="@../../Views/UI/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleMouseClick" prefHeight="787.0" prefWidth="1260.0" stylesheets="@../../Views/UI/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CCMR.Controls.Systems.SystemManager">
    <top>
       <AnchorPane prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
          <children>
@@ -113,37 +111,68 @@
       </AnchorPane>
    </left>
    <right>
-      <AnchorPane fx:id="option" maxHeight="200.0" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="option" maxHeight="200.0" maxWidth="150.0" prefHeight="200.0" prefWidth="150.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
          <children>
-            <TitledPane animated="false" text="Options">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <RadioButton layoutX="14.0" layoutY="6.0" mnemonicParsing="false" text="R">
-                           <padding>
-                              <Insets top="2.0" />
-                           </padding>
-                        </RadioButton>
-                        <RadioButton layoutX="14.0" layoutY="23.0" mnemonicParsing="false" text="C">
-                           <padding>
-                              <Insets top="3.0" />
-                           </padding>
-                        </RadioButton>
-                        <RadioButton layoutX="14.0" layoutY="57.0" mnemonicParsing="false" text="V">
-                           <padding>
-                              <Insets top="3.0" />
-                           </padding>
-                        </RadioButton>
-                        <RadioButton layoutX="14.0" layoutY="40.0" mnemonicParsing="false" text="L">
-                           <padding>
-                              <Insets top="3.0" />
-                           </padding>
-                        </RadioButton>
-                     </children>
-                  </AnchorPane>
-              </content>
-            </TitledPane>
+            <VBox layoutX="12.0" layoutY="33.0" prefHeight="167.0" prefWidth="138.0">
+               <children>
+                  <Label prefHeight="20.0" prefWidth="151.0" text="Copy Objects" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="17.0" prefWidth="150.0" text="Paste Objects" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="17.0" prefWidth="150.0" text="Rename Objects" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="17.0" prefWidth="150.0" text="Delete Objects" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="17.0" prefWidth="150.0" text="Insert Keyframe" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="17.0" prefWidth="150.0" text="Duplicate Linked" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <Label prefHeight="17.0" prefWidth="149.0" text="Object Context Menu" textFill="#fffffffa" />
          </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <BorderPane.margin>
+            <Insets right="20.0" />
+         </BorderPane.margin>
       </AnchorPane>
    </right>
 </BorderPane>

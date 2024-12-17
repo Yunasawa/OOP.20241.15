@@ -5,7 +5,11 @@ package CCMR.Controls.Systems;
 import CCMR.Models.Types.CircuitType;
 import CCMR.Models.Values.Global;
 import CCMR.Views.Elements.*;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -13,6 +17,38 @@ import javafx.scene.image.Image;
 
 public class SystemManager extends Application
 {
+    // controller
+
+    @FXML
+    private AnchorPane option;
+
+    @FXML
+    private BorderPane borderPane;
+
+    @FXML
+    void handleMouseClick(MouseEvent event) {
+        if (option.isVisible()) {
+            option.setVisible(false);
+        } else {
+            option.setVisible(true);
+        }
+    }
+
+    @FXML
+    private void initialize() {
+        borderPane.setOnMouseClicked(this::handleMouseClick);
+    }
+
+
+
+
+
+
+
+
+
+
+    // start
     public static void main(String[] args) { launch(); }
 	
 	@Override
