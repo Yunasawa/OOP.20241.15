@@ -2,11 +2,14 @@
 
 package CCMR.Controls.Systems;
 
+import CCMR.Controls.Bases.BaseCircuitElement;
 import CCMR.Models.Types.CircuitType;
 import CCMR.Models.Values.Global;
+import CCMR.Views.Bases.BaseVisualElement;
 import CCMR.Views.Elements.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -18,6 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.control.Label;
 
 import java.awt.*;
+import java.util.Map;
 
 public class SystemManager extends Application
 {
@@ -39,6 +43,29 @@ public class SystemManager extends Application
 
     @FXML
     private Label label;
+
+    @FXML
+    private Label outputLabel;
+    @FXML
+    private Button buildBtn;
+
+    @FXML
+    void handleBuildClick(MouseEvent event) {
+        // Gọi các phương thức tính toán
+        double current = Global.CircuitSystem.CalculateCurrent();
+        double frequency = Global.CircuitSystem.CalculateCurrent();
+
+
+        StringBuilder result = new StringBuilder();
+
+        for (Map.Entry<BaseVisualElement, BaseCircuitElement> element : Global.CircuitPairs.entrySet()) {
+            double voltage = current * element.getValue().GetImpedance(frequency);
+            result.append(String.format("Voltage across %s: %.2f V\n", element.getValue().getClass().getSimpleName(), voltage));
+            result.append(String.format("Current through %s: %.2f A\n", element.getValue().getClass().getSimpleName(), current));
+        }
+
+        outputLabel.setText(result.toString());
+    }
 
     @FXML
     void handleMouseClick(MouseEvent event) {

@@ -41,4 +41,5 @@ public class Global
 	
 	// Circuit
 	public static Map<BaseVisualElement, BaseCircuitElement> CircuitPairs = new HashMap<>();
+
 }

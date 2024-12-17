@@ -275,6 +275,7 @@ public abstract class BaseVisualElement implements IKeyPressListenable, ISelecta
 	        }
         }
         Global.SelectedElement.Add(this);
+
     }
     public boolean CheckCollision(BaseVisualElement other) 
     {

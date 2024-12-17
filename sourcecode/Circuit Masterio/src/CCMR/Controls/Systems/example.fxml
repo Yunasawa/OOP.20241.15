@@ -66,7 +66,7 @@
                <children>
                   <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="38.0" />
                   <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="38.0" />
-                  <Button mnemonicParsing="false" opacity="0.93" prefHeight="38.0" prefWidth="70.0" text="Build">
+                  <Button fx:id="buildBtn" mnemonicParsing="false" onMouseClicked="#handleBuildClick" opacity="0.93" prefHeight="38.0" prefWidth="70.0" text="Build">
                      <font>
                         <Font size="17.0" />
                      </font></Button>
@@ -117,7 +117,10 @@
                         <TextField prefHeight="25.0" prefWidth="47.0" />
                      </children>
                   </HBox>
-                  <Button mnemonicParsing="false" text="Result: " />
+                  <Label fx:id="outputLabel" prefHeight="68.0" prefWidth="130.0" text="Label">
+                     <font>
+                        <Font size="6.0" />
+                     </font></Label>
                </children>
             </VBox>
          </children>
