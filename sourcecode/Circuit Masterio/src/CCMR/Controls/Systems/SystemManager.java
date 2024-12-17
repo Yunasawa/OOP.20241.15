@@ -3,13 +3,16 @@
 package CCMR.Controls.Systems;
 
 import CCMR.Controls.Bases.BaseCircuitElement;
+import CCMR.Controls.Elements.Capacitor;
 import CCMR.Models.Types.CircuitType;
+import CCMR.Models.Types.PropertyType;
 import CCMR.Models.Values.Global;
 import CCMR.Views.Bases.BaseVisualElement;
 import CCMR.Views.Elements.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -46,11 +49,24 @@ public class SystemManager extends Application
 
     @FXML
     private Label outputLabel;
+
     @FXML
     private Button buildBtn;
 
     @FXML
+    private TextField capaField;
+
+    @FXML
+    void handleCapaClick(MouseEvent event) {
+
+    }
+
+    @FXML
     void handleBuildClick(MouseEvent event) {
+        double caparesult = Double.parseDouble(capaField.getText());
+        Global.CreatedElement.AssignValue(PropertyType.Capacitance, caparesult);
+        System.out.println(caparesult);
+
         // Gọi các phương thức tính toán
         double current = Global.CircuitSystem.CalculateCurrent();
         double frequency = Global.CircuitSystem.CalculateCurrent();

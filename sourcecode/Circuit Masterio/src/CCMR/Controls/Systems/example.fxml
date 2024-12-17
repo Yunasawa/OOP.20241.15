@@ -114,13 +114,16 @@
                   <HBox fx:id="capacitance" prefHeight="26.0" prefWidth="121.0" style="-fx-background-color: #777777;" visible="false">
                      <children>
                         <Label prefHeight="25.0" prefWidth="67.0" text="Capacitance" textFill="WHITE" />
-                        <TextField prefHeight="25.0" prefWidth="47.0" />
+                        <TextField fx:id="capaField" onMouseClicked="#handleCapaClick" prefHeight="25.0" prefWidth="47.0" />
                      </children>
                   </HBox>
-                  <Label fx:id="outputLabel" prefHeight="226.0" prefWidth="185.0" text="Label">
+                  <Label fx:id="outputLabel" prefHeight="226.0" prefWidth="185.0">
                      <VBox.margin>
                         <Insets left="2.0" />
-                     </VBox.margin></Label>
+                     </VBox.margin>
+                     <font>
+                        <Font size="11.0" />
+                     </font></Label>
                </children>
             </VBox>
          </children>
