@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -21,6 +22,14 @@ import java.awt.*;
 public class SystemManager extends Application
 {
     // controller
+    @FXML
+    private HBox capacitance;
+
+    @FXML
+    private HBox inductor;
+
+    @FXML
+    private HBox resistance;
 
     @FXML
     private AnchorPane option;
@@ -35,6 +44,9 @@ public class SystemManager extends Application
     void handleMouseClick(MouseEvent event) {
         if (option.isVisible() && !option.contains(event.getX(), event.getY())) {
             option.setVisible(false);
+            capacitance.setVisible(false);
+            inductor.setVisible(false);
+            resistance.setVisible(false);
         } else if (!option.isVisible()) {
             option.setVisible(true);
         }
@@ -45,12 +57,27 @@ public class SystemManager extends Application
         Label clickedLabel = (Label) event.getSource();
         if (clickedLabel.getText().equals("Capacitor")) {
             Global.CircuitSystem.CreateCircuitElement(CircuitType.Capacitor);
+            if(capacitance.isVisible() && capacitance.contains(event.getX(), event.getY())) {
+                capacitance.setVisible(false);
+            } else {
+                capacitance.setVisible(true);
+            }
         } else
         if(clickedLabel.getText().equals("Inductor")) {
             Global.CircuitSystem.CreateCircuitElement(CircuitType.Inductor);
+            if(inductor.isVisible() && inductor.contains(event.getX(), event.getY())) {
+                inductor.setVisible(false);
+            } else {
+                inductor.setVisible(true);
+            }
         } else
         if(clickedLabel.getText().equals("Resistor")) {
             Global.CircuitSystem.CreateCircuitElement(CircuitType.Resistor);
+            if(resistance.isVisible() && resistance.contains(event.getX(), event.getY())) {
+                resistance.setVisible(false);
+            } else {
+                resistance.setVisible(true);
+            }
         }
         event.consume();
     }
