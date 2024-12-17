@@ -54,9 +54,12 @@ public class SystemManager extends Application
         // Gọi các phương thức tính toán
         double current = Global.CircuitSystem.CalculateCurrent();
         double frequency = Global.CircuitSystem.CalculateCurrent();
-
+        double totalImpedance = Global.CircuitSystem.CalculateTotalImpedance();
+        double totalCurrent = Global.CircuitSystem.CalculateCurrent();
 
         StringBuilder result = new StringBuilder();
+        result.append(String.format("Total Impedance (Series): %.2f ohms\n", totalImpedance));
+        result.append(String.format("Total Current (Series): %.2f A\n", totalCurrent));
 
         for (Map.Entry<BaseVisualElement, BaseCircuitElement> element : Global.CircuitPairs.entrySet()) {
             double voltage = current * element.getValue().GetImpedance(frequency);
