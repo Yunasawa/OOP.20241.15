@@ -4,11 +4,9 @@ package CCMR.Controls.Systems;
 
 import CCMR.Models.Types.CircuitType;
 import CCMR.Models.Values.Global;
-import CCMR.Views.Elements.*;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.application.Application;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
@@ -35,7 +33,7 @@ public class SystemManager extends Application
         
         Global.EventManager = new EventManager();
                 
-        CircuitSystem circuitSystem = new CircuitSystem();
-        circuitSystem.CreateCircuitElement(CircuitType.ACSource);
+        Global.CircuitSystem = new CircuitSystem();
+        Global.CircuitSystem.CreateCircuitElement(CircuitType.ACSource);
 	}
 }

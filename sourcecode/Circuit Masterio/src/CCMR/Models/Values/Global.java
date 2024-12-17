@@ -19,6 +19,7 @@ public class Global
 	// Control
 	public static SystemManager SystemManager;
 	public static EventManager EventManager;
+	public static CircuitSystem CircuitSystem;
 	
 	// Ground
 	public static Pane GridPane = new Pane();
