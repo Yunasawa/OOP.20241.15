@@ -14,6 +14,9 @@ import javafx.stage.Stage;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.control.Label;
+
+import java.awt.*;
 
 public class SystemManager extends Application
 {
@@ -26,12 +29,22 @@ public class SystemManager extends Application
     private BorderPane borderPane;
 
     @FXML
+    private Label label;
+
+    @FXML
     void handleMouseClick(MouseEvent event) {
-        if (option.isVisible()) {
+        if (option.isVisible() && !option.contains(event.getX(), event.getY())) {
             option.setVisible(false);
-        } else {
+        } else if (!option.isVisible()) {
             option.setVisible(true);
         }
+    }
+
+    @FXML
+    void handleLabelClick(MouseEvent event) {
+        Label clickedLabel = (Label) event.getSource();
+        System.out.println(clickedLabel.getText() + " clicked");
+        event.consume();
     }
 
     @FXML
