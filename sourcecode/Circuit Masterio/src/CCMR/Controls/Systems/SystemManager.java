@@ -52,15 +52,6 @@ public class SystemManager extends Application
         borderPane.setOnMouseClicked(this::handleMouseClick);
     }
 
-
-
-
-
-
-
-
-
-
     // start
     public static void main(String[] args) { launch(); }
 	

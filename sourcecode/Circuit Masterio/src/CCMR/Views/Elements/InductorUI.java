@@ -10,6 +10,8 @@ public class InductorUI extends BaseVisualElement
 	@Override
 	protected void CreateShapes()
 	{
+		CircuitType = CircuitType.Inductor;
+		
         Line wire1 = MShape.Normalize(new Line(), 50, 0, 50, 50);
         Line wire2 = MShape.Normalize(new Line(), 50, 150, 50, 200);
         

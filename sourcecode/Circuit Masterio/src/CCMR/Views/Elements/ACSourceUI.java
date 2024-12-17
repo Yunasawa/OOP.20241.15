@@ -12,6 +12,8 @@ public class ACSourceUI extends BaseVisualElement
 	@Override
 	protected void CreateShapes() 
 	{
+		CircuitType = CircuitType.ACSource;
+		
         Circle outerCircle = MShape.Normalize(new Circle(), 50, 100, 50);
         Arc arc1 = MShape.Normalize(new Arc(), 50, 112.5, 12.5, 12.5, 90, 180);
         Arc arc2 = MShape.Normalize(new Arc(), 50, 87.5, 12.5, 12.5, 270, 180);

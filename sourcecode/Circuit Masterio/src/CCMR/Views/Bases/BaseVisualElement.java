@@ -16,6 +16,8 @@ import java.util.Map;
 
 public abstract class BaseVisualElement implements IKeyPressListenable, ISelectable
 {
+	public CircuitType CircuitType;
+	
 	private Transform _stableTransform;
 	private Collider _stableCollider;
 	
