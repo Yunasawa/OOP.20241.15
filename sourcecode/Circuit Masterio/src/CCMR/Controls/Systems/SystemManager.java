@@ -43,7 +43,15 @@ public class SystemManager extends Application
     @FXML
     void handleLabelClick(MouseEvent event) {
         Label clickedLabel = (Label) event.getSource();
-        System.out.println(clickedLabel.getText() + " clicked");
+        if (clickedLabel.getText().equals("Capacitor")) {
+            Global.CircuitSystem.CreateCircuitElement(CircuitType.Capacitor);
+        } else
+        if(clickedLabel.getText().equals("Inductor")) {
+            Global.CircuitSystem.CreateCircuitElement(CircuitType.Inductor);
+        } else
+        if(clickedLabel.getText().equals("Resistor")) {
+            Global.CircuitSystem.CreateCircuitElement(CircuitType.Resistor);
+        }
         event.consume();
     }
 
