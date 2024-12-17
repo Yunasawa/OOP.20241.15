@@ -7,7 +7,6 @@ import CCMR.Views.Elements.*;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.application.Application;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
@@ -18,8 +17,8 @@ public class SystemManager extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{		
-		Global.SceneNode = FXMLLoader.load(getClass().getResource("example.fxml"));
-		
+		Global.SceneNode = FXMLLoader.load(getClass().getResource("/CCMR/Controls/Systems/example.fxml"));
+
 		Global.SystemManager = this;
 		
 		Global.GridScene = new Scene(Global.GridView.CreateView(), 1260, 787);

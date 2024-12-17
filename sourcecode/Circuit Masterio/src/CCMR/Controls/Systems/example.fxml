@@ -7,15 +7,15 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="787.0" prefWidth="1260.0" stylesheets="@../../Views/UI/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="787.0" prefWidth="1260.0" stylesheets="@../../Views/UI/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" >
    <top>
       <AnchorPane prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
          <children>
@@ -64,22 +64,10 @@
    <bottom>
       <AnchorPane prefHeight="49.0" prefWidth="600.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
          <children>
-            <HBox layoutX="10.0" layoutY="6.0" prefHeight="38.0" prefWidth="388.0" spacing="20">
+            <HBox layoutX="10.0" layoutY="6.0" prefHeight="38.0" prefWidth="333.0" spacing="20">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="38.0">
-                     <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="35.0" opacity="0.74" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../../design/istockphoto-1365197728-612x612.jpg" />
-                           </image></ImageView>
-                     </graphic></Button>
-                  <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="38.0">
-                     <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.77" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../../design/istockphoto-1302329375-612x612.jpg" />
-                           </image></ImageView>
-                     </graphic></Button>
+                  <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="38.0" />
+                  <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="38.0" />
                   <Button mnemonicParsing="false" opacity="0.93" prefHeight="38.0" prefWidth="70.0" text="Build">
                      <font>
                         <Font size="17.0" />
@@ -124,4 +112,38 @@
          </opaqueInsets>
       </AnchorPane>
    </left>
+   <right>
+      <AnchorPane fx:id="option" maxHeight="200.0" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TitledPane animated="false" text="Options">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <RadioButton layoutX="14.0" layoutY="6.0" mnemonicParsing="false" text="R">
+                           <padding>
+                              <Insets top="2.0" />
+                           </padding>
+                        </RadioButton>
+                        <RadioButton layoutX="14.0" layoutY="23.0" mnemonicParsing="false" text="C">
+                           <padding>
+                              <Insets top="3.0" />
+                           </padding>
+                        </RadioButton>
+                        <RadioButton layoutX="14.0" layoutY="57.0" mnemonicParsing="false" text="V">
+                           <padding>
+                              <Insets top="3.0" />
+                           </padding>
+                        </RadioButton>
+                        <RadioButton layoutX="14.0" layoutY="40.0" mnemonicParsing="false" text="L">
+                           <padding>
+                              <Insets top="3.0" />
+                           </padding>
+                        </RadioButton>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </TitledPane>
+         </children>
+      </AnchorPane>
+   </right>
 </BorderPane>
