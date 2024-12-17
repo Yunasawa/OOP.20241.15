@@ -1,6 +1,7 @@
 package CCMR.Controls.Elements;
 
 import CCMR.Controls.Bases.*;
+import CCMR.Models.Types.PropertyType;
 
 public class Capacitor extends BaseCircuitElement 
 {
@@ -16,4 +17,10 @@ public class Capacitor extends BaseCircuitElement
     {
         return 1 / (2 * Math.PI * frequency * _capacitance);
     }
+    
+	@Override
+	public void AssignValue(PropertyType property, double value)
+	{
+		if (property == PropertyType.Capacitance) _capacitance = value;
+	}
 }

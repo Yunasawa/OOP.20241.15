@@ -65,7 +65,11 @@ public class CircuitSystem implements IKeyPressListenable
 			el = new Capacitor(0.000001);
 		}
 		
-		if (ui != null && el != null) Global.CircuitPairs.put(ui, el);
+		if (ui != null && el != null) 
+		{
+			Global.CreatedElement = el;
+			Global.CircuitPairs.put(ui, el);
+		}
 	}
 
     public double CalculateTotalImpedance() 

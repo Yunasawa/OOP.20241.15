@@ -1,6 +1,7 @@
 package CCMR.Controls.Elements;
 
 import CCMR.Controls.Bases.*;
+import CCMR.Models.Types.PropertyType;
 
 public class Inductor extends BaseCircuitElement 
 {
@@ -16,4 +17,10 @@ public class Inductor extends BaseCircuitElement
     {
         return 2 * Math.PI * frequency * _inductance;
     }
+    
+	@Override
+	public void AssignValue(PropertyType property, double value)
+	{
+		if (property == PropertyType.Inductance) _inductance = value;
+	}
 }
