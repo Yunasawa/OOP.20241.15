@@ -7,15 +7,13 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="787.0" prefWidth="1260.0" stylesheets="@../../Views/UI/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleMouseClick" prefHeight="787.0" prefWidth="1260.0" stylesheets="@../../Views/UI/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CCMR.Controls.Systems.SystemManager">
    <top>
       <AnchorPane prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
          <children>
@@ -64,22 +62,10 @@
    <bottom>
       <AnchorPane prefHeight="49.0" prefWidth="600.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
          <children>
-            <HBox layoutX="10.0" layoutY="6.0" prefHeight="38.0" prefWidth="388.0" spacing="20">
+            <HBox layoutX="10.0" layoutY="6.0" prefHeight="38.0" prefWidth="333.0" spacing="20">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="38.0">
-                     <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="35.0" opacity="0.74" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../../design/istockphoto-1365197728-612x612.jpg" />
-                           </image></ImageView>
-                     </graphic></Button>
-                  <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="38.0">
-                     <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.77" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../../design/istockphoto-1302329375-612x612.jpg" />
-                           </image></ImageView>
-                     </graphic></Button>
+                  <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="38.0" />
+                  <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="38.0" />
                   <Button mnemonicParsing="false" opacity="0.93" prefHeight="38.0" prefWidth="70.0" text="Build">
                      <font>
                         <Font size="17.0" />
@@ -124,4 +110,69 @@
          </opaqueInsets>
       </AnchorPane>
    </left>
+   <right>
+      <AnchorPane fx:id="option" maxHeight="200.0" maxWidth="150.0" prefHeight="200.0" prefWidth="150.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+         <children>
+            <VBox layoutX="12.0" layoutY="33.0" prefHeight="167.0" prefWidth="138.0">
+               <children>
+                  <Label onMouseClicked="#handleLabelClick" prefHeight="20.0" prefWidth="151.0" text="Copy Objects" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label onMouseClicked="#handleLabelClick" prefHeight="17.0" prefWidth="150.0" text="Paste Objects" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label onMouseClicked="#handleLabelClick" prefHeight="17.0" prefWidth="150.0" text="Rename Objects" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label onMouseClicked="#handleLabelClick" prefHeight="17.0" prefWidth="150.0" text="Delete Objects" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label onMouseClicked="#handleLabelClick" prefHeight="17.0" prefWidth="150.0" text="Insert Keyframe" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label onMouseClicked="#handleLabelClick" prefHeight="17.0" prefWidth="150.0" text="Duplicate Linked" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <Label prefHeight="17.0" prefWidth="149.0" text="Object Context Menu" textFill="#fffffffa" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <BorderPane.margin>
+            <Insets right="20.0" />
+         </BorderPane.margin>
+      </AnchorPane>
+   </right>
 </BorderPane>
