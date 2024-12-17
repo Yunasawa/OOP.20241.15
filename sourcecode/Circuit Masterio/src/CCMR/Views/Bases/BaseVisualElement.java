@@ -1,20 +1,20 @@
 package CCMR.Views.Bases;
 
 import CCMR.Controls.Utilities.*;
-import CCMR.Models.Definitions.*;
-import CCMR.Models.Interfaces.IKeyPressListenable;
+import CCMR.Models.Interfaces.*;
 import CCMR.Models.Types.*;
 import CCMR.Models.Values.*;
 import CCMR.Views.Environments.*;
 import javafx.scene.shape.*;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BaseVisualElement implements IKeyPressListenable
+public abstract class BaseVisualElement implements IKeyPressListenable, ISelectable
 {
 	private Transform _stableTransform;
 	private Collider _stableCollider;
@@ -28,10 +28,16 @@ public abstract class BaseVisualElement implements IKeyPressListenable
     
     private Map<Shape, Row<Double>> _scaleMap = new HashMap<>();
     private Map<Shape, Row<Double>> _rotateMap = new HashMap<>();
+    
+    public ConnectionNode Node1;
+    public ConnectionNode Node2;
 
     public BaseVisualElement()
     {
     	RegisterListener();
+    	
+        Node1 = MShape.Normalize(new ConnectionNode(this), 50, 0);
+        Node2 = MShape.Normalize(new ConnectionNode(this), 50, 200);
     	
     	CreateShapes();
     	
@@ -91,105 +97,9 @@ public abstract class BaseVisualElement implements IKeyPressListenable
 
     protected void AddShapeEventHandlers(Shape shape) 
     { 
-        shape.setOnMousePressed(event ->
-        { 
-            if (event.isPrimaryButtonDown()) 
-            { 
-            	Data.IsDraggingElement = true;
-            	
-                Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY()); 
-                Data.MouseDelta.Set(event.getSceneX() - shape.getTranslateX(), event.getSceneY() - shape.getTranslateY()); 
-                _oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y);
-                
-                if (Global.SelectedElement.Count() != 1)
-                {
-                	for (BaseVisualElement element : Global.SelectedElement)
-	                {
-	                	element._oldPosition = new Vector2(element.Transform.Position.X, element.Transform.Position.Y);
-	                	element._distancePosition = element.Transform.Position.Subtract(this.Transform.Position);
-	                }
-                }
-                
-                if (Global.SelectedElement.Count() == 1) Global.GridView.RemoveAllSelected();
-            } 
-        }); 
-
-        shape.setOnMouseDragged(event -> 
-        { 
-            if (event.isPrimaryButtonDown()) 
-            { 
-                double newCenterX = (event.getSceneX() - Data.MouseDelta.X) / Data.ScaleValue + Data.GridOffset.X;
-                double newCenterY = (event.getSceneY() - Data.MouseDelta.Y) / Data.ScaleValue + Data.GridOffset.Y;
-
-                Transform.Position.X = Math.round(newCenterX / Config.CellSize);
-                Transform.Position.Y = Math.round(newCenterY / Config.CellSize);
-
-                if (Global.SelectedElement.Count() != 1)
-                {
-	                for (BaseVisualElement element : Global.SelectedElement)
-	                {
-	                	if (element == this) continue;
-	                	
-	                	element.Transform.Position = this.Transform.Position.Add(element._distancePosition);
-	                	element.UpdatePosition();
-	                	
-	                    for (Shape eachShape : element.Shapes)
-	                	{
-	                		if (eachShape instanceof ConnectionNode) ((ConnectionNode)eachShape).UpdateNodePotition();
-	                	}
-	                }
-                }
-                
-                UpdatePosition();
-
-                boolean collisionDetected = false;
-                for (BaseVisualElement other : Global.GridView.Elements) 
-                {
-                    if (other != this && CheckCollision(other)) 
-                    {
-                        collisionDetected = true;
-                        break;
-                    }
-                }
-
-                if (collisionDetected) SetStrokeColor(Config.CollisionColor);
-                else 
-                {
-                	SetStrokeColor(Config.HoverColor);
-                    _oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y);
-                }    
-                
-                for (Shape eachShape : Shapes)
-            	{
-            		if (eachShape instanceof ConnectionNode) ((ConnectionNode)eachShape).UpdateNodePotition();
-            	}
-            } 
-        });
-
-        shape.setOnMouseReleased(event -> 
-        {
-        	Data.IsDraggingElement = false;
-        	
-            HandleElementSelection();
-
-            boolean collisionDetected = false;
-            for (BaseVisualElement other : Global.GridView.Elements) 
-            {
-                if (other != this && CheckCollision(other)) 
-                {
-                    collisionDetected = true;
-                    break;
-                }
-            }
-
-            if (collisionDetected) 
-            {
-                Transform.Position = _oldPosition;
-                UpdatePosition();
-            }
-
-            SetStrokeColor(Config.SelectedColor);
-        });
+        shape.setOnMousePressed(event -> OnMousePressed(shape, event));
+        shape.setOnMouseDragged(event -> OnMouseDragged(shape, event));
+        shape.setOnMouseReleased(event -> OnMouseReleased(shape, event));
     }
     protected void AddHoverEventHandlers(Shape shape) 
     {     	
@@ -205,6 +115,110 @@ public abstract class BaseVisualElement implements IKeyPressListenable
         });
     }
     
+    private void OnMousePressed(Shape shape, MouseEvent event)
+    {
+    	if (event.isPrimaryButtonDown()) 
+        { 
+        	Data.IsDraggingElement = true;
+        	
+            Data.MouseCoordinate.Set(event.getSceneX(), event.getSceneY()); 
+            Data.MouseDelta.Set(event.getSceneX() - shape.getTranslateX(), event.getSceneY() - shape.getTranslateY()); 
+            _oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y);
+            
+            if (Global.SelectedElement.Count() != 1)
+            {
+            	for (ISelectable selectable : Global.SelectedElement)
+                {
+            		if (!(selectable instanceof BaseVisualElement)) continue;
+            		
+            		BaseVisualElement element = (BaseVisualElement)selectable;
+            		
+                	element._oldPosition = new Vector2(element.Transform.Position.X, element.Transform.Position.Y);
+                	element._distancePosition = element.Transform.Position.Subtract(this.Transform.Position);
+                }
+            }
+            
+            if (Global.SelectedElement.Count() == 1) Global.GridView.RemoveAllSelected();
+        }
+    }
+    private void OnMouseDragged(Shape shape, MouseEvent event)
+    {
+    	if (event.isPrimaryButtonDown()) 
+        { 
+    		double newCenterX = (event.getSceneX() - Data.MouseDelta.X) / Data.ScaleValue + Data.GridOffset.X;
+            double newCenterY = (event.getSceneY() - Data.MouseDelta.Y) / Data.ScaleValue + Data.GridOffset.Y;
+
+            Transform.Position.X = Math.round(newCenterX / Config.CellSize);
+            Transform.Position.Y = Math.round(newCenterY / Config.CellSize);
+
+            if (Global.SelectedElement.Count() != 1)
+            {
+                for (ISelectable selectable : Global.SelectedElement)
+                {
+                	if (!(selectable instanceof BaseVisualElement) || selectable == this) continue;
+                	
+                	BaseVisualElement element = (BaseVisualElement)selectable;
+                	
+                	element.Transform.Position = this.Transform.Position.Add(element._distancePosition);
+                	element.UpdatePosition();
+                	
+                    for (Shape eachShape : element.Shapes)
+                	{
+                		if (eachShape instanceof ConnectionNode) ((ConnectionNode)eachShape).UpdateNodePotition();
+                	}
+                }
+            }
+            
+            UpdatePosition();
+
+            boolean collisionDetected = false;
+            for (BaseVisualElement other : Global.GridView.Elements) 
+            {
+                if (other != this && CheckCollision(other)) 
+                {
+                    collisionDetected = true;
+                    break;
+                }
+            }
+
+            if (collisionDetected) SetStrokeColor(Config.CollisionColor);
+            else 
+            {
+            	SetStrokeColor(Config.HoverColor);
+                _oldPosition = new Vector2(Transform.Position.X, Transform.Position.Y);
+            }    
+            
+            for (Shape eachShape : Shapes)
+        	{
+        		if (eachShape instanceof ConnectionNode) ((ConnectionNode)eachShape).UpdateNodePotition();
+        	}
+        }
+    }
+    private void OnMouseReleased(Shape shape, MouseEvent event)
+    {
+    	Data.IsDraggingElement = false;
+    	
+        HandleElementSelection();
+
+        boolean collisionDetected = false;
+        for (BaseVisualElement other : Global.GridView.Elements) 
+        {
+            if (other != this && CheckCollision(other)) 
+            {
+                collisionDetected = true;
+                break;
+            }
+        }
+
+        if (collisionDetected) 
+        {
+            Transform.Position = _oldPosition;
+            UpdatePosition();
+        }
+
+        OnSelected();
+    }
+
     public void UpdateScale() 
     {
         for (Shape shape : Shapes) 
@@ -232,25 +246,30 @@ public abstract class BaseVisualElement implements IKeyPressListenable
         for (Shape shape : Shapes)
         {
             MShape.SetRotate(shape, _rotateMap.get(shape), Transform.Rotation);
-            if (shape instanceof ConnectionNode) ((ConnectionNode)shape).UpdateNodePotition();
         }
         MShape.GetRotatedPivot(this, _stableTransform, _stableCollider);
         UpdatePosition();
+        
+        for (Shape eachShape : Shapes)
+    	{
+    		if (eachShape instanceof ConnectionNode) ((ConnectionNode)eachShape).UpdateNodePotition();
+    	}
+        
         RefreshMap(true, false);
     }
     
-    public void AddToPane() 
-    {
-        Global.GridPane.getChildren().addAll(Shapes);
-    }
+    public void AddToPane() { Global.GridPane.getChildren().addAll(Shapes); }
+    public void RemoveFromPane() { Global.GridPane.getChildren().removeAll(Shapes); }
+    
     private void HandleElementSelection()
     {
     	if (Global.SelectedElement.Count() == 1)
     	{
 	        if (Global.SelectedElement.get(0) != this) 
 	        {
-	            Global.SelectedElement.get(0).SetStrokeColor(Config.ElementColor);
+	        	OnDeselected();
 	            Global.SelectedElement.remove(0);
+	            
 	        }
         }
         Global.SelectedElement.Add(this);
@@ -285,9 +304,19 @@ public abstract class BaseVisualElement implements IKeyPressListenable
     {
 		if (!Global.SelectedElement.contains(this)) return;
 		
-		if (key == KeyCode.R)
-		{
-			UpdateRotation();
-		}
+		if (key == KeyCode.R) UpdateRotation();
+		else if (key == KeyCode.DELETE) RemoveFromPane();
+	}
+
+	@Override
+	public void OnSelected() 
+	{
+		SetStrokeColor(Config.SelectedColor);
+	}
+
+	@Override
+	public void OnDeselected() 
+	{
+		SetStrokeColor(Config.ElementColor);
 	}
 }
