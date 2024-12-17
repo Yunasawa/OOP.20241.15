@@ -10,6 +10,8 @@ public class CapacitorUI extends BaseVisualElement
 	@Override
 	protected void CreateShapes()
 	{
+		CircuitType = CircuitType.Capacitor;
+		
 		Line line1 = MShape.Normalize(new Line(), 0, 90, 100, 90);
         Line line2 = MShape.Normalize(new Line(), 0, 110, 100, 110);
         Line wire1 = MShape.Normalize(new Line(), 50, 0, 50, 90);

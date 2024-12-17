@@ -1,6 +1,6 @@
 package CCMR.Models.Values;
 
-import CCMR.Controls.Utilities.Utilities;
+import CCMR.Controls.Utilities.MFormula;
 import javafx.scene.paint.Color;
 
 public class Config
@@ -12,11 +12,11 @@ public class Config
     
     public static final double StrokeWidth = 5;
     
-    public static final Color ElementColor = Utilities.ToColor("#404040");
-    public static final Color HoverColor = Utilities.ToColor("#7a7d42");
-    public static final Color CollisionColor = Utilities.ToColor("#bd3333");
-    public static final Color SelectedColor = Utilities.ToColor("#33bdb8");
+    public static final Color ElementColor = MFormula.ToColor("#404040");
+    public static final Color HoverColor = MFormula.ToColor("#7a7d42");
+    public static final Color CollisionColor = MFormula.ToColor("#bd3333");
+    public static final Color SelectedColor = MFormula.ToColor("#33bdb8");
     
-    public static final Color NodeColor = Utilities.ToColor("#45ff9f");
-    public static final Color WireColor = Utilities.ToColor("#777777");
+    public static final Color NodeColor = MFormula.ToColor("#45ff9f");
+    public static final Color WireColor = MFormula.ToColor("#777777");
 }
