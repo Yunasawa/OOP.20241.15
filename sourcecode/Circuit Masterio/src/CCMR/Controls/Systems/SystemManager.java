@@ -4,6 +4,7 @@ package CCMR.Controls.Systems;
 
 import CCMR.Controls.Bases.BaseCircuitElement;
 import CCMR.Controls.Elements.Capacitor;
+import CCMR.Controls.Utilities.MDebug;
 import CCMR.Models.Types.CircuitType;
 import CCMR.Models.Types.PropertyType;
 import CCMR.Models.Values.Global;
@@ -63,12 +64,8 @@ public class SystemManager extends Application
 
     @FXML
     void handleBuildClick(MouseEvent event) {
-        double caparesult = Double.parseDouble(capaField.getText());
-        Global.CreatedElement.AssignValue(PropertyType.Capacitance, caparesult);
-        System.out.println(caparesult);
-
         // Gọi các phương thức tính toán
-        double current = Global.CircuitSystem.CalculateCurrent();
+        double current = Global.CircuitSystem.CalculateCurrent();    
         double frequency = Global.CircuitSystem.CalculateCurrent();
         double totalImpedance = Global.CircuitSystem.CalculateTotalImpedance();
         double totalCurrent = Global.CircuitSystem.CalculateCurrent();
