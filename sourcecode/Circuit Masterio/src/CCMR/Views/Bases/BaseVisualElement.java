@@ -58,7 +58,7 @@ public abstract class BaseVisualElement implements IKeyPressListenable, ISelecta
         _stableCollider = new Collider(Collider.TopLeft, Collider.BottomRight);
     }
     
-	protected abstract void CreateShapes();
+	protected abstract void CreateShapes(); // Used to create element UI shapes
 
     public void AddShapes(Shape... shapes)
     {
@@ -260,7 +260,7 @@ public abstract class BaseVisualElement implements IKeyPressListenable, ISelecta
         RefreshMap(true, false);
     }
     
-    public void AddToPane() { Global.GridPane.getChildren().addAll(Shapes); }
+    public void AddToPane() { Global.GridPane.getChildren().addAll(Shapes); } // Add shapes to Pane
     public void RemoveFromPane() { Global.GridPane.getChildren().removeAll(Shapes); }
     
     private void HandleElementSelection()
