@@ -5,12 +5,9 @@ package CCMR.Controls.Systems;
 import CCMR.Controls.Bases.BaseCircuitElement;
 import CCMR.Controls.Elements.ACSource;
 import CCMR.Controls.Elements.Capacitor;
-<<<<<<< HEAD
 import CCMR.Controls.Elements.Inductor;
 import CCMR.Controls.Elements.Resistor;
-=======
 import CCMR.Controls.Utilities.MDebug;
->>>>>>> 59ec23e5e951993eaa464df4e1534c27f1534fcf
 import CCMR.Models.Types.CircuitType;
 import CCMR.Models.Types.PropertyType;
 import CCMR.Models.Values.Global;
@@ -64,23 +61,29 @@ public class SystemManager extends Application
     private TextField capaField;
 
     @FXML
+    private TextField volField;
+
+    @FXML
+    private TextField freField;
+
+    @FXML
+    private TextField inducField;
+
+    @FXML
+    private TextField resField;
+
+    @FXML
     void handleCapaClick(MouseEvent event) {
     	
     }
-
-    @FXML
-    void handleBuildClick(MouseEvent event) {
-
-}
     @FXML
     void handleBuildClick(MouseEvent event) 
     {
-    	Global.ACSource.AssignValue(PropertyType.Voltage, Double.parseDouble(capaField.getText()));
-    	Global.ACSource.AssignValue(PropertyType.Voltage, Double.parseDouble(capaField.getText()));
-    	Global.Resistor.AssignValue(PropertyType.Voltage, Double.parseDouble(capaField.getText()));
-    	Global.Inductor.AssignValue(PropertyType.Voltage, Double.parseDouble(capaField.getText()));
-    	Global.ACSource.AssignValue(PropertyType.Voltage, Double.parseDouble(capaField.getText()));
-
+        Global.ACSource.AssignValue(PropertyType.Voltage, Double.parseDouble(volField.getText()));
+        Global.ACSource.AssignValue(PropertyType.Frequency, Double.parseDouble(freField.getText()));
+        Global.Capacitor.AssignValue(PropertyType.Capacitance, Double.parseDouble(capaField.getText()));
+        Global.Inductor.AssignValue(PropertyType.Inductance, Double.parseDouble(inducField.getText()));
+        Global.Resistor.AssignValue(PropertyType.Resistance, Double.parseDouble(resField.getText()));
         // Gọi các phương thức tính toán
         double current = Global.CircuitSystem.CalculateCurrent();    
         double frequency = Global.CircuitSystem.CalculateCurrent();
@@ -104,9 +107,6 @@ public class SystemManager extends Application
     void handleMouseClick(MouseEvent event) {
         if (option.isVisible() && !option.contains(event.getX(), event.getY())) {
             option.setVisible(false);
-            capacitance.setVisible(false);
-            inductor.setVisible(false);
-            resistance.setVisible(false);
         } else if (!option.isVisible()) {
             option.setVisible(true);
         }
@@ -117,27 +117,15 @@ public class SystemManager extends Application
         Label clickedLabel = (Label) event.getSource();
         if (clickedLabel.getText().equals("Capacitor")) {
             Global.CircuitSystem.CreateCircuitElement(CircuitType.Capacitor);
-            if(capacitance.isVisible() && capacitance.contains(event.getX(), event.getY())) {
-                capacitance.setVisible(false);
-            } else {
-                capacitance.setVisible(true);
-            }
+
         } else
         if(clickedLabel.getText().equals("Inductor")) {
             Global.CircuitSystem.CreateCircuitElement(CircuitType.Inductor);
-            if(inductor.isVisible() && inductor.contains(event.getX(), event.getY())) {
-                inductor.setVisible(false);
-            } else {
-                inductor.setVisible(true);
-            }
+
         } else
         if(clickedLabel.getText().equals("Resistor")) {
             Global.CircuitSystem.CreateCircuitElement(CircuitType.Resistor);
-            if(resistance.isVisible() && resistance.contains(event.getX(), event.getY())) {
-                resistance.setVisible(false);
-            } else {
-                resistance.setVisible(true);
-            }
+
         }
         event.consume();
     }

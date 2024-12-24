@@ -87,31 +87,31 @@
          <children>
             <VBox prefHeight="358.0" prefWidth="186.0">
                <children>
-                  <HBox prefHeight="26.0" prefWidth="121.0" style="-fx-background-color: #777777;" visible="false">
+                  <HBox prefHeight="26.0" prefWidth="121.0" style="-fx-background-color: #777777;">
                      <children>
                         <Label prefHeight="25.0" prefWidth="67.0" text="   Voltage" textFill="WHITE" />
-                        <TextField prefHeight="25.0" prefWidth="47.0" />
+                        <TextField fx:id="volField" prefHeight="25.0" prefWidth="47.0" />
                      </children>
                   </HBox>
-                  <HBox prefHeight="26.0" prefWidth="121.0" style="-fx-background-color: #777777;" visible="false">
+                  <HBox prefHeight="26.0" prefWidth="121.0" style="-fx-background-color: #777777;">
                      <children>
                         <Label prefHeight="25.0" prefWidth="67.0" text="   Frequency" textFill="WHITE" />
-                        <TextField prefHeight="25.0" prefWidth="47.0" />
+                        <TextField fx:id="freField" prefHeight="25.0" prefWidth="47.0" />
                      </children>
                   </HBox>
-                  <HBox fx:id="resistance" prefHeight="26.0" prefWidth="121.0" style="-fx-background-color: #777777;" visible="false">
+                  <HBox fx:id="resistance" prefHeight="26.0" prefWidth="121.0" style="-fx-background-color: #777777;">
                      <children>
                         <Label prefHeight="25.0" prefWidth="67.0" text=" Resistance" textFill="WHITE" />
-                        <TextField prefHeight="25.0" prefWidth="47.0" />
+                        <TextField fx:id="resField" prefHeight="25.0" prefWidth="47.0" />
                      </children>
                   </HBox>
-                  <HBox fx:id="inductor" prefHeight="26.0" prefWidth="121.0" style="-fx-background-color: #777777;" visible="false">
+                  <HBox fx:id="inductor" prefHeight="26.0" prefWidth="121.0" style="-fx-background-color: #777777;">
                      <children>
                         <Label prefHeight="25.0" prefWidth="67.0" text=" Inductance" textFill="WHITE" />
-                        <TextField prefHeight="25.0" prefWidth="47.0" />
+                        <TextField fx:id="inducField" prefHeight="25.0" prefWidth="47.0" />
                      </children>
                   </HBox>
-                  <HBox fx:id="capacitance" prefHeight="26.0" prefWidth="121.0" style="-fx-background-color: #777777;" visible="false">
+                  <HBox fx:id="capacitance" prefHeight="26.0" prefWidth="121.0" style="-fx-background-color: #777777;">
                      <children>
                         <Label prefHeight="25.0" prefWidth="67.0" text="Capacitance" textFill="WHITE" />
                         <TextField fx:id="capaField" onMouseClicked="#handleCapaClick" prefHeight="25.0" prefWidth="47.0" />
