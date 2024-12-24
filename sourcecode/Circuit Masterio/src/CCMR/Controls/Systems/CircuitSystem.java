@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.omg.CORBA.CTX_RESTRICT_SCOPE;
+
 import CCMR.Controls.Bases.BaseCircuitElement;
 import CCMR.Controls.Bases.*;
 import CCMR.Controls.Elements.*;
@@ -48,21 +50,25 @@ public class CircuitSystem implements IKeyPressListenable
 			ui = new ACSourceUI();
 			el = new ACSource(220, 60);
 			if (_acSource == null) _acSource = (ACSource)el;
+			Global.ACSource = _acSource;
 		}
 		else if (type == CircuitType.Resistor)
 		{
 			ui = new ResistorUI();
 			el = new Resistor(10);
+			Global.Resistor = (Resistor)el;
 		}
 		else if (type == CircuitType.Inductor)
 		{
 			ui = new InductorUI();
 			el = new Inductor(0.01);
+			Global.Inductor = (Inductor)el;
 		}
 		else if (type == CircuitType.Capacitor)
 		{
 			ui = new CapacitorUI();
 			el = new Capacitor(0.000001);
+			Global.Capacitor = (Capacitor)el;
 		}
 		
 		if (ui != null && el != null) 

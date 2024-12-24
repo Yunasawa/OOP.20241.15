@@ -13,6 +13,8 @@ import CCMR.Controls.Systems.*;
 import java.util.HashMap;
 import java.util.Map;
 import CCMR.Controls.Bases.*;
+import CCMR.Controls.Elements.ACSource;
+import CCMR.Controls.Elements.Resistor;
 
 public class Global 
 {
@@ -43,4 +45,12 @@ public class Global
 	public static Map<BaseVisualElement, BaseCircuitElement> CircuitPairs = new HashMap<>();
 
 	public static BaseCircuitElement CreatedElement;
+	
+	public static ACSource ACSource;
+	public static Resistor Resistor;
+	public static CCMR.Controls.Elements.Capacitor Capacitor;
+	public static CCMR.Controls.Elements.Inductor Inductor;
+	
+	
+	
 }

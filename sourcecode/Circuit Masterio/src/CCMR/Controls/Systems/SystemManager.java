@@ -59,11 +59,18 @@ public class SystemManager extends Application
 
     @FXML
     void handleCapaClick(MouseEvent event) {
-
+    	
     }
 
     @FXML
-    void handleBuildClick(MouseEvent event) {
+    void handleBuildClick(MouseEvent event) 
+    {
+    	Global.ACSource.AssignValue(PropertyType.Voltage, Double.parseDouble(capaField.getText()));
+    	Global.ACSource.AssignValue(PropertyType.Voltage, Double.parseDouble(capaField.getText()));
+    	Global.Resistor.AssignValue(PropertyType.Voltage, Double.parseDouble(capaField.getText()));
+    	Global.Inductor.AssignValue(PropertyType.Voltage, Double.parseDouble(capaField.getText()));
+    	Global.ACSource.AssignValue(PropertyType.Voltage, Double.parseDouble(capaField.getText()));
+    	
         // Gọi các phương thức tính toán
         double current = Global.CircuitSystem.CalculateCurrent();    
         double frequency = Global.CircuitSystem.CalculateCurrent();
