@@ -21,7 +21,7 @@ public class GridView extends BasePaneView
     	return viewPane; 
 	}    
 	@Override
-	protected void DrawView() 
+	protected void DrawView()
     {
 		Global.GridContext.save();
         Global.GridContext.scale(Data.ScaleValue, Data.ScaleValue);

@@ -6,11 +6,13 @@ import javafx.scene.paint.Color;
 
 public class MFormula 
 {
+	// Return a true position of elements on grid.
 	public static Vector2 GetWorldPosition(Vector2 position, Vector2 parent)
 	{
 		return position.Add(parent.Multiply(Config.CellSize));//.Subtract(Data.GridOffset);
 	}
 	
+	// Convert HEX number to DEC number
     public static int HexToInt(String hex)
     {
         int output = 0;
@@ -24,7 +26,9 @@ public class MFormula
         }
         return output;
     }
-	public static Color ToColor(String hex)
+	
+    // Convert HEX number to Color
+    public static Color ToColor(String hex)
 	{
 		Color color = Color.WHITE;
 

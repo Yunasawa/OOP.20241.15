@@ -8,6 +8,7 @@ import javafx.scene.shape.*;
 
 public class MShape 
 {
+	// Get all shapes' properties into a Row.
 	public static Row<Double> GetProperties(Shape shape)
 	{
 		Row<Double> row = new Row<>();
@@ -43,6 +44,7 @@ public class MShape
 		return row;
 	}
 	
+	// Composite properties scale from Row and set directly to shapes.
 	public static void SetScale(Shape shape, Row<Double> row, double scale)
 	{
 		if (shape instanceof Circle) 
@@ -83,6 +85,8 @@ public class MShape
 			arc.setRadiusY(row.get(3) * scale);
 		}
 	}
+	
+	// Composite properties rotation from Row and set directly to shapes.
 	public static void SetRotate(Shape shape, Row<Double> row, int rotation)
 	{
 		if (shape instanceof ConnectionNode)
@@ -249,7 +253,6 @@ public class MShape
 			arc.setStartAngle(row.get(4) + 90 * rotation);
 		}
 	}
-	
 	public static void GetRotatedPivot(BaseVisualElement element, Transform transform, Collider collider)
 	{
 		Vector2 point = collider.Delta.Multiply(0.5).Round();
@@ -303,6 +306,7 @@ public class MShape
     	}
 	}
 
+	// Composite and normalize position of shapes.
 	public static <T extends Shape> T Normalize(T shape, double... values)
 	{
 		if (shape instanceof ConnectionNode)

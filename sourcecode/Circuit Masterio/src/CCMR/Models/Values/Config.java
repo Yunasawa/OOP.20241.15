@@ -3,6 +3,7 @@ package CCMR.Models.Values;
 import CCMR.Controls.Utilities.MFormula;
 import javafx.scene.paint.Color;
 
+// Contains constant values
 public class Config
 {
     public static final double CellSize = 50;

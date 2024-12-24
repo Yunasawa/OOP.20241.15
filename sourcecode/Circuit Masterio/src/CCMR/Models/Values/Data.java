@@ -2,6 +2,7 @@ package CCMR.Models.Values;
 
 import CCMR.Models.Types.*;
 
+// Contains runtime values
 public class Data 
 {
 	// Grid view values

@@ -13,7 +13,7 @@ public class Resistor extends BaseCircuitElement
     }
 
     @Override
-    public double GetImpedance(double frequency) 
+    public double GetImpedance(double frequency)
     {
         return _resistance;
     }
