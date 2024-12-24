@@ -3,7 +3,10 @@
 package CCMR.Controls.Systems;
 
 import CCMR.Controls.Bases.BaseCircuitElement;
+import CCMR.Controls.Elements.ACSource;
 import CCMR.Controls.Elements.Capacitor;
+import CCMR.Controls.Elements.Inductor;
+import CCMR.Controls.Elements.Resistor;
 import CCMR.Models.Types.CircuitType;
 import CCMR.Models.Types.PropertyType;
 import CCMR.Models.Values.Global;
@@ -63,10 +66,7 @@ public class SystemManager extends Application
 
     @FXML
     void handleBuildClick(MouseEvent event) {
-        double caparesult = Double.parseDouble(capaField.getText());
-        Global.CreatedElement.AssignValue(PropertyType.Capacitance, caparesult);
-        System.out.println(caparesult);
-
+        
         // Gọi các phương thức tính toán
         double current = Global.CircuitSystem.CalculateCurrent();
         double frequency = Global.CircuitSystem.CalculateCurrent();

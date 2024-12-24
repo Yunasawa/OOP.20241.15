@@ -72,6 +72,8 @@ public class CircuitSystem implements IKeyPressListenable
 		}
 	}
 
+
+
     public double CalculateTotalImpedance() 
     {
         return TraverseConnections(_acSource.Connection1, new HashSet<>(), _acSource.Frequency);
