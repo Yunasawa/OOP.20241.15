@@ -5,8 +5,12 @@ package CCMR.Controls.Systems;
 import CCMR.Controls.Bases.BaseCircuitElement;
 import CCMR.Controls.Elements.ACSource;
 import CCMR.Controls.Elements.Capacitor;
+<<<<<<< HEAD
 import CCMR.Controls.Elements.Inductor;
 import CCMR.Controls.Elements.Resistor;
+=======
+import CCMR.Controls.Utilities.MDebug;
+>>>>>>> 59ec23e5e951993eaa464df4e1534c27f1534fcf
 import CCMR.Models.Types.CircuitType;
 import CCMR.Models.Types.PropertyType;
 import CCMR.Models.Values.Global;
@@ -61,14 +65,24 @@ public class SystemManager extends Application
 
     @FXML
     void handleCapaClick(MouseEvent event) {
-
+    	
     }
 
     @FXML
     void handleBuildClick(MouseEvent event) {
-        
+
+}
+    @FXML
+    void handleBuildClick(MouseEvent event) 
+    {
+    	Global.ACSource.AssignValue(PropertyType.Voltage, Double.parseDouble(capaField.getText()));
+    	Global.ACSource.AssignValue(PropertyType.Voltage, Double.parseDouble(capaField.getText()));
+    	Global.Resistor.AssignValue(PropertyType.Voltage, Double.parseDouble(capaField.getText()));
+    	Global.Inductor.AssignValue(PropertyType.Voltage, Double.parseDouble(capaField.getText()));
+    	Global.ACSource.AssignValue(PropertyType.Voltage, Double.parseDouble(capaField.getText()));
+
         // Gọi các phương thức tính toán
-        double current = Global.CircuitSystem.CalculateCurrent();
+        double current = Global.CircuitSystem.CalculateCurrent();    
         double frequency = Global.CircuitSystem.CalculateCurrent();
         double totalImpedance = Global.CircuitSystem.CalculateTotalImpedance();
         double totalCurrent = Global.CircuitSystem.CalculateCurrent();
