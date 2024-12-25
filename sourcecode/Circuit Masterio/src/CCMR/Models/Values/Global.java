@@ -16,6 +16,7 @@ import CCMR.Controls.Bases.*;
 import CCMR.Controls.Elements.ACSource;
 import CCMR.Controls.Elements.Resistor;
 
+// Contains object references
 public class Global 
 {
 	// Control

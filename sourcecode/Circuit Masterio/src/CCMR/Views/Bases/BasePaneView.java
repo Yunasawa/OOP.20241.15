@@ -30,7 +30,7 @@ public abstract class BasePaneView
         AddElementSelectionHandler();
         
         AddDragManipulator();
-        AddZoomManipulator();    
+        AddZoomManipulator();   
 
         DrawView();
 

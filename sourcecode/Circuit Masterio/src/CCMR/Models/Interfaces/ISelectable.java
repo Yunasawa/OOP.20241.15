@@ -1,6 +1,5 @@
 package CCMR.Models.Interfaces;
 
-import CCMR.Controls.Utilities.MDebug;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Shape;
 
