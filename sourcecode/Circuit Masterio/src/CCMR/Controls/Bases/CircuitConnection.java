@@ -2,7 +2,7 @@ package CCMR.Controls.Bases;
 
 import java.util.ArrayList;
 import java.util.List;
-
+// thể hiện lớp trừu tượng
 public class CircuitConnection 
 {
     public BaseCircuitElement Element;

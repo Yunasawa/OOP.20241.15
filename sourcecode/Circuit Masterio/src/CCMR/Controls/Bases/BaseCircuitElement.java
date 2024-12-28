@@ -2,6 +2,7 @@ package CCMR.Controls.Bases;
 
 import CCMR.Models.Types.PropertyType;
 
+
 public abstract class BaseCircuitElement 
 {
     public CircuitConnection Connection1 = new CircuitConnection(this);
