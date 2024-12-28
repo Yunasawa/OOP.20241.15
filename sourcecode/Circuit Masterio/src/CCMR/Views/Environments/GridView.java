@@ -42,7 +42,7 @@ public class GridView extends BasePaneView
                 	Global.GridContext.fillOval(x - 2.5, y - 2.5, 5, 5);
                 }
             }
-        } 
+        }
         else 
         {
             for (double x = -_startPosition.X; x < Global.GridCanvas.getWidth() / Data.ScaleValue; x += Config.CellSize) 

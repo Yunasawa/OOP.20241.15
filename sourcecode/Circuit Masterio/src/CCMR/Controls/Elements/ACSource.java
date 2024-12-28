@@ -3,7 +3,7 @@ package CCMR.Controls.Elements;
 import CCMR.Controls.Bases.BaseCircuitElement;
 import CCMR.Models.Types.PropertyType;
 
-public class ACSource extends BaseCircuitElement 
+public class ACSource extends BaseCircuitElement
 {
     public double Voltage;
     public double Frequency;

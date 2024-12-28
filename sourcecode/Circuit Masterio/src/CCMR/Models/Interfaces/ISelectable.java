@@ -15,6 +15,6 @@ public interface ISelectable
 		shape.setOnMouseClicked(event -> 
 		{
 			OnMouseSelected(shape, event);
-		}); 
+		});
 	}
 }
